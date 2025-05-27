@@ -1,7 +1,6 @@
 import typescript from '@typescript-eslint/eslint-plugin';
 import parser from '@typescript-eslint/parser';
 import prettierPlugin from 'eslint-plugin-prettier';
-import prettierConfig from 'eslint-config-prettier';
 import sonar from 'eslint-plugin-sonarjs';
 import security from 'eslint-plugin-security';
 import jest from 'eslint-plugin-jest';
@@ -9,7 +8,7 @@ import jest from 'eslint-plugin-jest';
 /** @type {import('@eslint/eslintrc').FlatConfigItem[]} */
 export default [
     {
-        ignores: ['dist', 'node_modules', 'coverage'],
+        ignores: ['dist', 'node_modules', 'coverage', '.husky'],
     },
     {
         files: ['**/*.ts'],
@@ -63,5 +62,4 @@ export default [
             'jest/valid-expect': 'error',
         },
     },
-    prettierConfig,
 ];
