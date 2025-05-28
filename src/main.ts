@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import helmet from 'helmet';
 
 async function bootstrap() {
   try {
@@ -9,6 +10,7 @@ async function bootstrap() {
 
     app.enableCors();
     app.setGlobalPrefix('api/v1');
+    app.use(helmet());
 
     app.useGlobalPipes(
       new ValidationPipe({
