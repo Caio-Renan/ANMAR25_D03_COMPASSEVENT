@@ -1,6 +1,6 @@
 type MessageWithParams<T extends unknown[]> = (...args: T) => string;
 
-type ValueObjectErrorMessagesType = {
+type ValidationErrorMessagesType = {
   EMAIL: {
     REQUIRED: string;
     INVALID_TYPE: string;
@@ -47,7 +47,7 @@ type ValueObjectErrorMessagesType = {
   };
 };
 
-export const ValueObjectErrorMessages: ValueObjectErrorMessagesType = {
+export const ValidationErrorMessages: ValidationErrorMessagesType = {
   EMAIL: {
     REQUIRED: 'Email is required.',
     INVALID_TYPE: 'Invalid email format.',
