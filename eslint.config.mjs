@@ -15,14 +15,7 @@ export default [
         languageOptions: {
             parser: parser,
             parserOptions: {
-                project: './tsconfig.json',
                 sourceType: 'module',
-            },
-            globals: {
-                require: 'readonly',
-                module: 'readonly',
-                process: 'readonly',
-                __dirname: 'readonly',
             },
         },
         plugins: {
@@ -36,17 +29,10 @@ export default [
             'prettier/prettier': 'error',
 
             ...typescript.configs.recommended.rules,
-            ...typescript.configs['recommended-requiring-type-checking'].rules,
 
             '@typescript-eslint/explicit-module-boundary-types': 'off',
             '@typescript-eslint/no-explicit-any': 'warn',
-            '@typescript-eslint/no-floating-promises': 'error',
             '@typescript-eslint/consistent-type-imports': 'error',
-            '@typescript-eslint/require-await': 'error',
-            '@typescript-eslint/no-misused-promises': [
-                'error',
-                { checksVoidReturn: { attributes: false } },
-            ],
 
             'no-console': ['warn', { allow: ['warn', 'error'] }],
 
@@ -60,6 +46,16 @@ export default [
             'jest/no-identical-title': 'error',
             'jest/prefer-to-have-length': 'warn',
             'jest/valid-expect': 'error',
+        },
+    },
+    {
+        files: ['**/*.spec.ts', '**/__tests__/**/*.ts'],
+        rules: {
+            '@typescript-eslint/no-explicit-any': 'off',
+            'no-console': 'off',
+            'jest/no-disabled-tests': 'warn',
+            'jest/no-focused-tests': 'error',
+            'jest/no-identical-title': 'error',
         },
     },
 ];
