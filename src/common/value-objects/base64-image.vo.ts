@@ -1,4 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
+import { ValueObjectErrorMessages } from '../constants/error-messages/value-object-error-messages';
 
 export class Base64Image {
   public readonly value: string;
@@ -7,7 +8,7 @@ export class Base64Image {
 
   constructor(value: string) {
     if (typeof value !== 'string' || !value.trim()) {
-      throw new BadRequestException('Base64Image must be a non-empty string');
+      throw new BadRequestException(ValueObjectErrorMessages.BASE64_IMAGE.REQUIRED);
     }
 
     const trimmed = value.trim();
@@ -15,11 +16,11 @@ export class Base64Image {
     const base64 = trimmed.includes(',') ? trimmed.split(',')[1] : trimmed;
 
     if (base64.length % 4 !== 0) {
-      throw new BadRequestException('Base64Image length must be a multiple of 4');
+      throw new BadRequestException(ValueObjectErrorMessages.BASE64_IMAGE.LENGTH_MULTIPLE_OF_4);
     }
 
     if (!Base64Image.base64Regex.test(base64)) {
-      throw new BadRequestException('Base64Image must be a valid base64 string');
+      throw new BadRequestException(ValueObjectErrorMessages.BASE64_IMAGE.INVALID);
     }
 
     this.value = base64;
