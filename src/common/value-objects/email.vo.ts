@@ -25,7 +25,7 @@ export class Email {
   }
 
   public get value(): string {
-    return this._value; //rever
+    return this._value;
   }
 
   public toString(): string {
