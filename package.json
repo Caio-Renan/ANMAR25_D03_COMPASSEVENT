@@ -6,20 +6,17 @@
   "private": true,
   "main": "dist/main.js",
   "license": "MIT",
-  "lint-staged": {
-    "*.{ts,js}": [
-      "eslint --fix",
-      "prettier --write"
-    ]
-  },
   "scripts": {
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "build": "nest build",
+    "prebuild": "npm run type-check && npm run lint && npm run test",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "lint": "eslint \"src/**/*.ts\" --fix",
-    "test": "jest",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "lint": "eslint . --ext .ts",
+    "type-check": "tsc --noEmit",
+    "test": "jest --passWithNoTests",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:e2e": "jest --config ./test/jest-e2e.json",
