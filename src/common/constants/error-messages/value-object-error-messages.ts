@@ -16,7 +16,7 @@ type ValueObjectErrorMessagesType = {
     LENGTH_MULTIPLE_OF_4: string;
     INVALID: string;
   };
-  DATE: {
+  GENERIC_DATE: {
     INVALID_TYPE: string;
     INVALID_VALUE: MessageWithParams<[unknown]>;
   };
@@ -63,7 +63,7 @@ export const ValueObjectErrorMessages: ValueObjectErrorMessagesType = {
     LENGTH_MULTIPLE_OF_4: 'Base64Image length must be a multiple of 4.',
     INVALID: 'Base64Image must be a valid base64 string.',
   },
-  DATE: {
+  GENERIC_DATE: {
     INVALID_TYPE:
       'Invalid type: value must be a Date object, a date string, or a timestamp number.',
     INVALID_VALUE: (value: unknown) => `${value} is not a valid date.`,
