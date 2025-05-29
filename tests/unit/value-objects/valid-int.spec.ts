@@ -1,28 +1,32 @@
 import { BadRequestException } from '@nestjs/common';
 import { ValidInt } from '../../../src/common/value-objects/valid-int.vo';
+import { ValueObjectErrorMessages } from '../../../src/common/constants/error-messages/value-object-error-messages';
 
 describe('ValidInt', () => {
   it('should throw error if value is NaN', () => {
     expect(() => new ValidInt('abc')).toThrow(BadRequestException);
-    expect(() => new ValidInt('abc')).toThrow("Value 'abc' is not a number");
+    expect(() => new ValidInt('abc')).toThrow(
+      ValueObjectErrorMessages.VALID_INT.NOT_A_NUMBER('abc'),
+    );
   });
 
   it('should throw error if value is not an integer', () => {
     expect(() => new ValidInt(1.5)).toThrow(BadRequestException);
-    expect(() => new ValidInt(1.5)).toThrow("Value '1.5' must be an integer");
+    expect(() => new ValidInt(1.5)).toThrow(ValueObjectErrorMessages.VALID_INT.NOT_A_INTEGER(1.5));
   });
 
   it('should throw error if value is less than 1', () => {
     expect(() => new ValidInt(0)).toThrow(BadRequestException);
-    expect(() => new ValidInt(0)).toThrow("Value '0' must be greater than or equal to 1");
+    expect(() => new ValidInt(0)).toThrow(ValueObjectErrorMessages.VALID_INT.TOO_SMALL(0));
     expect(() => new ValidInt(-5)).toThrow(BadRequestException);
+    expect(() => new ValidInt(-5)).toThrow(ValueObjectErrorMessages.VALID_INT.TOO_SMALL(-5));
   });
 
   it('should throw error if value is greater than Number.MAX_SAFE_INTEGER', () => {
     const tooBig = Number.MAX_SAFE_INTEGER + 1;
     expect(() => new ValidInt(tooBig)).toThrow(BadRequestException);
     expect(() => new ValidInt(tooBig)).toThrow(
-      `Value '${tooBig}' must be less than or equal to ${Number.MAX_SAFE_INTEGER}`,
+      ValueObjectErrorMessages.VALID_INT.TOO_LARGE(tooBig),
     );
   });
 
