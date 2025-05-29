@@ -45,6 +45,12 @@ type ValidationErrorMessagesType = {
     TOO_SMALL: MessageWithParams<[unknown]>;
     TOO_LARGE: MessageWithParams<[unknown]>;
   };
+  VALID_ID: {
+    NOT_A_NUMBER: MessageWithParams<[unknown]>;
+    NOT_A_INTEGER: MessageWithParams<[unknown]>;
+    TOO_SMALL: MessageWithParams<[unknown]>;
+    TOO_LARGE: MessageWithParams<[unknown]>;
+  };
 };
 
 export const ValidationErrorMessages: ValidationErrorMessagesType = {
@@ -95,4 +101,7 @@ export const ValidationErrorMessages: ValidationErrorMessagesType = {
     TOO_LARGE: (value: unknown) =>
       `Value '${value}' must be less than or equal to ${Number.MAX_SAFE_INTEGER}.`,
   },
+  VALID_ID: {} as ValidationErrorMessagesType['VALID_INT'],
 } as const;
+
+ValidationErrorMessages.VALID_ID = ValidationErrorMessages.VALID_INT;
