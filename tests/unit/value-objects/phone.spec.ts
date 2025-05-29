@@ -1,5 +1,6 @@
-import { Phone } from '../../../src/common/value-objects/phone.vo';
+import { PhoneNumber } from '../../../src/common/value-objects/phone.vo';
 import { BadRequestException } from '@nestjs/common';
+import { ValueObjectErrorMessages } from '../../../src/common/constants/error-messages/value-object-error-messages';
 
 describe('Phone (International)', () => {
   it('should create valid phone numbers in international formats', () => {
@@ -12,19 +13,21 @@ describe('Phone (International)', () => {
     ];
 
     validPhones.forEach(phone => {
-      const phoneVO = new Phone(phone);
+      const phoneVO = new PhoneNumber(phone);
       expect(phoneVO.value()).toBe(phone);
     });
   });
 
   it('should throw if phone number is empty', () => {
-    expect(() => new Phone('')).toThrow(BadRequestException);
-    expect(() => new Phone('')).toThrow('Phone number is required.');
+    expect(() => new PhoneNumber('')).toThrow(BadRequestException);
+    expect(() => new PhoneNumber('')).toThrow(ValueObjectErrorMessages.PHONE_NUMBER.REQUIRED);
   });
 
   it('should throw if phone number does not start with +', () => {
-    expect(() => new Phone('5511999998888')).toThrow(BadRequestException);
-    expect(() => new Phone('5511999998888')).toThrow('Phone number must start with "+".');
+    expect(() => new PhoneNumber('5511999998888')).toThrow(BadRequestException);
+    expect(() => new PhoneNumber('5511999998888')).toThrow(
+      ValueObjectErrorMessages.PHONE_NUMBER.MUST_START_WITH_PLUS,
+    );
   });
 
   it('should throw if phone number is invalid', () => {
@@ -38,13 +41,15 @@ describe('Phone (International)', () => {
     ];
 
     invalidPhones.forEach(phone => {
-      expect(() => new Phone(phone)).toThrow(BadRequestException);
-      expect(() => new Phone(phone)).toThrow('Invalid phone number format.');
+      expect(() => new PhoneNumber(phone)).toThrow(BadRequestException);
+      expect(() => new PhoneNumber(phone)).toThrow(
+        ValueObjectErrorMessages.PHONE_NUMBER.INVALID_TYPE,
+      );
     });
   });
 
   it('toString should return the same as value', () => {
-    const phone = new Phone('+5511999998888');
+    const phone = new PhoneNumber('+5511999998888');
     expect(phone.toString()).toBe(phone.value());
   });
 });
