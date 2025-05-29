@@ -1,25 +1,32 @@
 import { BadRequestException } from '@nestjs/common';
+import { ValueObjectErrorMessages } from '../constants/error-messages/value-object-error-messages';
 
 export class GenericString {
   private readonly _value: string;
+  public static readonly minLength: number = 4;
+  public static readonly maxLength: number = 255;
 
-  constructor(value: unknown, minLength = 1, maxLength = 255) {
+  constructor(value: unknown) {
     if (typeof value !== 'string' && value !== null && value !== undefined) {
-      throw new BadRequestException('Value must be a string.');
+      throw new BadRequestException(ValueObjectErrorMessages.GENERIC_STRING.REQUIRED);
     }
 
     const trimmed = (value ?? '').trim();
 
     if (!trimmed) {
-      throw new BadRequestException('String cannot be empty.');
+      throw new BadRequestException(ValueObjectErrorMessages.GENERIC_STRING.NOT_EMPTY);
     }
 
-    if (trimmed.length < minLength) {
-      throw new BadRequestException(`String must be at least ${minLength} characters long.`);
+    if (trimmed.length < GenericString.minLength) {
+      throw new BadRequestException(
+        ValueObjectErrorMessages.GENERIC_STRING.TOO_SHORT(GenericString.minLength),
+      );
     }
 
-    if (trimmed.length > maxLength) {
-      throw new BadRequestException(`String must be at most ${maxLength} characters long.`);
+    if (trimmed.length > GenericString.maxLength) {
+      throw new BadRequestException(
+        ValueObjectErrorMessages.GENERIC_STRING.TOO_LONG(GenericString.maxLength),
+      );
     }
 
     this._value = trimmed;
