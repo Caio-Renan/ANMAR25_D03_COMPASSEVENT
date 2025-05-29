@@ -1,49 +1,50 @@
-import { BadRequestException } from '@nestjs/common';
 import { Phone } from '../../../src/common/value-objects/phone.vo';
+import { BadRequestException } from '@nestjs/common';
 
-describe('Phone', () => {
-  it('should create a valid phone number with 11 digits', () => {
-    const phone = new Phone('11912345678');
-    expect(phone.value).toBe('+55 (11) 91234-5678');
+describe('Phone (International)', () => {
+  it('should create valid phone numbers in international formats', () => {
+    const validPhones = [
+      '+5511999998888',
+      '+14155552671',
+      '+442071838750',
+      '+81312345678',
+      '+61234567890',
+    ];
+
+    validPhones.forEach(phone => {
+      const phoneVO = new Phone(phone);
+      expect(phoneVO.value()).toBe(phone);
+    });
   });
 
-  it('should create a valid phone number with 10 digits', () => {
-    const phone = new Phone('1134567890');
-    expect(phone.value).toBe('+55 (11) 3456-7890');
-  });
-
-  it('should create a valid phone with DDI (13 digits)', () => {
-    const phone = new Phone('5511912345678');
-    expect(phone.value).toBe('+55 (11) 91234-5678');
-  });
-
-  it('should remove special characters and format correctly', () => {
-    const phone = new Phone('(11) 91234-5678');
-    expect(phone.value).toBe('+55 (11) 91234-5678');
-  });
-
-  it('should throw if phone is empty', () => {
+  it('should throw if phone number is empty', () => {
     expect(() => new Phone('')).toThrow(BadRequestException);
     expect(() => new Phone('')).toThrow('Phone number is required.');
   });
 
-  it('should throw if phone is only spaces', () => {
-    expect(() => new Phone('   ')).toThrow(BadRequestException);
-    expect(() => new Phone('   ')).toThrow('Phone number is required.');
+  it('should throw if phone number does not start with +', () => {
+    expect(() => new Phone('5511999998888')).toThrow(BadRequestException);
+    expect(() => new Phone('5511999998888')).toThrow('Phone number must start with "+".');
   });
 
-  it('should throw if phone has invalid length (less than 10)', () => {
-    expect(() => new Phone('12345')).toThrow(BadRequestException);
-    expect(() => new Phone('12345')).toThrow('Invalid phone number format.');
-  });
+  it('should throw if phone number is invalid', () => {
+    const invalidPhones = [
+      '+123',
+      '++5511999998888',
+      '+5511abc99998888',
+      '+999999999999999999999',
+      '+phone12345',
+      '+999999999',
+    ];
 
-  it('should throw if phone has invalid length (too long)', () => {
-    expect(() => new Phone('551191234567890')).toThrow(BadRequestException);
-    expect(() => new Phone('551191234567890')).toThrow('Invalid phone number format.');
+    invalidPhones.forEach(phone => {
+      expect(() => new Phone(phone)).toThrow(BadRequestException);
+      expect(() => new Phone(phone)).toThrow('Invalid phone number format.');
+    });
   });
 
   it('toString should return the same as value', () => {
-    const phone = new Phone('11912345678');
-    expect(phone.toString()).toBe(phone.value);
+    const phone = new Phone('+5511999998888');
+    expect(phone.toString()).toBe(phone.value());
   });
 });
