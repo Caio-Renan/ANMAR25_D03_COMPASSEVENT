@@ -1,29 +1,36 @@
 import { BadRequestException } from '@nestjs/common';
+import { ValueObjectErrorMessages } from '../constants/error-messages/value-object-error-messages';
 
 export class Password {
   private readonly _value: string;
+  public static readonly minLength: number = 8;
+  public static readonly maxLength: number = 64;
 
   constructor(password: unknown) {
     if (typeof password !== 'string') {
-      throw new BadRequestException('Password must be a string.');
+      throw new BadRequestException(ValueObjectErrorMessages.PASSWORD.INVALID_TYPE);
     }
 
     const trimmed = password.trim();
 
     if (!trimmed) {
-      throw new BadRequestException('Password is required.');
+      throw new BadRequestException(ValueObjectErrorMessages.PASSWORD.REQUIRED);
     }
 
-    if (trimmed.length < 8 || trimmed.length > 64) {
-      throw new BadRequestException('Password must be between 8 and 64 characters.');
+    if (trimmed.length < Password.minLength || trimmed.length > Password.maxLength) {
+      throw new BadRequestException(
+        ValueObjectErrorMessages.PASSWORD.LENGTH(Password.minLength, Password.maxLength),
+      );
     }
 
     if (/\s/.test(trimmed)) {
-      throw new BadRequestException('Password should not contain spaces.');
+      throw new BadRequestException(ValueObjectErrorMessages.PASSWORD.NO_SPACES_ALLOWED);
     }
 
     if (!/(?=.*[a-zA-Z])(?=.*[0-9])/.test(trimmed)) {
-      throw new BadRequestException('Password must contain letters and numbers.');
+      throw new BadRequestException(
+        ValueObjectErrorMessages.PASSWORD.MUST_CONTAIN_LETTERS_AND_NUMBERS,
+      );
     }
 
     this._value = trimmed;
