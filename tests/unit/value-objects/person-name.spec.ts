@@ -1,8 +1,8 @@
 import { BadRequestException } from '@nestjs/common';
-import { Name } from '../../../src/common/value-objects/person-name.vo';
+import { Name } from '../../../src/common/value-objects/name.vo';
 import { ValueObjectErrorMessages } from '../../../src/common/constants/error-messages/value-object-error-messages';
 
-describe('PersonName', () => {
+describe('Name', () => {
   it('should throw if name is not a string', () => {
     const invalidValues = [null, undefined, 123, true, {}];
 
