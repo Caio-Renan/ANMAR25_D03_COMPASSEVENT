@@ -1,4 +1,4 @@
-import { PhoneNumber } from '../../../src/common/value-objects/phone.vo';
+import { PhoneNumber } from '../../../src/common/value-objects/phone-number.vo';
 import { BadRequestException } from '@nestjs/common';
 import { ValueObjectErrorMessages } from '../../../src/common/constants/error-messages/value-object-error-messages';
 
