@@ -14,4 +14,9 @@ module.exports = {
   ],
   coverageDirectory: '../coverage',
   testEnvironment: 'node',
+  forceExit: true,
+  detectOpenHandles: true,
+  maxWorkers: '50%',
+  testTimeout: 10000,
+  verbose: true,
 };
