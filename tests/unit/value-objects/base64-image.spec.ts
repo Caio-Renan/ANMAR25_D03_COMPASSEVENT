@@ -44,7 +44,7 @@ describe('Base64Image', () => {
   });
 
   it('should throw if base64 has invalid characters', () => {
-    const invalidBase64 = 'abcd*1234==='; // * is invalid
+    const invalidBase64 = 'abcd*1234===';
     expect(() => new Base64Image(invalidBase64)).toThrow(BadRequestException);
     expect(() => new Base64Image(invalidBase64)).toThrow(
       ValueObjectErrorMessages.BASE64_IMAGE.INVALID,
