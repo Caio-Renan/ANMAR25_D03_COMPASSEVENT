@@ -1,27 +1,27 @@
 import { BadRequestException } from '@nestjs/common';
+import { ValueObjectErrorMessages } from '../constants/error-messages/value-object-error-messages';
 
-export class PersonName {
+export class Name {
   private readonly _value: string;
+  public static readonly maxLength: number = 64;
 
   constructor(name: unknown) {
     if (typeof name !== 'string') {
-      throw new BadRequestException('Name must be a string.');
+      throw new BadRequestException(ValueObjectErrorMessages.NAME.INVALID_TYPE);
     }
 
     const trimmed = name.replace(/\s+/g, ' ').trim();
 
     if (!trimmed) {
-      throw new BadRequestException('Name is required.');
+      throw new BadRequestException(ValueObjectErrorMessages.NAME.REQUIRED);
     }
 
-    if (trimmed.length > 100) {
-      throw new BadRequestException('Name must be at most 100 characters.');
+    if (trimmed.length > Name.maxLength) {
+      throw new BadRequestException(ValueObjectErrorMessages.NAME.TOO_LONG(Name.maxLength));
     }
 
     if (!/^[A-Za-zÀ-ÿ\s.'-]+$/.test(trimmed)) {
-      throw new BadRequestException(
-        'Name must contain only letters, spaces, dots, apostrophes, or hyphens.',
-      );
+      throw new BadRequestException(ValueObjectErrorMessages.NAME.INVALID_CHARACTERS);
     }
 
     this._value = trimmed;
