@@ -1,5 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
-import { ValueObjectErrorMessages } from '../constants/error-messages/value-object-error-messages';
+import { ValidationErrorMessages } from '../constants/error-messages/validation-error-messages';
 
 export class Password {
   private readonly _value: string;
@@ -8,28 +8,28 @@ export class Password {
 
   constructor(password: unknown) {
     if (typeof password !== 'string') {
-      throw new BadRequestException(ValueObjectErrorMessages.PASSWORD.INVALID_TYPE);
+      throw new BadRequestException(ValidationErrorMessages.PASSWORD.INVALID_TYPE);
     }
 
     const trimmed = password.trim();
 
     if (!trimmed) {
-      throw new BadRequestException(ValueObjectErrorMessages.PASSWORD.REQUIRED);
+      throw new BadRequestException(ValidationErrorMessages.PASSWORD.REQUIRED);
     }
 
     if (trimmed.length < Password.minLength || trimmed.length > Password.maxLength) {
       throw new BadRequestException(
-        ValueObjectErrorMessages.PASSWORD.LENGTH(Password.minLength, Password.maxLength),
+        ValidationErrorMessages.PASSWORD.LENGTH(Password.minLength, Password.maxLength),
       );
     }
 
     if (/\s/.test(trimmed)) {
-      throw new BadRequestException(ValueObjectErrorMessages.PASSWORD.NO_SPACES_ALLOWED);
+      throw new BadRequestException(ValidationErrorMessages.PASSWORD.NO_SPACES_ALLOWED);
     }
 
     if (!/(?=.*[a-zA-Z])(?=.*[0-9])/.test(trimmed)) {
       throw new BadRequestException(
-        ValueObjectErrorMessages.PASSWORD.MUST_CONTAIN_LETTERS_AND_NUMBERS,
+        ValidationErrorMessages.PASSWORD.MUST_CONTAIN_LETTERS_AND_NUMBERS,
       );
     }
 
