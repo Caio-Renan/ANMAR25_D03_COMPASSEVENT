@@ -60,4 +60,13 @@ export default [
       'jest/no-identical-title': 'error',
     },
   },
+  {
+    files: ['**/*.enum.ts'],
+    rules: {
+      'sonarjs/no-duplicate-string': 'off',
+      'security/detect-object-injection': 'off',
+      'sonarjs/no-identical-functions': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+    },
+  },
 ];
