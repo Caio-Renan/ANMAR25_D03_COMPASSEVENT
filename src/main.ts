@@ -6,6 +6,8 @@ import helmet from 'helmet';
 import { LoggerService } from './common/logger/logger.service';
 
 async function bootstrap() {
+  const logger = new LoggerService();
+
   try {
     const app = await NestFactory.create(AppModule);
 
@@ -33,10 +35,19 @@ async function bootstrap() {
     SwaggerModule.setup('api/docs', app, document);
 
     await app.listen(process.env.PORT ?? 3000);
-  } catch (error) {
-    console.error('Error starting the application', error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      logger.error(
+        { errorMessage: error.message, stack: error.stack },
+        'Error starting the application',
+      );
+    } else {
+      logger.error(
+        { errorMessage: 'Unknown error', rawError: error },
+        'Error starting the application',
+      );
+    }
     process.exit(1);
   }
 }
-
 void bootstrap();
