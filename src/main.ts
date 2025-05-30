@@ -3,10 +3,13 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import helmet from 'helmet';
+import { LoggerService } from './common/logger/logger.service';
 
 async function bootstrap() {
   try {
     const app = await NestFactory.create(AppModule);
+
+    app.useLogger(app.get(LoggerService));
 
     app.enableCors();
     app.setGlobalPrefix('api/v1');
