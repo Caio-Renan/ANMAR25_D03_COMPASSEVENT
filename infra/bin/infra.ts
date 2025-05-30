@@ -3,6 +3,9 @@ import * as cdk from 'aws-cdk-lib';
 import { UsersStack } from '../lib/stacks/users-stack';
 import { EventsStack } from '../lib/stacks/events-stack';
 import { SubscriptionsStack } from '../lib/stacks/subscriptions-stack';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = new cdk.App();
 
