@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { GenericString } from '../../../src/common/value-objects/generic-string.vo';
-import { ValueObjectErrorMessages } from '../../../src/common/constants/error-messages/value-object-error-messages';
+import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
 
 describe('GenericString', () => {
   it('should throw if value is not a string and not null/undefined', () => {
@@ -9,7 +9,7 @@ describe('GenericString', () => {
     invalidValues.forEach(value => {
       expect(() => new GenericString(value as any)).toThrow(BadRequestException);
       expect(() => new GenericString(value as any)).toThrow(
-        ValueObjectErrorMessages.GENERIC_STRING.REQUIRED,
+        ValidationErrorMessages.GENERIC_STRING.REQUIRED,
       );
     });
   });
@@ -20,7 +20,7 @@ describe('GenericString', () => {
     invalidValues.forEach(value => {
       expect(() => new GenericString(value as any)).toThrow(BadRequestException);
       expect(() => new GenericString(value as any)).toThrow(
-        ValueObjectErrorMessages.GENERIC_STRING.NOT_EMPTY,
+        ValidationErrorMessages.GENERIC_STRING.NOT_EMPTY,
       );
     });
   });
@@ -28,20 +28,20 @@ describe('GenericString', () => {
   it('should throw if value length is less than minLength', () => {
     expect(() => new GenericString('a')).toThrow(BadRequestException);
     expect(() => new GenericString('a')).toThrow(
-      ValueObjectErrorMessages.GENERIC_STRING.TOO_SHORT(GenericString.minLength),
+      ValidationErrorMessages.GENERIC_STRING.TOO_SHORT(GenericString.minLength),
     );
 
     expect(() => new GenericString('abc')).toThrow(BadRequestException);
     expect(() => new GenericString('abc')).toThrow(
-      ValueObjectErrorMessages.GENERIC_STRING.TOO_SHORT(GenericString.minLength),
+      ValidationErrorMessages.GENERIC_STRING.TOO_SHORT(GenericString.minLength),
     );
   });
 
   it('should throw if value length is greater than maxLength', () => {
-    const longString = 'a'.repeat(256);
+    const longString = 'a'.repeat(GenericString.maxLength) + 1;
     expect(() => new GenericString(longString)).toThrow(BadRequestException);
     expect(() => new GenericString(longString)).toThrow(
-      ValueObjectErrorMessages.GENERIC_STRING.TOO_LONG(GenericString.maxLength),
+      ValidationErrorMessages.GENERIC_STRING.TOO_LONG(GenericString.maxLength),
     );
   });
 
