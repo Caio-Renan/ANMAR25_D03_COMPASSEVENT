@@ -1,5 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
-import { ValueObjectErrorMessages } from '../constants/error-messages/value-object-error-messages';
+import { ValidationErrorMessages } from '../constants/error-messages/validation-error-messages';
 
 export class Name {
   private readonly _value: string;
@@ -7,21 +7,21 @@ export class Name {
 
   constructor(name: unknown) {
     if (typeof name !== 'string') {
-      throw new BadRequestException(ValueObjectErrorMessages.NAME.INVALID_TYPE);
+      throw new BadRequestException(ValidationErrorMessages.NAME.INVALID_TYPE);
     }
 
     const trimmed = name.replace(/\s+/g, ' ').trim();
 
     if (!trimmed) {
-      throw new BadRequestException(ValueObjectErrorMessages.NAME.REQUIRED);
+      throw new BadRequestException(ValidationErrorMessages.NAME.REQUIRED);
     }
 
     if (trimmed.length > Name.maxLength) {
-      throw new BadRequestException(ValueObjectErrorMessages.NAME.TOO_LONG(Name.maxLength));
+      throw new BadRequestException(ValidationErrorMessages.NAME.TOO_LONG(Name.maxLength));
     }
 
     if (!/^[A-Za-zÀ-ÿ\s.'-]+$/.test(trimmed)) {
-      throw new BadRequestException(ValueObjectErrorMessages.NAME.INVALID_CHARACTERS);
+      throw new BadRequestException(ValidationErrorMessages.NAME.INVALID_CHARACTERS);
     }
 
     this._value = trimmed;

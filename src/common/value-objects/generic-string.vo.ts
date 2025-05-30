@@ -1,5 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
-import { ValueObjectErrorMessages } from '../constants/error-messages/value-object-error-messages';
+import { ValidationErrorMessages } from '../constants/error-messages/validation-error-messages';
 
 export class GenericString {
   private readonly _value: string;
@@ -8,24 +8,24 @@ export class GenericString {
 
   constructor(value: unknown) {
     if (typeof value !== 'string' && value !== null && value !== undefined) {
-      throw new BadRequestException(ValueObjectErrorMessages.GENERIC_STRING.REQUIRED);
+      throw new BadRequestException(ValidationErrorMessages.GENERIC_STRING.REQUIRED);
     }
 
     const trimmed = (value ?? '').trim();
 
     if (!trimmed) {
-      throw new BadRequestException(ValueObjectErrorMessages.GENERIC_STRING.NOT_EMPTY);
+      throw new BadRequestException(ValidationErrorMessages.GENERIC_STRING.NOT_EMPTY);
     }
 
     if (trimmed.length < GenericString.minLength) {
       throw new BadRequestException(
-        ValueObjectErrorMessages.GENERIC_STRING.TOO_SHORT(GenericString.minLength),
+        ValidationErrorMessages.GENERIC_STRING.TOO_SHORT(GenericString.minLength),
       );
     }
 
     if (trimmed.length > GenericString.maxLength) {
       throw new BadRequestException(
-        ValueObjectErrorMessages.GENERIC_STRING.TOO_LONG(GenericString.maxLength),
+        ValidationErrorMessages.GENERIC_STRING.TOO_LONG(GenericString.maxLength),
       );
     }
 

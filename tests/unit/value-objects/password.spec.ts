@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { Password } from '../../../src/common/value-objects/password.vo';
-import { ValueObjectErrorMessages } from '../../../src/common/constants/error-messages/value-object-error-messages';
+import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
 
 describe('Password', () => {
   it('should throw if password is not a string', () => {
@@ -9,7 +9,7 @@ describe('Password', () => {
     invalidValues.forEach(value => {
       expect(() => new Password(value as any)).toThrow(BadRequestException);
       expect(() => new Password(value as any)).toThrow(
-        ValueObjectErrorMessages.PASSWORD.INVALID_TYPE,
+        ValidationErrorMessages.PASSWORD.INVALID_TYPE,
       );
     });
   });
@@ -19,23 +19,23 @@ describe('Password', () => {
 
     invalidValues.forEach(value => {
       expect(() => new Password(value)).toThrow(BadRequestException);
-      expect(() => new Password(value)).toThrow(ValueObjectErrorMessages.PASSWORD.REQUIRED);
+      expect(() => new Password(value)).toThrow(ValidationErrorMessages.PASSWORD.REQUIRED);
     });
   });
 
-  it('should throw if password length is less than 8', () => {
+  it(`should throw if password length is less than ${Password.minLength}`, () => {
     const shortPassword = 'abc123';
     expect(() => new Password(shortPassword)).toThrow(BadRequestException);
     expect(() => new Password(shortPassword)).toThrow(
-      ValueObjectErrorMessages.PASSWORD.LENGTH(Password.minLength, Password.maxLength),
+      ValidationErrorMessages.PASSWORD.LENGTH(Password.minLength, Password.maxLength),
     );
   });
 
-  it('should throw if password length is greater than 64', () => {
-    const longPassword = 'a'.repeat(65) + '1';
+  it(`should throw if password length is greater than ${Password.maxLength}`, () => {
+    const longPassword = 'a'.repeat(Password.maxLength) + '1';
     expect(() => new Password(longPassword)).toThrow(BadRequestException);
     expect(() => new Password(longPassword)).toThrow(
-      ValueObjectErrorMessages.PASSWORD.LENGTH(Password.minLength, Password.maxLength),
+      ValidationErrorMessages.PASSWORD.LENGTH(Password.minLength, Password.maxLength),
     );
   });
 
@@ -43,7 +43,7 @@ describe('Password', () => {
     const passwordWithSpacesInside = 'abc 1234';
     expect(() => new Password(passwordWithSpacesInside)).toThrow(BadRequestException);
     expect(() => new Password(passwordWithSpacesInside)).toThrow(
-      ValueObjectErrorMessages.PASSWORD.NO_SPACES_ALLOWED,
+      ValidationErrorMessages.PASSWORD.NO_SPACES_ALLOWED,
     );
   });
 
@@ -53,7 +53,7 @@ describe('Password', () => {
     invalidPasswords.forEach(password => {
       expect(() => new Password(password)).toThrow(BadRequestException);
       expect(() => new Password(password)).toThrow(
-        ValueObjectErrorMessages.PASSWORD.MUST_CONTAIN_LETTERS_AND_NUMBERS,
+        ValidationErrorMessages.PASSWORD.MUST_CONTAIN_LETTERS_AND_NUMBERS,
       );
     });
   });

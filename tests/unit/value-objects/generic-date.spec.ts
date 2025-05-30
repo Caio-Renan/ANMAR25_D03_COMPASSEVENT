@@ -1,36 +1,36 @@
 import { BadRequestException } from '@nestjs/common';
 import { GenericDate } from '../../../src/common/value-objects/generic-date.vo';
-import { ValueObjectErrorMessages } from '../../../src/common/constants/error-messages/value-object-error-messages';
+import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
 
 describe('GenericDate', () => {
   it('should throw if value is boolean', () => {
     expect(() => new GenericDate(true as any)).toThrow(BadRequestException);
     expect(() => new GenericDate(true as any)).toThrow(
-      ValueObjectErrorMessages.GENERIC_DATE.INVALID_TYPE,
+      ValidationErrorMessages.GENERIC_DATE.INVALID_TYPE,
     );
 
     expect(() => new GenericDate(false as any)).toThrow(BadRequestException);
     expect(() => new GenericDate(false as any)).toThrow(
-      ValueObjectErrorMessages.GENERIC_DATE.INVALID_TYPE,
+      ValidationErrorMessages.GENERIC_DATE.INVALID_TYPE,
     );
   });
 
   it('should throw if value is null or undefined', () => {
     expect(() => new GenericDate(null as any)).toThrow(BadRequestException);
     expect(() => new GenericDate(null as any)).toThrow(
-      ValueObjectErrorMessages.GENERIC_DATE.INVALID_TYPE,
+      ValidationErrorMessages.GENERIC_DATE.INVALID_TYPE,
     );
 
     expect(() => new GenericDate(undefined as any)).toThrow(BadRequestException);
     expect(() => new GenericDate(undefined as any)).toThrow(
-      ValueObjectErrorMessages.GENERIC_DATE.INVALID_TYPE,
+      ValidationErrorMessages.GENERIC_DATE.INVALID_TYPE,
     );
   });
 
   it('should throw if value is an invalid date string', () => {
     expect(() => new GenericDate('not-a-date')).toThrow(BadRequestException);
     expect(() => new GenericDate('not-a-date')).toThrow(
-      ValueObjectErrorMessages.GENERIC_DATE.INVALID_VALUE('not-a-date'),
+      ValidationErrorMessages.GENERIC_DATE.INVALID_VALUE('not-a-date'),
     );
   });
 

@@ -19,4 +19,7 @@ module.exports = {
   maxWorkers: '50%',
   testTimeout: 10000,
   verbose: true,
+  moduleNameMapper: {
+    '^src/(.*)$': '<rootDir>/src/$1',
+  },
 };

@@ -1,6 +1,6 @@
 type MessageWithParams<T extends unknown[]> = (...args: T) => string;
 
-type ValueObjectErrorMessagesType = {
+type ValidationErrorMessagesType = {
   EMAIL: {
     REQUIRED: string;
     INVALID_TYPE: string;
@@ -45,9 +45,15 @@ type ValueObjectErrorMessagesType = {
     TOO_SMALL: MessageWithParams<[unknown]>;
     TOO_LARGE: MessageWithParams<[unknown]>;
   };
+  VALID_ID: {
+    NOT_A_NUMBER: MessageWithParams<[unknown]>;
+    NOT_A_INTEGER: MessageWithParams<[unknown]>;
+    TOO_SMALL: MessageWithParams<[unknown]>;
+    TOO_LARGE: MessageWithParams<[unknown]>;
+  };
 };
 
-export const ValueObjectErrorMessages: ValueObjectErrorMessagesType = {
+export const ValidationErrorMessages: ValidationErrorMessagesType = {
   EMAIL: {
     REQUIRED: 'Email is required.',
     INVALID_TYPE: 'Invalid email format.',
@@ -95,4 +101,7 @@ export const ValueObjectErrorMessages: ValueObjectErrorMessagesType = {
     TOO_LARGE: (value: unknown) =>
       `Value '${value}' must be less than or equal to ${Number.MAX_SAFE_INTEGER}.`,
   },
+  VALID_ID: {} as ValidationErrorMessagesType['VALID_INT'],
 } as const;
+
+ValidationErrorMessages.VALID_ID = ValidationErrorMessages.VALID_INT;

@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { Base64Image } from '../../../src/common/value-objects/base64-image.vo';
-import { ValueObjectErrorMessages } from '../../../src/common/constants/error-messages/value-object-error-messages';
+import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
 
 describe('Base64Image', () => {
   const validBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAAUA';
@@ -8,24 +8,24 @@ describe('Base64Image', () => {
 
   it('should throw if value is not a string or empty', () => {
     expect(() => new Base64Image('')).toThrow(BadRequestException);
-    expect(() => new Base64Image('')).toThrow(ValueObjectErrorMessages.BASE64_IMAGE.REQUIRED);
+    expect(() => new Base64Image('')).toThrow(ValidationErrorMessages.BASE64_IMAGE.REQUIRED);
 
     expect(() => new Base64Image('    ')).toThrow(BadRequestException);
-    expect(() => new Base64Image('    ')).toThrow(ValueObjectErrorMessages.BASE64_IMAGE.REQUIRED);
+    expect(() => new Base64Image('    ')).toThrow(ValidationErrorMessages.BASE64_IMAGE.REQUIRED);
 
     expect(() => new Base64Image(null as any)).toThrow(BadRequestException);
     expect(() => new Base64Image(null as any)).toThrow(
-      ValueObjectErrorMessages.BASE64_IMAGE.REQUIRED,
+      ValidationErrorMessages.BASE64_IMAGE.REQUIRED,
     );
 
     expect(() => new Base64Image(undefined as any)).toThrow(BadRequestException);
     expect(() => new Base64Image(undefined as any)).toThrow(
-      ValueObjectErrorMessages.BASE64_IMAGE.REQUIRED,
+      ValidationErrorMessages.BASE64_IMAGE.REQUIRED,
     );
 
     expect(() => new Base64Image(123 as any)).toThrow(BadRequestException);
     expect(() => new Base64Image(123 as any)).toThrow(
-      ValueObjectErrorMessages.BASE64_IMAGE.REQUIRED,
+      ValidationErrorMessages.BASE64_IMAGE.REQUIRED,
     );
   });
 
@@ -39,7 +39,7 @@ describe('Base64Image', () => {
     const invalidLength = 'abcd123';
     expect(() => new Base64Image(invalidLength)).toThrow(BadRequestException);
     expect(() => new Base64Image(invalidLength)).toThrow(
-      ValueObjectErrorMessages.BASE64_IMAGE.LENGTH_MULTIPLE_OF_4,
+      ValidationErrorMessages.BASE64_IMAGE.LENGTH_MULTIPLE_OF_4,
     );
   });
 
@@ -47,7 +47,7 @@ describe('Base64Image', () => {
     const invalidBase64 = 'abcd*1234===';
     expect(() => new Base64Image(invalidBase64)).toThrow(BadRequestException);
     expect(() => new Base64Image(invalidBase64)).toThrow(
-      ValueObjectErrorMessages.BASE64_IMAGE.INVALID,
+      ValidationErrorMessages.BASE64_IMAGE.INVALID,
     );
   });
 

@@ -1,13 +1,13 @@
 import { validate } from 'class-validator';
-import { IsValidInt } from '../../../src/common/decorators/is-valid-int.decorator';
+import { IsValidId } from '../../../src/common/decorators/is-valid-id.decorator';
 import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
 
 class TestDto {
-  @IsValidInt()
+  @IsValidId()
   value!: unknown;
 }
 
-describe('IsValidInt Decorator', () => {
+describe('IsValidId Decorator', () => {
   it('should invalidate empty string', async () => {
     const dto = new TestDto();
     dto.value = '';

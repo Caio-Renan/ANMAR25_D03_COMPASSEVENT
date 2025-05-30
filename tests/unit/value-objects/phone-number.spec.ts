@@ -1,6 +1,6 @@
 import { PhoneNumber } from '../../../src/common/value-objects/phone-number.vo';
 import { BadRequestException } from '@nestjs/common';
-import { ValueObjectErrorMessages } from '../../../src/common/constants/error-messages/value-object-error-messages';
+import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
 
 describe('Phone (International)', () => {
   it('should create valid phone numbers in international formats', () => {
@@ -20,13 +20,13 @@ describe('Phone (International)', () => {
 
   it('should throw if phone number is empty', () => {
     expect(() => new PhoneNumber('')).toThrow(BadRequestException);
-    expect(() => new PhoneNumber('')).toThrow(ValueObjectErrorMessages.PHONE_NUMBER.REQUIRED);
+    expect(() => new PhoneNumber('')).toThrow(ValidationErrorMessages.PHONE_NUMBER.REQUIRED);
   });
 
   it('should throw if phone number does not start with +', () => {
     expect(() => new PhoneNumber('5511999998888')).toThrow(BadRequestException);
     expect(() => new PhoneNumber('5511999998888')).toThrow(
-      ValueObjectErrorMessages.PHONE_NUMBER.MUST_START_WITH_PLUS,
+      ValidationErrorMessages.PHONE_NUMBER.MUST_START_WITH_PLUS,
     );
   });
 
@@ -43,7 +43,7 @@ describe('Phone (International)', () => {
     invalidPhones.forEach(phone => {
       expect(() => new PhoneNumber(phone)).toThrow(BadRequestException);
       expect(() => new PhoneNumber(phone)).toThrow(
-        ValueObjectErrorMessages.PHONE_NUMBER.INVALID_TYPE,
+        ValidationErrorMessages.PHONE_NUMBER.INVALID_TYPE,
       );
     });
   });

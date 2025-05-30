@@ -1,28 +1,28 @@
 import { Email } from '../../../src/common/value-objects/email.vo';
 import { BadRequestException } from '@nestjs/common';
-import { ValueObjectErrorMessages } from '../../../src/common/constants/error-messages/value-object-error-messages';
+import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
 
 describe('Email', () => {
   it('should throw if email is empty or only whitespace', () => {
     expect(() => new Email('')).toThrow(BadRequestException);
-    expect(() => new Email('')).toThrow(ValueObjectErrorMessages.EMAIL.REQUIRED);
+    expect(() => new Email('')).toThrow(ValidationErrorMessages.EMAIL.REQUIRED);
 
     expect(() => new Email('    ')).toThrow(BadRequestException);
-    expect(() => new Email('    ')).toThrow(ValueObjectErrorMessages.EMAIL.REQUIRED);
+    expect(() => new Email('    ')).toThrow(ValidationErrorMessages.EMAIL.REQUIRED);
 
     expect(() => new Email(null as any)).toThrow(BadRequestException);
-    expect(() => new Email(null as any)).toThrow(ValueObjectErrorMessages.EMAIL.REQUIRED);
+    expect(() => new Email(null as any)).toThrow(ValidationErrorMessages.EMAIL.REQUIRED);
 
     expect(() => new Email(undefined as any)).toThrow(BadRequestException);
-    expect(() => new Email(undefined as any)).toThrow(ValueObjectErrorMessages.EMAIL.REQUIRED);
+    expect(() => new Email(undefined as any)).toThrow(ValidationErrorMessages.EMAIL.REQUIRED);
   });
 
-  it('should throw if email is longer than 150 characters', () => {
-    const longEmail = 'a'.repeat(142) + '@test.com';
-    expect(longEmail.length).toBeGreaterThan(150);
+  it(`should throw if email is longer than ${Email.maxLength} characters`, () => {
+    const longEmail = 'a'.repeat(Email.maxLength - 8) + '@test.com';
+    expect(longEmail.length).toBeGreaterThan(Email.maxLength);
     expect(() => new Email(longEmail)).toThrow(BadRequestException);
     expect(() => new Email(longEmail)).toThrow(
-      ValueObjectErrorMessages.EMAIL.TOO_LONG(Email.maxLength),
+      ValidationErrorMessages.EMAIL.TOO_LONG(Email.maxLength),
     );
   });
 
@@ -42,7 +42,7 @@ describe('Email', () => {
 
     invalidEmails.forEach(email => {
       expect(() => new Email(email)).toThrow(BadRequestException);
-      expect(() => new Email(email)).toThrow(ValueObjectErrorMessages.EMAIL.INVALID_TYPE);
+      expect(() => new Email(email)).toThrow(ValidationErrorMessages.EMAIL.INVALID_TYPE);
     });
   });
 
