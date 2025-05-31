@@ -1,9 +1,10 @@
 import { SESClient } from '@aws-sdk/client-ses';
 import type { Provider } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { AWS_CLIENTS } from 'src/common/constants/aws.constants';
 
 export const SESProvider: Provider = {
-  provide: 'SES_CLIENT',
+  provide: AWS_CLIENTS.SES,
   useFactory: (configService: ConfigService) => {
     return new SESClient({
       region: configService.getOrThrow<string>('aws.ses.region'),
