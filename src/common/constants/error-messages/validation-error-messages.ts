@@ -51,6 +51,11 @@ type ValidationErrorMessagesType = {
     TOO_SMALL: MessageWithParams<[unknown]>;
     TOO_LARGE: MessageWithParams<[unknown]>;
   };
+  UUID: {
+    REQUIRED: string;
+    MUST_BE_STRING: string;
+    INVALID_TYPE: MessageWithParams<[unknown]>;
+  };
 };
 
 export const ValidationErrorMessages: ValidationErrorMessagesType = {
@@ -102,6 +107,11 @@ export const ValidationErrorMessages: ValidationErrorMessagesType = {
       `Value '${value}' must be less than or equal to ${Number.MAX_SAFE_INTEGER}.`,
   },
   VALID_ID: {} as ValidationErrorMessagesType['VALID_INT'],
+  UUID: {
+    REQUIRED: 'UUID is required and cannot be empty',
+    MUST_BE_STRING: 'UUID must be a string',
+    INVALID_TYPE: (value: unknown) => `'${value}' is not a valid UUID`,
+  },
 } as const;
 
 ValidationErrorMessages.VALID_ID = ValidationErrorMessages.VALID_INT;
