@@ -1,10 +1,10 @@
-import { Injectable, Inject, Logger } from '@nestjs/common';
-import type { S3Client } from '@aws-sdk/client-s3';
-import { PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
-import type { ConfigService } from '@nestjs/config';
+import { DeleteObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { Inject, Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+
 import { AWS_CLIENTS } from '../constants/aws.constants';
-import { Base64Image } from '../value-objects/base64-image.vo';
 import { AwsErrorMessages } from '../constants/error-messages/aws-error-messages';
+import { Base64Image } from '../value-objects/base64-image.vo';
 
 @Injectable()
 export class S3Service {
@@ -31,7 +31,7 @@ export class S3Service {
       await this.s3Client.send(command);
       return { key, url: this.getPublicUrl(key) };
     } catch (error) {
-      this.logger.error(AwsErrorMessages.S3.UPLOAD_FILE_ERROR, error);
+      this.logger.error(AwsErrorMessages.S3.UPLOAD_FILE_ERROR(key), error);
       throw error;
     }
   }
@@ -45,7 +45,7 @@ export class S3Service {
     try {
       await this.s3Client.send(command);
     } catch (error) {
-      this.logger.error(AwsErrorMessages.S3.DELETE_FILE_ERROR, error);
+      this.logger.error(AwsErrorMessages.S3.DELETE_FILE_ERROR(key), error);
       throw error;
     }
   }
@@ -60,7 +60,7 @@ export class S3Service {
       const buffer = new Base64Image(base64).toBuffer();
       return await this.uploadFile(key, buffer, contentType);
     } catch (error) {
-      this.logger.error(AwsErrorMessages.S3.UPLOAD_BASE64_FILE_ERROR, error);
+      this.logger.error(AwsErrorMessages.S3.UPLOAD_BASE64_FILE_ERROR(key), error);
       throw error;
     }
   }
