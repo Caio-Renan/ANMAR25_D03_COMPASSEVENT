@@ -1,24 +1,24 @@
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import unusedImports from 'eslint-plugin-unused-imports';
+import jestPlugin from 'eslint-plugin-jest';
 import tseslint from 'typescript-eslint';
-import eslintPluginSimpleImportSort from 'eslint-plugin-simple-import-sort';
-import eslintPluginUnusedImports from 'eslint-plugin-unused-imports';
-import eslintPluginJest from 'eslint-plugin-jest';
 
-export default tseslint.config(
+export default [
+  ...tseslint.configs.recommended,
+
   {
     files: ['**/*.ts', '**/*.tsx'],
-    ignores: ['dist', 'node_modules'],
+    ignores: ['dist', 'node_modules', '.husky'],
     plugins: {
-      'simple-import-sort': eslintPluginSimpleImportSort,
-      'unused-imports': eslintPluginUnusedImports,
+      'simple-import-sort': simpleImportSort,
+      'unused-imports': unusedImports,
     },
     rules: {
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-vars': 'off',
       '@typescript-eslint/ban-ts-comment': 'warn',
-
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
-
       'unused-imports/no-unused-imports': 'error',
       'unused-imports/no-unused-vars': [
         'warn',
@@ -38,7 +38,7 @@ export default tseslint.config(
   {
     files: ['**/*.spec.ts', '**/__tests__/**/*.ts'],
     plugins: {
-      jest: eslintPluginJest,
+      jest: jestPlugin,
     },
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
@@ -49,7 +49,4 @@ export default tseslint.config(
       'jest/no-identical-title': 'error',
     },
   },
-
-  ...tseslint.configs.recommended,
-  ...tseslint.configs.strict,
-);
+];
