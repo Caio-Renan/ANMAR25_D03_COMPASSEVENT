@@ -4,6 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import helmet from 'helmet';
 import { LoggerService } from './common/logger/logger.service';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const logger = new LoggerService();
@@ -34,7 +35,11 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api/docs', app, document);
 
-    await app.listen(process.env.PORT ?? 3000);
+    const configService = app.get(ConfigService);
+
+    const port = configService.get<number>('PORT', { infer: true });
+
+    await app.listen(port);
   } catch (error: unknown) {
     if (error instanceof Error) {
       logger.error(
