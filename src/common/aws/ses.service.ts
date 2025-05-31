@@ -1,7 +1,7 @@
-import { Injectable, Inject, Logger } from '@nestjs/common';
-import type { SESClient } from '@aws-sdk/client-ses';
-import { SendEmailCommand } from '@aws-sdk/client-ses';
-import type { ConfigService } from '@nestjs/config';
+import { SendEmailCommand, SESClient } from '@aws-sdk/client-ses';
+import { Inject, Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+
 import { AWS_CLIENTS } from '../constants/aws.constants';
 import { AwsErrorMessages } from '../constants/error-messages/aws-error-messages';
 
@@ -44,7 +44,7 @@ export class SESService {
 
       await this.sesClient.send(command);
     } catch (error) {
-      this.logger.error(AwsErrorMessages.SES.SEND_EMAIL_ERROR, error as Error);
+      this.logger.error(AwsErrorMessages.SES.SEND_EMAIL_ERROR(to, subject), error as Error);
       throw error;
     }
   }
