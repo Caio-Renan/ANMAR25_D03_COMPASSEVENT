@@ -1,6 +1,6 @@
 import type { MessageWithParams } from 'src/common/types/message-with-params.type';
 
-type AwsErrorMessagesTypes = {
+type AwsErrorMessagesType = {
   DYNAMO_DB: {
     GET_ERROR: string;
     PUT_ERROR: string;
@@ -18,7 +18,7 @@ type AwsErrorMessagesTypes = {
   };
 };
 
-export const AwsErrorMessages: AwsErrorMessagesTypes = {
+export const AwsErrorMessages: AwsErrorMessagesType = {
   DYNAMO_DB: {
     GET_ERROR: 'DynamoDB Get Error.',
     PUT_ERROR: 'DynamoDB Put Error.',
