@@ -1,9 +1,9 @@
+import { DeleteObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
+import { ConfigService } from '@nestjs/config';
 import type { TestingModule } from '@nestjs/testing';
 import { Test } from '@nestjs/testing';
-import { S3Service } from '../../../src/common/aws/s3.service';
-import { ConfigService } from '@nestjs/config';
-import { PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 
+import { S3Service } from '../../../src/common/aws/s3.service';
 import { AWS_CLIENTS } from '../../../src/common/constants/aws.constants';
 import { AwsErrorMessages } from '../../../src/common/constants/error-messages/aws-error-messages';
 
@@ -12,6 +12,14 @@ describe('S3Service', () => {
   let s3ClientMock: { send: jest.Mock };
   let configServiceMock: { getOrThrow: jest.Mock; get: jest.Mock };
   let loggerErrorSpy: jest.SpyInstance;
+  const key = 'file.txt';
+  const awsBucketName = 'my-bucket';
+  const awsRegion = 'us-east-1';
+  const bucketBaseUrl = `https://${awsBucketName}.s3.${awsRegion}.amazonaws.com/`;
+  const url = `${bucketBaseUrl}${key}`;
+  const encondingBase64 = 'base64';
+  const mimeType = 'text/plain';
+  const fileContent = 'hello';
 
   beforeEach(async () => {
     s3ClientMock = { send: jest.fn() };
@@ -45,12 +53,12 @@ describe('S3Service', () => {
   it('should upload a file', async () => {
     s3ClientMock.send.mockResolvedValue({});
 
-    const result = await service.uploadFile('file.txt', Buffer.from('hello'), 'text/plain');
+    const result = await service.uploadFile(key, Buffer.from(fileContent), mimeType);
 
     expect(s3ClientMock.send).toHaveBeenCalledWith(expect.any(PutObjectCommand));
     expect(result).toEqual({
-      key: 'file.txt',
-      url: 'https://my-bucket.s3.us-east-1.amazonaws.com/file.txt',
+      key: key,
+      url: url,
     });
   });
 
@@ -58,17 +66,17 @@ describe('S3Service', () => {
     const error = new Error('S3 upload failed');
     s3ClientMock.send.mockRejectedValue(error);
 
-    await expect(
-      service.uploadFile('file.txt', Buffer.from('hello'), 'text/plain'),
-    ).rejects.toThrow(error);
+    await expect(service.uploadFile(key, Buffer.from(fileContent), mimeType)).rejects.toThrow(
+      error,
+    );
 
-    expect(loggerErrorSpy).toHaveBeenCalledWith(AwsErrorMessages.S3.UPLOAD_FILE_ERROR, error);
+    expect(loggerErrorSpy).toHaveBeenCalledWith(AwsErrorMessages.S3.UPLOAD_FILE_ERROR(key), error);
   });
 
   it('should delete a file', async () => {
     s3ClientMock.send.mockResolvedValue({});
 
-    await service.deleteFile('file.txt');
+    await service.deleteFile(key);
 
     expect(s3ClientMock.send).toHaveBeenCalledWith(expect.any(DeleteObjectCommand));
   });
@@ -77,28 +85,28 @@ describe('S3Service', () => {
     const error = new Error('S3 delete failed');
     s3ClientMock.send.mockRejectedValue(error);
 
-    await expect(service.deleteFile('file.txt')).rejects.toThrow(error);
+    await expect(service.deleteFile(key)).rejects.toThrow(error);
 
-    expect(loggerErrorSpy).toHaveBeenCalledWith(AwsErrorMessages.S3.DELETE_FILE_ERROR, error);
+    expect(loggerErrorSpy).toHaveBeenCalledWith(AwsErrorMessages.S3.DELETE_FILE_ERROR(key), error);
   });
 
   it('should get public URL', () => {
-    const result = service.getPublicUrl('file.txt');
+    const result = service.getPublicUrl(key);
 
-    expect(result).toBe('https://my-bucket.s3.us-east-1.amazonaws.com/file.txt');
+    expect(result).toBe(url);
   });
 
   it('should upload a base64 file', async () => {
     s3ClientMock.send.mockResolvedValue({});
 
-    const base64 = Buffer.from('hello').toString('base64');
+    const base64 = Buffer.from(fileContent).toString(encondingBase64);
 
-    const result = await service.uploadBase64File('file.txt', base64, 'text/plain');
+    const result = await service.uploadBase64File(key, base64, mimeType);
 
     expect(s3ClientMock.send).toHaveBeenCalledWith(expect.any(PutObjectCommand));
     expect(result).toEqual({
-      key: 'file.txt',
-      url: 'https://my-bucket.s3.us-east-1.amazonaws.com/file.txt',
+      key: key,
+      url: url,
     });
   });
 
@@ -106,12 +114,12 @@ describe('S3Service', () => {
     const error = new Error('S3 upload failed');
     s3ClientMock.send.mockRejectedValue(error);
 
-    const base64 = Buffer.from('hello').toString('base64');
+    const base64 = Buffer.from(fileContent).toString(encondingBase64);
 
-    await expect(service.uploadBase64File('file.txt', base64, 'text/plain')).rejects.toThrow(error);
+    await expect(service.uploadBase64File(key, base64, mimeType)).rejects.toThrow(error);
 
     expect(loggerErrorSpy).toHaveBeenCalledWith(
-      AwsErrorMessages.S3.UPLOAD_BASE64_FILE_ERROR,
+      AwsErrorMessages.S3.UPLOAD_BASE64_FILE_ERROR(key),
       error,
     );
   });
