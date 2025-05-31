@@ -1,4 +1,4 @@
-type MessageWithParams<T extends unknown[]> = (...args: T) => string;
+import type { MessageWithParams } from 'src/common/types/message-with-params.type';
 
 type ValidationErrorMessagesType = {
   EMAIL: {

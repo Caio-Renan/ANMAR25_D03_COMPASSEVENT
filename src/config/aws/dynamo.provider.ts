@@ -2,9 +2,10 @@ import { ConfigService } from '@nestjs/config';
 import type { Provider } from '@nestjs/common';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
+import { AWS_CLIENTS } from '../../common/constants/aws.constants';
 
 export const DynamoProvider: Provider = {
-  provide: 'DYNAMODB_DOCUMENT_CLIENT',
+  provide: AWS_CLIENTS.DYNAMO_DOCUMENT,
   useFactory: (configService: ConfigService) => {
     const client = new DynamoDBClient({
       region: configService.getOrThrow<string>('aws.region'),

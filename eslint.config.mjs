@@ -1,72 +1,52 @@
-import typescript from '@typescript-eslint/eslint-plugin';
-import parser from '@typescript-eslint/parser';
-import prettierPlugin from 'eslint-plugin-prettier';
-import sonar from 'eslint-plugin-sonarjs';
-import security from 'eslint-plugin-security';
-import jest from 'eslint-plugin-jest';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import unusedImports from 'eslint-plugin-unused-imports';
+import jestPlugin from 'eslint-plugin-jest';
+import tseslint from 'typescript-eslint';
 
-/** @type {import('@eslint/eslintrc').FlatConfigItem[]} */
 export default [
+  ...tseslint.configs.recommended,
+
   {
-    ignores: ['dist', 'node_modules', 'coverage', '.husky'],
-  },
-  {
-    files: ['**/*.ts'],
-    languageOptions: {
-      parser: parser,
-      parserOptions: {
-        sourceType: 'module',
-      },
-    },
+    files: ['**/*.ts', '**/*.tsx'],
+    ignores: ['dist', 'node_modules', '.husky'],
     plugins: {
-      '@typescript-eslint': typescript,
-      prettier: prettierPlugin,
-      sonarjs: sonar,
-      security: security,
-      jest: jest,
+      'simple-import-sort': simpleImportSort,
+      'unused-imports': unusedImports,
     },
     rules: {
-      'prettier/prettier': 'error',
-
-      ...typescript.configs.recommended.rules,
-
-      '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
-      '@typescript-eslint/consistent-type-imports': 'error',
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/ban-ts-comment': 'warn',
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error',
+      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-vars': [
+        'warn',
+        {
+          vars: 'all',
+          varsIgnorePattern: '^_',
+          args: 'after-used',
+          argsIgnorePattern: '^_',
+        },
+      ],
 
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-
-      'no-console': ['warn', { allow: ['warn', 'error'] }],
-
-      'sonarjs/no-duplicate-string': 'warn',
-      'sonarjs/no-identical-functions': 'warn',
-
-      'security/detect-object-injection': 'warn',
-
-      'jest/no-disabled-tests': 'warn',
-      'jest/no-focused-tests': 'error',
-      'jest/no-identical-title': 'error',
-      'jest/prefer-to-have-length': 'warn',
-      'jest/valid-expect': 'error',
+      'no-console': 'warn',
+      'no-debugger': 'error',
     },
   },
+
   {
     files: ['**/*.spec.ts', '**/__tests__/**/*.ts'],
+    plugins: {
+      jest: jestPlugin,
+    },
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       'no-console': 'off',
+
       'jest/no-disabled-tests': 'warn',
       'jest/no-focused-tests': 'error',
       'jest/no-identical-title': 'error',
-    },
-  },
-  {
-    files: ['**/*.enum.ts'],
-    rules: {
-      'sonarjs/no-duplicate-string': 'off',
-      'security/detect-object-injection': 'off',
-      'sonarjs/no-identical-functions': 'off',
-      '@typescript-eslint/no-unused-vars': 'off',
     },
   },
 ];
