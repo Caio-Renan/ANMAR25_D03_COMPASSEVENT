@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
 import { validate as isUuidValid } from 'uuid';
 
-import { ValidationErrorMessages } from '../constants/error-messages/validation-error-messages';
+import { PipeErrorMessages } from '../constants/error-messages/pipe-error-messages';
 
 @Injectable()
 export class ParseUuidPipe implements PipeTransform<string> {
@@ -11,15 +11,15 @@ export class ParseUuidPipe implements PipeTransform<string> {
       value === undefined ||
       (typeof value === 'string' && value.trim() === '')
     ) {
-      throw new BadRequestException(ValidationErrorMessages.UUID.REQUIRED);
+      throw new BadRequestException(PipeErrorMessages.UUID.REQUIRED);
     }
 
     if (typeof value !== 'string') {
-      throw new BadRequestException(ValidationErrorMessages.UUID.MUST_BE_STRING);
+      throw new BadRequestException(PipeErrorMessages.UUID.MUST_BE_STRING);
     }
 
     if (!isUuidValid(value)) {
-      throw new BadRequestException(ValidationErrorMessages.UUID.INVALID_TYPE(value));
+      throw new BadRequestException(PipeErrorMessages.UUID.INVALID_TYPE(value));
     }
 
     return value;
