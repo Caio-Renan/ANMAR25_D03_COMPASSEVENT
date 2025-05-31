@@ -1,18 +1,27 @@
+import { SendEmailCommand } from '@aws-sdk/client-ses';
+import { ConfigService } from '@nestjs/config';
 import type { TestingModule } from '@nestjs/testing';
 import { Test } from '@nestjs/testing';
+
 import { SESService } from '../../../src/common/aws/ses.service';
-import { ConfigService } from '@nestjs/config';
-import { SendEmailCommand } from '@aws-sdk/client-ses';
 import { AWS_CLIENTS } from '../../../src/common/constants/aws.constants';
 import { AwsErrorMessages } from '../../../src/common/constants/error-messages/aws-error-messages';
 
 describe('SESService', () => {
   let service: SESService;
   let sesClientMock: { send: jest.Mock };
+  let configServiceMock: { getOrThrow: jest.Mock };
   let loggerErrorSpy: jest.SpyInstance;
+  const to = ['user@example.com'];
+  const subject = 'Subject';
+  const htmlContent = '<p>Hello</p>';
+  const plainText = 'Hello';
 
   beforeEach(async () => {
     sesClientMock = { send: jest.fn() };
+    configServiceMock = {
+      getOrThrow: jest.fn().mockReturnValue('no-reply@example.com'),
+    };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -23,9 +32,7 @@ describe('SESService', () => {
         },
         {
           provide: ConfigService,
-          useValue: {
-            getOrThrow: jest.fn().mockReturnValue('no-reply@example.com'),
-          },
+          useValue: configServiceMock,
         },
       ],
     }).compile();
@@ -41,7 +48,7 @@ describe('SESService', () => {
   it('should send an email', async () => {
     sesClientMock.send.mockResolvedValue({});
 
-    await service.sendEmail(['user@example.com'], 'Subject', '<p>Hello</p>', 'Hello');
+    await service.sendEmail(to, subject, htmlContent, plainText);
 
     expect(sesClientMock.send).toHaveBeenCalledWith(expect.any(SendEmailCommand));
   });
@@ -50,10 +57,11 @@ describe('SESService', () => {
     const error = new Error('SES send failed');
     sesClientMock.send.mockRejectedValue(error);
 
-    await expect(
-      service.sendEmail(['user@example.com'], 'Subject', '<p>Hello</p>', 'Hello'),
-    ).rejects.toThrow(error);
+    await expect(service.sendEmail(to, subject, htmlContent, plainText)).rejects.toThrow(error);
 
-    expect(loggerErrorSpy).toHaveBeenCalledWith(AwsErrorMessages.SES.SEND_EMAIL_ERROR, error);
+    expect(loggerErrorSpy).toHaveBeenCalledWith(
+      AwsErrorMessages.SES.SEND_EMAIL_ERROR(to, subject),
+      error,
+    );
   });
 });
