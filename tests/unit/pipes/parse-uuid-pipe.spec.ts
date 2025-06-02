@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 
-import { PipeErrorMessages } from '../../../src/common/constants/error-messages/pipe-error-messages';
+import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
 import { ParseUuidPipe } from '../../../src/common/pipes/parse-uuid.pipe';
 
 describe('ParseUuidPipe', () => {
@@ -17,29 +17,29 @@ describe('ParseUuidPipe', () => {
 
   it('should throw BadRequestException for empty string', () => {
     expect(() => pipe.transform('')).toThrow(BadRequestException);
-    expect(() => pipe.transform('')).toThrow(PipeErrorMessages.UUID.REQUIRED);
+    expect(() => pipe.transform('')).toThrow(ValidationErrorMessages.UUID.REQUIRED);
   });
 
   it('should throw BadRequestException for undefined', () => {
     expect(() => pipe.transform(undefined as any)).toThrow(BadRequestException);
-    expect(() => pipe.transform(undefined as any)).toThrow(PipeErrorMessages.UUID.REQUIRED);
+    expect(() => pipe.transform(undefined as any)).toThrow(ValidationErrorMessages.UUID.REQUIRED);
   });
 
   it('should throw BadRequestException for null', () => {
     expect(() => pipe.transform(null as any)).toThrow(BadRequestException);
-    expect(() => pipe.transform(null as any)).toThrow(PipeErrorMessages.UUID.REQUIRED);
+    expect(() => pipe.transform(null as any)).toThrow(ValidationErrorMessages.UUID.REQUIRED);
   });
 
   it('should throw BadRequestException for invalid UUID format', () => {
     const invalidUuid = 'not-a-valid-uuid';
     expect(() => pipe.transform(invalidUuid)).toThrow(BadRequestException);
     expect(() => pipe.transform(invalidUuid)).toThrow(
-      PipeErrorMessages.UUID.INVALID_TYPE(invalidUuid),
+      ValidationErrorMessages.UUID.INVALID_TYPE(invalidUuid),
     );
   });
 
   it('should throw BadRequestException for non-string types', () => {
     expect(() => pipe.transform(123 as any)).toThrow(BadRequestException);
-    expect(() => pipe.transform(123 as any)).toThrow(PipeErrorMessages.UUID.MUST_BE_STRING);
+    expect(() => pipe.transform(123 as any)).toThrow(ValidationErrorMessages.UUID.MUST_BE_STRING);
   });
 });
