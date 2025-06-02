@@ -1,6 +1,7 @@
 import { BadRequestException } from '@nestjs/common';
-import { Name } from '../../../src/common/value-objects/name.vo';
+
 import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
+import { Name } from '../../../src/common/value-objects/name.vo';
 
 describe('Name', () => {
   it('should throw if name is not a string', () => {
@@ -25,6 +26,14 @@ describe('Name', () => {
     const longName = 'a'.repeat(Name.maxLength) + 1;
     expect(() => new Name(longName)).toThrow(BadRequestException);
     expect(() => new Name(longName)).toThrow(ValidationErrorMessages.NAME.TOO_LONG(Name.maxLength));
+  });
+
+  it(`should throw if name is shorter than ${Name.minLength} characters`, () => {
+    const shortName = 'Jon';
+    expect(() => new Name(shortName)).toThrow(BadRequestException);
+    expect(() => new Name(shortName)).toThrow(
+      ValidationErrorMessages.NAME.TOO_SHORT(Name.minLength),
+    );
   });
 
   it('should throw if name contains invalid characters', () => {

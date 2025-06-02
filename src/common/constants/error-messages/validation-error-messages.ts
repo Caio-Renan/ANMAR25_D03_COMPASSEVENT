@@ -36,6 +36,7 @@ type ValidationErrorMessagesType = {
   NAME: {
     REQUIRED: string;
     INVALID_TYPE: string;
+    TOO_SHORT: MessageWithParams<[number]>;
     TOO_LONG: MessageWithParams<[number]>;
     INVALID_CHARACTERS: string;
   };
@@ -50,6 +51,11 @@ type ValidationErrorMessagesType = {
     NOT_A_INTEGER: MessageWithParams<[unknown]>;
     TOO_SMALL: MessageWithParams<[unknown]>;
     TOO_LARGE: MessageWithParams<[unknown]>;
+  };
+  UUID: {
+    REQUIRED: string;
+    MUST_BE_STRING: string;
+    INVALID_TYPE: MessageWithParams<[unknown]>;
   };
 };
 
@@ -93,6 +99,7 @@ export const ValidationErrorMessages: ValidationErrorMessagesType = {
     INVALID_TYPE: 'Name must be a string.',
     TOO_LONG: (maxLength: number) => `Name must be at most ${maxLength} characters long.`,
     INVALID_CHARACTERS: 'Name must contain only letters, spaces, dots, apostrophes, or hyphens.',
+    TOO_SHORT: (minLength: number) => `Name must be at least ${minLength} characters long.`,
   },
   VALID_INT: {
     NOT_A_NUMBER: (value: unknown) => `Value '${value}' is not a number.`,
@@ -100,6 +107,11 @@ export const ValidationErrorMessages: ValidationErrorMessagesType = {
     TOO_SMALL: (value: unknown) => `Value '${value}' must be greater than or equal to 1.`,
     TOO_LARGE: (value: unknown) =>
       `Value '${value}' must be less than or equal to ${Number.MAX_SAFE_INTEGER}.`,
+  },
+  UUID: {
+    REQUIRED: 'UUID is required and cannot be empty',
+    MUST_BE_STRING: 'UUID must be a string',
+    INVALID_TYPE: (value: unknown) => `'${value}' is not a valid UUID`,
   },
   VALID_ID: {} as ValidationErrorMessagesType['VALID_INT'],
 } as const;

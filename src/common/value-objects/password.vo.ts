@@ -1,39 +1,20 @@
 import { BadRequestException } from '@nestjs/common';
+
 import { ValidationErrorMessages } from '../constants/error-messages/validation-error-messages';
+
+const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/;
 
 export class Password {
   private readonly _value: string;
-  public static readonly minLength: number = 8;
-  public static readonly maxLength: number = 64;
+  public static readonly minLength = 8;
+  public static readonly maxLength = 64;
 
   constructor(password: unknown) {
-    if (typeof password !== 'string') {
-      throw new BadRequestException(ValidationErrorMessages.PASSWORD.INVALID_TYPE);
+    const error = Password.getValidationError(password);
+    if (error) {
+      throw new BadRequestException(error);
     }
-
-    const trimmed = password.trim();
-
-    if (!trimmed) {
-      throw new BadRequestException(ValidationErrorMessages.PASSWORD.REQUIRED);
-    }
-
-    if (trimmed.length < Password.minLength || trimmed.length > Password.maxLength) {
-      throw new BadRequestException(
-        ValidationErrorMessages.PASSWORD.LENGTH(Password.minLength, Password.maxLength),
-      );
-    }
-
-    if (/\s/.test(trimmed)) {
-      throw new BadRequestException(ValidationErrorMessages.PASSWORD.NO_SPACES_ALLOWED);
-    }
-
-    if (!/(?=.*[a-zA-Z])(?=.*[0-9])/.test(trimmed)) {
-      throw new BadRequestException(
-        ValidationErrorMessages.PASSWORD.MUST_CONTAIN_LETTERS_AND_NUMBERS,
-      );
-    }
-
-    this._value = trimmed;
+    this._value = password as string;
   }
 
   public get value(): string {
@@ -42,5 +23,33 @@ export class Password {
 
   public toString(): string {
     return this._value;
+  }
+
+  public static getValidationError(value: unknown): string | null {
+    if (typeof value !== 'string') {
+      return ValidationErrorMessages.PASSWORD.INVALID_TYPE;
+    }
+
+    if (value === '') {
+      return ValidationErrorMessages.PASSWORD.REQUIRED;
+    }
+
+    if (/\s/.test(value)) {
+      return ValidationErrorMessages.PASSWORD.NO_SPACES_ALLOWED;
+    }
+
+    if (value.length < Password.minLength || value.length > Password.maxLength) {
+      return ValidationErrorMessages.PASSWORD.LENGTH(Password.minLength, Password.maxLength);
+    }
+
+    if (!passwordRegex.test(value)) {
+      return ValidationErrorMessages.PASSWORD.MUST_CONTAIN_LETTERS_AND_NUMBERS;
+    }
+
+    return null;
+  }
+
+  public static isValid(value: unknown): boolean {
+    return Password.getValidationError(value) === null;
   }
 }

@@ -1,16 +1,16 @@
 import type { ValidationOptions } from 'class-validator';
 import { registerDecorator } from 'class-validator';
 
-import { passwordValidator } from './utils/password.util';
+import { uuidValidator } from './utils/valid-uuid.util';
 
-export function IsPassword(validationOptions?: ValidationOptions) {
+export function IsValidUuid(validationOptions?: ValidationOptions) {
   return function (object: object, propertyName: string) {
     registerDecorator({
-      name: 'isPassword',
+      name: 'isValidUuid',
       target: object.constructor,
       propertyName,
       options: validationOptions,
-      validator: passwordValidator,
+      validator: uuidValidator,
     });
   };
 }

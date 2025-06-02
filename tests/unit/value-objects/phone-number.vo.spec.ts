@@ -1,6 +1,7 @@
-import { PhoneNumber } from '../../../src/common/value-objects/phone-number.vo';
 import { BadRequestException } from '@nestjs/common';
+
 import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
+import { PhoneNumber } from '../../../src/common/value-objects/phone-number.vo';
 
 describe('Phone (International)', () => {
   it('should create valid phone numbers in international formats', () => {
