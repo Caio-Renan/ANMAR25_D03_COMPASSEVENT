@@ -1,29 +1,46 @@
 import { BadRequestException } from '@nestjs/common';
+
 import { ValidationErrorMessages } from '../constants/error-messages/validation-error-messages';
 
 export class ValidInt {
+  public static readonly minLength = 1;
+  public static readonly maxLength = Number.MAX_SAFE_INTEGER;
+
   public readonly value: number;
 
   constructor(value: string | number) {
-    const parsed = Number(value);
-
-    if (Number.isNaN(parsed)) {
-      throw new BadRequestException(ValidationErrorMessages.VALID_INT.NOT_A_NUMBER(value));
+    const error = ValidInt.getValidationError(value);
+    if (error) {
+      throw new BadRequestException(error);
     }
 
-    if (!Number.isInteger(parsed)) {
-      throw new BadRequestException(ValidationErrorMessages.VALID_INT.NOT_A_INTEGER(value));
+    this.value = typeof value === 'string' ? Number(value) : value;
+  }
+
+  static getValidationError(value: unknown): string | null {
+    if (typeof value === 'string' && value.trim() === '') {
+      return ValidationErrorMessages.VALID_INT.NOT_A_NUMBER(value);
     }
 
-    if (parsed < 1) {
-      throw new BadRequestException(ValidationErrorMessages.VALID_INT.TOO_SMALL(value));
+    const num = typeof value === 'string' ? Number(value) : value;
+
+    if (typeof num !== 'number' || Number.isNaN(num)) {
+      return ValidationErrorMessages.VALID_INT.NOT_A_NUMBER(value);
     }
 
-    if (parsed > Number.MAX_SAFE_INTEGER) {
-      throw new BadRequestException(ValidationErrorMessages.VALID_INT.TOO_LARGE(value));
+    if (!Number.isInteger(num)) {
+      return ValidationErrorMessages.VALID_INT.NOT_A_INTEGER(value);
     }
 
-    this.value = parsed;
+    if (num < ValidInt.minLength) {
+      return ValidationErrorMessages.VALID_INT.TOO_SMALL(value);
+    }
+
+    if (num > ValidInt.maxLength) {
+      return ValidationErrorMessages.VALID_INT.TOO_LARGE(value);
+    }
+
+    return null;
   }
 
   get number(): number {

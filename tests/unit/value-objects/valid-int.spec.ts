@@ -1,40 +1,59 @@
 import { BadRequestException } from '@nestjs/common';
-import { ValidInt } from '../../../src/common/value-objects/valid-int.vo';
+
 import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
+import { ValidInt } from '../../../src/common/value-objects/valid-int.vo';
 
 describe('ValidInt', () => {
-  it('should throw error if value is NaN', () => {
-    expect(() => new ValidInt('abc')).toThrow(BadRequestException);
-    expect(() => new ValidInt('abc')).toThrow(
-      ValidationErrorMessages.VALID_INT.NOT_A_NUMBER('abc'),
+  it('should throw if value is not a number', () => {
+    const invalidValues = [null, undefined, '', 'abc', {}, [], true, false, NaN];
+
+    invalidValues.forEach(value => {
+      expect(() => new ValidInt(value as any)).toThrow(BadRequestException);
+      expect(() => new ValidInt(value as any)).toThrow(
+        ValidationErrorMessages.VALID_INT.NOT_A_NUMBER(value),
+      );
+    });
+  });
+
+  it('should throw if value is not an integer (float)', () => {
+    const invalidValues = [1.1, '2.5', 100.99];
+
+    invalidValues.forEach(value => {
+      expect(() => new ValidInt(value as any)).toThrow(BadRequestException);
+      expect(() => new ValidInt(value as any)).toThrow(
+        ValidationErrorMessages.VALID_INT.NOT_A_INTEGER(value),
+      );
+    });
+  });
+
+  it('should throw if value is less than 1', () => {
+    const invalidValues = [0, -1, '-10', -9999];
+
+    invalidValues.forEach(value => {
+      expect(() => new ValidInt(value as any)).toThrow(BadRequestException);
+      expect(() => new ValidInt(value as any)).toThrow(
+        ValidationErrorMessages.VALID_INT.TOO_SMALL(value),
+      );
+    });
+  });
+
+  it('should throw if value is greater than MAX_SAFE_INTEGER', () => {
+    const invalidValue = ValidInt.maxLength + 1;
+
+    expect(() => new ValidInt(invalidValue)).toThrow(BadRequestException);
+    expect(() => new ValidInt(invalidValue)).toThrow(
+      ValidationErrorMessages.VALID_INT.TOO_LARGE(invalidValue),
     );
   });
 
-  it('should throw error if value is not an integer', () => {
-    expect(() => new ValidInt(1.5)).toThrow(BadRequestException);
-    expect(() => new ValidInt(1.5)).toThrow(ValidationErrorMessages.VALID_INT.NOT_A_INTEGER(1.5));
-  });
+  it('should accept valid integers as number or string', () => {
+    const validValues = [1, '1', 100, '999', ValidInt.maxLength.toString()];
 
-  it('should throw error if value is less than 1', () => {
-    expect(() => new ValidInt(0)).toThrow(BadRequestException);
-    expect(() => new ValidInt(0)).toThrow(ValidationErrorMessages.VALID_INT.TOO_SMALL(0));
-    expect(() => new ValidInt(-5)).toThrow(BadRequestException);
-    expect(() => new ValidInt(-5)).toThrow(ValidationErrorMessages.VALID_INT.TOO_SMALL(-5));
-  });
-
-  it('should throw error if value is greater than Number.MAX_SAFE_INTEGER', () => {
-    const tooBig = Number.MAX_SAFE_INTEGER + 1;
-    expect(() => new ValidInt(tooBig)).toThrow(BadRequestException);
-    expect(() => new ValidInt(tooBig)).toThrow(ValidationErrorMessages.VALID_INT.TOO_LARGE(tooBig));
-  });
-
-  it('should create instance with valid integer value', () => {
-    const valid = new ValidInt(100);
-    expect(valid.number).toBe(100);
-  });
-
-  it('should parse string number correctly', () => {
-    const valid = new ValidInt('123');
-    expect(valid.number).toBe(123);
+    validValues.forEach(value => {
+      const instance = new ValidInt(value as any);
+      expect(instance.value).toBe(Number(value));
+      expect(instance.number).toBe(Number(value));
+      expect(instance.toString()).toBe(String(Number(value)));
+    });
   });
 });
