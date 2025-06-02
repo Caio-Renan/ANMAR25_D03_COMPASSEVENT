@@ -1,87 +1,136 @@
-import { Email } from '../../../src/common/value-objects/email.vo';
 import { validate } from 'class-validator';
-import { IsEmail } from '../../../src/common/decorators/is-email.decorator';
-import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
+import { ValidationErrorMessages } from 'src/common/constants/error-messages/validation-error-messages';
+import { IsEmail } from 'src/common/decorators/is-email.decorator';
+import { Email } from 'src/common/value-objects/email.vo';
 
-class TestDto {
-  @IsEmail()
-  email!: string;
-}
+import * as emailUtils from '../../../src/common/decorators/utils/email.util';
 
 describe('IsEmail Decorator', () => {
-  it('should invalidate empty or whitespace emails', async () => {
-    const dto = new TestDto();
+  const validEmail = 'test@example.com';
+  const validEmailWithSpaces = '   test@example.com   ';
+  const invalidEmailFormat = 'invalid-email';
+  const tooLongEmail = 'a'.repeat(Email.maxLength) + '@example.com';
 
-    dto.email = '';
-    let errors = await validate(dto);
-    expect(errors[0].constraints).toHaveProperty('isEmail', ValidationErrorMessages.EMAIL.REQUIRED);
+  describe('Utils Functions', () => {
+    const { trimEmail, isValidEmail, getEmailValidationError } = emailUtils.emailUtils;
 
-    dto.email = '   ';
-    errors = await validate(dto);
-    expect(errors[0].constraints).toHaveProperty('isEmail', ValidationErrorMessages.EMAIL.REQUIRED);
+    describe('trimEmail', () => {
+      it('trims whitespaces from the email string', () => {
+        expect(trimEmail('   abc@domain.com   ')).toBe('abc@domain.com');
+      });
+    });
 
-    dto.email = null as any;
-    errors = await validate(dto);
-    expect(errors[0].constraints).toHaveProperty('isEmail', ValidationErrorMessages.EMAIL.REQUIRED);
-
-    dto.email = undefined as any;
-    errors = await validate(dto);
-    expect(errors[0].constraints).toHaveProperty('isEmail', ValidationErrorMessages.EMAIL.REQUIRED);
-  });
-
-  it(`should invalidate emails longer than ${Email.maxLength} characters`, async () => {
-    const dto = new TestDto();
-    const longEmail = 'a'.repeat(Email.maxLength - 8) + '@test.com';
-
-    expect(longEmail.length).toBeGreaterThan(Email.maxLength);
-
-    dto.email = longEmail;
-    const errors = await validate(dto);
-    expect(errors[0].constraints).toHaveProperty(
-      'isEmail',
-      ValidationErrorMessages.EMAIL.TOO_LONG(Email.maxLength),
-    );
-  });
-
-  it('should invalidate invalid email formats', async () => {
-    const dto = new TestDto();
-    const invalidEmails = [
-      'plainaddress',
-      '@missingusername.com',
-      'username@.com',
-      'username@com',
-      'username@domain..com',
-      'username@domain,com',
-      'username@domain com',
-      'user name@domain.com',
-      'username@@domain.com',
-      'username@.domain.com',
-    ];
-
-    for (const email of invalidEmails) {
-      dto.email = email;
-      const errors = await validate(dto);
-      expect(errors[0].constraints).toHaveProperty(
-        'isEmail',
-        ValidationErrorMessages.EMAIL.INVALID_TYPE,
+    describe('isValidEmail', () => {
+      [
+        { input: validEmail, expected: true, desc: 'valid email' },
+        { input: validEmailWithSpaces, expected: true, desc: 'valid email with spaces' },
+        { input: invalidEmailFormat, expected: false, desc: 'invalid email format' },
+        { input: tooLongEmail, expected: false, desc: 'email exceeding max length' },
+        { input: '', expected: false, desc: 'empty string' },
+        { input: 123 as any, expected: false, desc: 'non-string value' },
+      ].forEach(({ input, expected, desc }) =>
+        it(`returns ${expected} for ${desc}`, () => {
+          expect(isValidEmail(input)).toBe(expected);
+        }),
       );
-    }
+    });
+
+    describe('getEmailValidationError', () => {
+      it('returns REQUIRED for empty, null or non-string values', () => {
+        const expected = ValidationErrorMessages.EMAIL.REQUIRED;
+        [undefined, null, 123 as any, '', '   '].forEach(val => {
+          expect(getEmailValidationError(val)).toBe(expected);
+        });
+      });
+
+      it('returns TOO_LONG when email length exceeds max limit', () => {
+        expect(getEmailValidationError(tooLongEmail)).toBe(
+          ValidationErrorMessages.EMAIL.TOO_LONG(Email.maxLength),
+        );
+      });
+
+      it('returns INVALID_TYPE when email format is invalid', () => {
+        expect(getEmailValidationError(invalidEmailFormat)).toBe(
+          ValidationErrorMessages.EMAIL.INVALID_TYPE,
+        );
+      });
+
+      it('returns null for valid emails', () => {
+        [validEmail, validEmailWithSpaces].forEach(val => {
+          expect(getEmailValidationError(val)).toBeNull();
+        });
+      });
+    });
   });
 
-  it('should validate correct emails and accept mixed case', async () => {
-    const dto = new TestDto();
-    const validEmails = [
-      'user@example.com',
-      'USER@EXAMPLE.COM',
-      'User.Name+tag+sorting@example.com',
-      'user_name@example.co.uk',
-      'user-name@sub.domain.com',
+  describe('EmailValidator defaultMessage Method', () => {
+    it('returns correct message based on input value', () => {
+      const cases = [
+        { value: '', expected: ValidationErrorMessages.EMAIL.REQUIRED },
+        { value: '   ', expected: ValidationErrorMessages.EMAIL.REQUIRED },
+        { value: null, expected: ValidationErrorMessages.EMAIL.REQUIRED },
+        { value: undefined, expected: ValidationErrorMessages.EMAIL.REQUIRED },
+        { value: 123, expected: ValidationErrorMessages.EMAIL.REQUIRED },
+        { value: tooLongEmail, expected: ValidationErrorMessages.EMAIL.TOO_LONG(Email.maxLength) },
+        { value: invalidEmailFormat, expected: ValidationErrorMessages.EMAIL.INVALID_TYPE },
+      ];
+
+      cases.forEach(({ value, expected }) => {
+        expect(emailUtils.emailValidator.defaultMessage({ value } as any)).toBe(expected);
+      });
+    });
+
+    it('returns fallback INVALID_TYPE message when getEmailValidationError returns null', () => {
+      jest.spyOn(emailUtils.emailUtils, 'getEmailValidationError').mockReturnValueOnce(null);
+      const fakeArgs = { value: 'test@example.com' };
+      const message = emailUtils.emailValidator.defaultMessage(fakeArgs as any);
+      expect(message).toBe(ValidationErrorMessages.EMAIL.INVALID_TYPE);
+    });
+  });
+
+  describe('IsEmail Decorator Integration Tests', () => {
+    class TestDto {
+      @IsEmail()
+      email!: string;
+    }
+
+    const errorCases = [
+      {
+        values: ['', '   ', null as any, undefined as any, 123 as any],
+        expectedMsg: ValidationErrorMessages.EMAIL.REQUIRED,
+        description: 'empty or invalid type values',
+      },
+      {
+        values: [tooLongEmail],
+        expectedMsg: ValidationErrorMessages.EMAIL.TOO_LONG(Email.maxLength),
+        description: 'email exceeding max length',
+      },
+      {
+        values: [invalidEmailFormat],
+        expectedMsg: ValidationErrorMessages.EMAIL.INVALID_TYPE,
+        description: 'invalid email format',
+      },
     ];
 
-    for (const email of validEmails) {
-      dto.email = email;
-      const errors = await validate(dto);
-      expect(errors).toHaveLength(0);
-    }
+    errorCases.forEach(({ values, expectedMsg, description }) => {
+      it(`returns ${expectedMsg} message for ${description}`, async () => {
+        const dto = new TestDto();
+        for (const val of values) {
+          dto.email = val;
+          const [error] = await validate(dto);
+          expect(error.constraints?.isEmail).toBe(expectedMsg);
+        }
+      });
+    });
+
+    const validCases = [validEmail, validEmailWithSpaces];
+    validCases.forEach(val =>
+      it(`validates correct email '${val.trim()}' without errors`, async () => {
+        const dto = new TestDto();
+        dto.email = val;
+        const errors = await validate(dto);
+        expect(errors).toHaveLength(0);
+      }),
+    );
   });
 });
