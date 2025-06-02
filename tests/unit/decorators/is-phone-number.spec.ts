@@ -1,6 +1,8 @@
 import { validate } from 'class-validator';
-import { IsPhoneNumber } from '../../../src/common/decorators/is-phone-number.decorator';
+
 import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
+import { IsPhoneNumber } from '../../../src/common/decorators/is-phone-number.decorator';
+import * as phoneUtil from '../../../src/common/decorators/utils/phone-number.util';
 
 class TestDto {
   @IsPhoneNumber()
@@ -8,39 +10,30 @@ class TestDto {
 }
 
 describe('IsPhoneNumber Decorator', () => {
-  it('should validate valid international phone numbers', async () => {
-    const dto = new TestDto();
-    const validPhones = [
-      '+5511999998888',
-      '+14155552671',
-      '+442071838750',
-      '+81312345678',
-      '+61234567890',
-    ];
+  const dto = new TestDto();
 
-    for (const phone of validPhones) {
+  it.each(['+5511999998888', '+14155552671', '+442071838750', '+81312345678', '+61234567890'])(
+    'should validate valid international phone number: %p',
+    async phone => {
       dto.phone = phone;
       const errors = await validate(dto);
       expect(errors).toHaveLength(0);
-    }
-  });
+    },
+  );
 
-  it('should invalidate empty or non-string values', async () => {
-    const dto = new TestDto();
-    const invalidValues = [null, undefined, '', 123, {}, true];
-
-    for (const value of invalidValues) {
+  it.each([null, undefined, '', 123, {}, true])(
+    'should invalidate empty, null or non-string value: %p',
+    async value => {
       dto.phone = value;
       const errors = await validate(dto);
       expect(errors[0].constraints).toHaveProperty(
         'isPhoneNumber',
         ValidationErrorMessages.PHONE_NUMBER.REQUIRED,
       );
-    }
-  });
+    },
+  );
 
-  it('should invalidate phone numbers not starting with +', async () => {
-    const dto = new TestDto();
+  it('should invalidate phone numbers not starting with "+"', async () => {
     dto.phone = '5511999998888';
     const errors = await validate(dto);
     expect(errors[0].constraints).toHaveProperty(
@@ -49,24 +42,68 @@ describe('IsPhoneNumber Decorator', () => {
     );
   });
 
-  it('should invalidate invalid phone numbers', async () => {
-    const dto = new TestDto();
-    const invalidPhones = [
-      '+123',
-      '++5511999998888',
-      '+5511abc99998888',
-      '+999999999999999999999',
-      '+phone12345',
-      '+999999999',
-    ];
+  it.each([
+    '+123',
+    '++5511999998888',
+    '+5511abc99998888',
+    '+999999999999999999999',
+    '+phone12345',
+    '+999999999',
+  ])('should invalidate invalid phone number format: %p', async phone => {
+    dto.phone = phone;
+    const errors = await validate(dto);
+    expect(errors[0].constraints).toHaveProperty(
+      'isPhoneNumber',
+      ValidationErrorMessages.PHONE_NUMBER.INVALID_TYPE,
+    );
+  });
 
-    for (const phone of invalidPhones) {
-      dto.phone = phone;
-      const errors = await validate(dto);
-      expect(errors[0].constraints).toHaveProperty(
-        'isPhoneNumber',
-        ValidationErrorMessages.PHONE_NUMBER.INVALID_TYPE,
+  it('should return fallback message when getPhoneNumberValidationError returns null', () => {
+    const spy = jest
+      .spyOn(phoneUtil.phoneNumberUtils, 'getPhoneNumberValidationError')
+      .mockReturnValue(null);
+
+    const fakeArgs = { value: '+anyvalue' } as any;
+    const message = phoneUtil.phoneNumberValidator.defaultMessage(fakeArgs);
+
+    expect(message).toBe(ValidationErrorMessages.PHONE_NUMBER.INVALID_TYPE);
+
+    spy.mockRestore();
+  });
+
+  describe('Phone Number Utility Functions', () => {
+    describe('isValidPhoneNumber', () => {
+      it.each(['+5511999998888', '+14155552671', '+442071838750', '+81312345678', '+61234567890'])(
+        'should return true for valid phone number: %p',
+        phone => {
+          expect(phoneUtil.phoneNumberUtils.isValidPhoneNumber(phone)).toBe(true);
+        },
       );
-    }
+
+      it.each([null, undefined, '', 123, {}, true])(
+        'should return false for empty, null, or non-string value: %p',
+        value => {
+          expect(phoneUtil.phoneNumberUtils.isValidPhoneNumber(value)).toBe(false);
+        },
+      );
+
+      it.each(['5511999998888', '1234567890', '00441234567890'])(
+        'should return false for phone numbers not starting with "+": %p',
+        phone => {
+          expect(phoneUtil.phoneNumberUtils.isValidPhoneNumber(phone)).toBe(false);
+        },
+      );
+
+      it.each([
+        '+123',
+        '++5511999998888',
+        '+5511abc99998888',
+        '+999999999999999999999',
+        '+phone12345',
+        '+999999999',
+      ])('should return false for invalid phone number format: %p', phone => {
+        expect(phoneUtil.phoneNumberUtils.isValidPhoneNumber(phone)).toBe(false);
+      });
+    });
   });
 });
