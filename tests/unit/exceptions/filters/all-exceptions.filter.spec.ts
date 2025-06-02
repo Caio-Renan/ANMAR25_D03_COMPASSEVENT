@@ -39,7 +39,7 @@ describe('AllExceptionsFilter', () => {
     expect(mockResponse.json).toHaveBeenCalledWith(
       expect.objectContaining({
         statusCode: HttpStatus.FORBIDDEN,
-        message: 'Forbidden',
+        message: ExceptionErrorMessages.FILTER_EXCEPTION.FORBIDDEN,
         path: path,
         timestamp: expect.any(String),
       }),
