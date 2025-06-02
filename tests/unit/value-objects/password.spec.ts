@@ -1,10 +1,11 @@
 import { BadRequestException } from '@nestjs/common';
-import { Password } from '../../../src/common/value-objects/password.vo';
-import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
 
-describe('Password', () => {
+import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
+import { Password } from '../../../src/common/value-objects/password.vo';
+
+describe('Password VO', () => {
   it('should throw if password is not a string', () => {
-    const invalidValues = [null, undefined, 12345678, true, {}];
+    const invalidValues = [null, undefined, 12345678, true, {}, [], Symbol('abc')];
 
     invalidValues.forEach(value => {
       expect(() => new Password(value as any)).toThrow(BadRequestException);
@@ -14,17 +15,22 @@ describe('Password', () => {
     });
   });
 
-  it('should throw if password is empty or only spaces', () => {
-    const invalidValues = ['', '    '];
+  it('should throw if password is empty string', () => {
+    expect(() => new Password('')).toThrow(BadRequestException);
+    expect(() => new Password('')).toThrow(ValidationErrorMessages.PASSWORD.REQUIRED);
+  });
+
+  it('should throw if password contains spaces', () => {
+    const invalidValues = [' ', '  ', ' abc123', 'abc1234 ', 'abc 12345'];
 
     invalidValues.forEach(value => {
       expect(() => new Password(value)).toThrow(BadRequestException);
-      expect(() => new Password(value)).toThrow(ValidationErrorMessages.PASSWORD.REQUIRED);
+      expect(() => new Password(value)).toThrow(ValidationErrorMessages.PASSWORD.NO_SPACES_ALLOWED);
     });
   });
 
   it(`should throw if password length is less than ${Password.minLength}`, () => {
-    const shortPassword = 'abc123';
+    const shortPassword = 'a1b2c';
     expect(() => new Password(shortPassword)).toThrow(BadRequestException);
     expect(() => new Password(shortPassword)).toThrow(
       ValidationErrorMessages.PASSWORD.LENGTH(Password.minLength, Password.maxLength),
@@ -32,18 +38,10 @@ describe('Password', () => {
   });
 
   it(`should throw if password length is greater than ${Password.maxLength}`, () => {
-    const longPassword = 'a'.repeat(Password.maxLength) + '1';
+    const longPassword = 'A1'.repeat(Math.ceil(Password.maxLength / 2)) + 'A';
     expect(() => new Password(longPassword)).toThrow(BadRequestException);
     expect(() => new Password(longPassword)).toThrow(
       ValidationErrorMessages.PASSWORD.LENGTH(Password.minLength, Password.maxLength),
-    );
-  });
-
-  it('should throw if password contains spaces inside', () => {
-    const passwordWithSpacesInside = 'abc 1234';
-    expect(() => new Password(passwordWithSpacesInside)).toThrow(BadRequestException);
-    expect(() => new Password(passwordWithSpacesInside)).toThrow(
-      ValidationErrorMessages.PASSWORD.NO_SPACES_ALLOWED,
     );
   });
 
@@ -58,16 +56,22 @@ describe('Password', () => {
     });
   });
 
-  it('should accept a valid password', () => {
-    const validPassword = 'abc12345';
-    const instance = new Password(validPassword);
-    expect(instance.value).toBe(validPassword);
-    expect(instance.toString()).toBe(validPassword);
+  it('should accept valid passwords', () => {
+    const validPasswords = ['abc12345', 'AbC98765', 'Test1234', 'a1b2c3d4'];
+
+    validPasswords.forEach(password => {
+      const instance = new Password(password);
+      expect(instance.value).toBe(password);
+      expect(instance.toString()).toBe(password);
+    });
   });
 
-  it('should trim whitespace from password', () => {
-    const passwordWithSpaces = '   abc12345   ';
-    const instance = new Password(passwordWithSpaces);
-    expect(instance.value).toBe('abc12345');
+  it('should validate using isValid and getValidationError', () => {
+    expect(Password.isValid('abc12345')).toBe(true);
+    expect(Password.isValid('12345678')).toBe(false);
+    expect(Password.getValidationError('12345678')).toBe(
+      ValidationErrorMessages.PASSWORD.MUST_CONTAIN_LETTERS_AND_NUMBERS,
+    );
+    expect(Password.getValidationError('abc12345')).toBeNull();
   });
 });
