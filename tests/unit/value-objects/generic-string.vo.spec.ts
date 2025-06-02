@@ -1,6 +1,7 @@
 import { BadRequestException } from '@nestjs/common';
-import { GenericString } from '../../../src/common/value-objects/generic-string.vo';
+
 import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
+import { GenericString } from '../../../src/common/value-objects/generic-string.vo';
 
 describe('GenericString', () => {
   it('should throw if value is not a string and not null/undefined', () => {
