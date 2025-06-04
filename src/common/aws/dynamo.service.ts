@@ -1,12 +1,13 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
 import type { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import {
+  DeleteCommand,
   GetCommand,
   PutCommand,
   QueryCommand,
-  DeleteCommand,
   UpdateCommand,
 } from '@aws-sdk/lib-dynamodb';
+import { Inject, Injectable, Logger } from '@nestjs/common';
+
 import { AWS_CLIENTS } from '../constants/aws.constants';
 import { AwsErrorMessages } from '../constants/error-messages/aws-error-messages';
 
@@ -16,7 +17,7 @@ export class DynamoService {
 
   constructor(
     @Inject(AWS_CLIENTS.DYNAMO_DOCUMENT)
-    private readonly dynamoClient: DynamoDBDocumentClient,
+    public readonly dynamoClient: DynamoDBDocumentClient,
   ) {}
 
   async get(params: GetCommand['input']) {
@@ -39,13 +40,11 @@ export class DynamoService {
   }
 
   async query(params: QueryCommand['input']) {
-    try {
-      const result = await this.dynamoClient.send(new QueryCommand(params));
-      return result.Items;
-    } catch (error) {
-      this.logger.error(AwsErrorMessages.DYNAMO_DB.QUERY_ERROR, error);
-      throw error;
-    }
+    const result = await this.dynamoClient.send(new QueryCommand(params));
+    return {
+      Items: result.Items || [],
+      LastEvaluatedKey: result.LastEvaluatedKey,
+    };
   }
 
   async delete(params: DeleteCommand['input']) {
