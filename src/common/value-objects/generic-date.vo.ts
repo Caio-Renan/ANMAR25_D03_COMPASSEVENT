@@ -1,4 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
+
 import { ValidationErrorMessages } from '../constants/error-messages/validation-error-messages';
 
 export class GenericDate {
@@ -9,7 +10,9 @@ export class GenericDate {
       throw new BadRequestException(ValidationErrorMessages.GENERIC_DATE.INVALID_TYPE);
     }
 
-    const date = value instanceof Date ? value : new Date(value);
+    const parsedValue = typeof value === 'string' ? value.trim() : value;
+
+    const date = parsedValue instanceof Date ? parsedValue : new Date(parsedValue);
 
     if (isNaN(date.getTime())) {
       throw new BadRequestException(ValidationErrorMessages.GENERIC_DATE.INVALID_VALUE(value));
