@@ -1,7 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
-import type { Construct } from 'constructs';
-import { Table, AttributeType, BillingMode, ProjectionType } from 'aws-cdk-lib/aws-dynamodb';
 import { Tags } from 'aws-cdk-lib';
+import { AttributeType, BillingMode, ProjectionType, Table } from 'aws-cdk-lib/aws-dynamodb';
+import type { Construct } from 'constructs';
 
 export class EventsStack extends cdk.Stack {
   public readonly eventsTable: Table;
@@ -17,8 +17,16 @@ export class EventsStack extends cdk.Stack {
     });
 
     this.eventsTable.addGlobalSecondaryIndex({
-      indexName: 'name-index',
+      indexName: 'name-id-index',
       partitionKey: { name: 'name', type: AttributeType.STRING },
+      sortKey: { name: 'id', type: AttributeType.STRING },
+      projectionType: ProjectionType.ALL,
+    });
+
+    this.eventsTable.addGlobalSecondaryIndex({
+      indexName: 'status-date-index',
+      partitionKey: { name: 'status', type: AttributeType.STRING },
+      sortKey: { name: 'date', type: AttributeType.STRING },
       projectionType: ProjectionType.ALL,
     });
 
