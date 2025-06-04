@@ -34,7 +34,6 @@ export class UserService {
 
     const { url } = await this.s3Service.uploadBase64Image(key, base64Image, base64Image.mimeType);
 
-    user.profileImageUrl = url;
     user.updatedAt = new Date();
 
     await this.userRepository.update(user);
@@ -47,15 +46,6 @@ export class UserService {
     if (existing) {
       throw new BadRequestException('Email already registered');
     }
-
-    const base64Image = new Base64Image(createUserDto.profileImageBase64);
-    const key = `profile-images/${uuidv4()}.jpg`;
-    const uploadResult = await this.s3Service.uploadBase64Image(
-      key,
-      base64Image,
-      base64Image.mimeType,
-    );
-    const profileImageUrl = uploadResult.url;
 
     const hashedPassword = await this.hashPassword(createUserDto.password);
     const passwordVo = new Password(hashedPassword, { isHashed: true });
@@ -72,7 +62,6 @@ export class UserService {
       status: Status.ACTIVE,
       createdAt: now,
       updatedAt: now,
-      profileImageUrl,
     });
 
     await this.userRepository.create(user);
@@ -101,19 +90,6 @@ export class UserService {
       }
     }
 
-    let profileImageUrl = user.profileImageUrl;
-
-    if (updateUserDto.profileImageBase64) {
-      const base64Image = new Base64Image(updateUserDto.profileImageBase64);
-      const key = `profile-images/${id}.jpg`;
-      const uploadResult = await this.s3Service.uploadBase64Image(
-        key,
-        base64Image,
-        base64Image.mimeType,
-      );
-      profileImageUrl = uploadResult.url;
-    }
-
     const updatedUser = new User({
       id: user.id,
       name: updateUserDto.name ? new Name(updateUserDto.name) : user.name,
@@ -126,7 +102,6 @@ export class UserService {
       status: user.status,
       createdAt: user.createdAt,
       updatedAt: new Date(),
-      profileImageUrl,
     });
 
     await this.userRepository.update(updatedUser);

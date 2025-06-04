@@ -33,7 +33,6 @@ export class UserRepository {
       role: user.role,
       status: user.status,
       updatedAt: user.updatedAt?.toISOString(),
-      profileImageUrl: user.profileImageUrl,
     };
 
     Object.keys(fieldsToUpdate).forEach(
@@ -176,7 +175,6 @@ export class UserRepository {
       status: user.status,
       createdAt: user.createdAt?.toISOString(),
       updatedAt: user.updatedAt?.toISOString(),
-      profileImageUrl: user.profileImageUrl,
     };
   }
 
@@ -191,7 +189,6 @@ export class UserRepository {
       status: item.status as Status,
       createdAt: item.createdAt ? new Date(item.createdAt) : undefined,
       updatedAt: item.updatedAt ? new Date(item.updatedAt) : undefined,
-      profileImageUrl: item.profileImageUrl,
     });
   }
 

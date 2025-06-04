@@ -31,9 +31,6 @@ export class User {
   @ApiProperty({ example: '2025-06-02T18:05:00.000Z' })
   updatedAt!: Date;
 
-  @ApiProperty({ example: 'https://bucket-name.s3.region.amazonaws.com/profile-image.png' })
-  profileImageUrl!: string;
-
   constructor(props: {
     id: string | Uuid;
     name: string | Name;
@@ -44,7 +41,6 @@ export class User {
     status: Status;
     createdAt?: string | Date;
     updatedAt?: string | Date;
-    profileImageUrl: string;
   }) {
     this.id = props.id instanceof Uuid ? props.id : new Uuid(props.id);
     this.name = props.name instanceof Name ? props.name : new Name(props.name);
@@ -67,7 +63,5 @@ export class User {
         : props.updatedAt
           ? new Date(props.updatedAt)
           : new Date();
-
-    this.profileImageUrl = props.profileImageUrl;
   }
 }

@@ -29,12 +29,6 @@ export class UserResponseDto {
   @ApiProperty({ example: '2025-06-02T18:05:00.000Z' })
   updatedAt!: string;
 
-  @ApiProperty({
-    example: 'https://your-bucket.s3.region.amazonaws.com/profile-image-key.png',
-    description: 'URL of the user profile image',
-  })
-  profileImageUrl?: string;
-
   constructor(user: User) {
     this.id = user.id.value;
     this.name = user.name.value;
@@ -44,6 +38,5 @@ export class UserResponseDto {
     this.status = user.status;
     this.createdAt = user.createdAt?.toISOString();
     this.updatedAt = user.updatedAt?.toISOString();
-    this.profileImageUrl = user.profileImageUrl;
   }
 }
