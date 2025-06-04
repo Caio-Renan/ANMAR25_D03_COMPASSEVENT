@@ -1,0 +1,5 @@
+export const AWS_CLIENTS = {
+  DYNAMO_DOCUMENT: 'DYNAMO_DOCUMENT_CLIENT',
+  S3: 'S3_CLIENT',
+  SES: 'SES_CLIENT',
+} as const;
