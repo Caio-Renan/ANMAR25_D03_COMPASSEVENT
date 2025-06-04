@@ -1,10 +1,11 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import helmet from 'helmet';
-import { LoggerService } from './common/logger/logger.service';
 import { ConfigService } from '@nestjs/config';
+import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import helmet from 'helmet';
+
+import { AppModule } from './app.module';
+import { LoggerService } from './common/logger/logger.service';
 
 async function bootstrap() {
   const logger = new LoggerService();
@@ -29,7 +30,17 @@ async function bootstrap() {
     const config = new DocumentBuilder()
       .setTitle('Compass Event API')
       .setDescription('API for managing users, events, and registrations')
-      .setVersion('0.0.1')
+      .setVersion('1.0.0')
+      .addBearerAuth(
+        {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+          name: 'Authorization',
+          in: 'header',
+        },
+        'bearer',
+      )
       .build();
 
     const document = SwaggerModule.createDocument(app, config);
