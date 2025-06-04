@@ -1,13 +1,13 @@
 import { BadRequestException } from '@nestjs/common';
 
 import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
-import { ParseUuidPipe } from '../../../src/common/pipes/parse-uuid.pipe';
+import { ParseUuidToValueObjectPipe } from '../../../src/common/pipes/parse-uuid-to-vo.pipe';
 
-describe('ParseUuidPipe', () => {
-  let pipe: ParseUuidPipe;
+describe('ParseUuidToValueObjectPipe', () => {
+  let pipe: ParseUuidToValueObjectPipe;
 
   beforeEach(() => {
-    pipe = new ParseUuidPipe();
+    pipe = new ParseUuidToValueObjectPipe();
   });
 
   it('should return value if it is a valid UUID', () => {
