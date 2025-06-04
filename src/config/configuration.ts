@@ -17,7 +17,7 @@ export default () => ({
     endpoint: process.env.AWS_DYNAMODB_ENDPOINT,
     usersTable: process.env.AWS_DYNAMODB_USERS_TABLE,
     eventsTable: process.env.AWS_DYNAMODB_EVENTS_TABLE,
-    registrationsTable: process.env.AWS_DYNAMODB_REGISTRATIONS_TABLE,
+    subscriptionsTable: process.env.AWS_DYNAMODB_SUBSCRIPTIONS_TABLE,
   },
 
   jwt: {
