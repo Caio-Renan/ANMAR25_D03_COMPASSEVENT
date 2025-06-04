@@ -4,8 +4,20 @@ import { APP_FILTER } from '@nestjs/core';
 
 import { AllExceptionsFilter } from './common/exceptions';
 import { LoggerModule } from './common/logger/logger.module';
+import configuration from './config/configuration';
+import { AuthModule } from './modules/auth/auth.module';
+import { EventModule } from './modules/event/event.module';
+import { SubscriptionModule } from './modules/subscription/subscription.module';
+import { UserModule } from './modules/user/user.module';
 @Module({
-  imports: [LoggerModule, ConfigModule.forRoot({ isGlobal: true })],
+  imports: [
+    UserModule,
+    EventModule,
+    SubscriptionModule,
+    LoggerModule,
+    AuthModule,
+    ConfigModule.forRoot({ isGlobal: true, load: [configuration] }),
+  ],
   controllers: [],
   providers: [
     {
