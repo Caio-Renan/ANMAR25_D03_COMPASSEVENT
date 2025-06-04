@@ -16,22 +16,25 @@ export class S3Service {
     private readonly s3Client: S3Client,
     private readonly configService: ConfigService,
   ) {
-    this.bucket = this.configService.getOrThrow<string>('aws.s3Bucket');
+    this.bucket = this.configService.getOrThrow<string>('aws.s3BucketName');
   }
 
-  async uploadFile(key: string, body: Buffer, contentType: string) {
+  async uploadBase64Image(key: string, base64Image: Base64Image, contentType: string) {
     const command = new PutObjectCommand({
       Bucket: this.bucket,
       Key: key,
-      Body: body,
+      Body: base64Image.toBuffer(),
       ContentType: contentType,
     });
 
     try {
       await this.s3Client.send(command);
-      return { key, url: this.getPublicUrl(key) };
+      return {
+        key,
+        url: this.getPublicUrl(key),
+      };
     } catch (error) {
-      this.logger.error(AwsErrorMessages.S3.UPLOAD_FILE_ERROR(key), error);
+      this.logger.error(AwsErrorMessages.S3.UPLOAD_BASE64_FILE_ERROR(key), error);
       throw error;
     }
   }
@@ -53,15 +56,5 @@ export class S3Service {
   getPublicUrl(key: string) {
     const region = this.configService.get<string>('aws.region');
     return `https://${this.bucket}.s3.${region}.amazonaws.com/${key}`;
-  }
-
-  async uploadBase64File(key: string, base64: string, contentType: string) {
-    try {
-      const buffer = new Base64Image(base64).toBuffer();
-      return await this.uploadFile(key, buffer, contentType);
-    } catch (error) {
-      this.logger.error(AwsErrorMessages.S3.UPLOAD_BASE64_FILE_ERROR(key), error);
-      throw error;
-    }
   }
 }
