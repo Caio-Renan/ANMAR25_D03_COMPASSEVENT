@@ -9,7 +9,7 @@ export default () => ({
     s3BucketName: process.env.AWS_S3_BUCKET_NAME,
     ses: {
       region: process.env.AWS_SES_REGION,
-      senderEmail: process.env.AWS_SES_SENDER_EMAIL,
+      fromEmail: process.env.AWS_SES_FROM_EMAIL,
     },
   },
 
