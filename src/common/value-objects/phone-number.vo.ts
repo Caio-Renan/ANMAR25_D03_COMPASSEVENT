@@ -1,5 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
+
 import { ValidationErrorMessages } from '../constants/error-messages/validation-error-messages';
 
 export class PhoneNumber {
@@ -23,11 +24,11 @@ export class PhoneNumber {
     this.phone = phoneNumber.number;
   }
 
-  public value(): string {
+  public get value(): string {
     return this.phone;
   }
 
   public toString(): string {
-    return this.value();
+    return this.value;
   }
 }

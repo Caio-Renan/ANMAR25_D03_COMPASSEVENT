@@ -1,7 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
-import type { Construct } from 'constructs';
-import { Table, AttributeType, BillingMode, ProjectionType } from 'aws-cdk-lib/aws-dynamodb';
 import { Tags } from 'aws-cdk-lib';
+import { AttributeType, BillingMode, ProjectionType, Table } from 'aws-cdk-lib/aws-dynamodb';
+import type { Construct } from 'constructs';
 
 export class UsersStack extends cdk.Stack {
   public readonly usersTable: Table;
@@ -19,6 +19,20 @@ export class UsersStack extends cdk.Stack {
     this.usersTable.addGlobalSecondaryIndex({
       indexName: 'email-index',
       partitionKey: { name: 'email', type: AttributeType.STRING },
+      projectionType: ProjectionType.ALL,
+    });
+
+    this.usersTable.addGlobalSecondaryIndex({
+      indexName: 'role-id-index',
+      partitionKey: { name: 'role', type: AttributeType.STRING },
+      sortKey: { name: 'id', type: AttributeType.STRING },
+      projectionType: ProjectionType.ALL,
+    });
+
+    this.usersTable.addGlobalSecondaryIndex({
+      indexName: 'status-id-index',
+      partitionKey: { name: 'status', type: AttributeType.STRING },
+      sortKey: { name: 'id', type: AttributeType.STRING },
       projectionType: ProjectionType.ALL,
     });
 

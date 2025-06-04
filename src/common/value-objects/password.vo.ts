@@ -9,12 +9,18 @@ export class Password {
   public static readonly minLength = 8;
   public static readonly maxLength = 64;
 
-  constructor(password: unknown) {
+  constructor(password: string, options?: { isHashed?: boolean }) {
+    if (options?.isHashed) {
+      this._value = password;
+      return;
+    }
+
     const error = Password.getValidationError(password);
     if (error) {
       throw new BadRequestException(error);
     }
-    this._value = password as string;
+
+    this._value = password;
   }
 
   public get value(): string {
