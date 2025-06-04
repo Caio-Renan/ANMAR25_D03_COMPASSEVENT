@@ -13,7 +13,7 @@ ANMAR25_D03_COMPASSEVENT is the initial development of a system for Compass Even
 - Node.js — JavaScript runtime
 - NestJS — Progressive Node.js framework for building scalable and maintainable server-side applications
 - TypeScript — Strongly typed programming language that builds on JavaScript
-- AWS SDK — Integration with AWS services like DynamoDB, S3, and SES
+- AWS SDK — Integration with AWS services like DynamoDB, S3, and SES *(incomplete)*
 - DynamoDB — NoSQL database service from AWS
 - S3 — Object storage service from AWS *(incomplete)*
 - SES (Simple Email Service) — Email sending service from AWS *(incomplete)*
@@ -60,7 +60,7 @@ Follow these steps to run the project locally:
 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-org/ANMAR25_D03_COMPASSEVENT.git
+git clone https://github.com/Caio-Renan/ANMAR25_D03_COMPASSEVENT.git
 cd ANMAR25_D03_COMPASSEVENT
 ```
 2. Install dependencies
@@ -106,7 +106,7 @@ npm run seed
 ```bash
 npm run start:dev
 ```
-8. 
+
 ## 🛠️ Available Scripts
 
 ![image](https://github.com/user-attachments/assets/a0c089e1-d4ab-4b83-9af0-d5a04e37d3f9)
@@ -130,8 +130,7 @@ src
 │   ├── logger
 │   ├── value-objects
 │   ├── interceptors
-│   ├── pipes
-│   └── utils
+│   └── pipes
 ├── modules
 │   ├── user
 │   │   ├── controllers
@@ -145,6 +144,8 @@ src
 │   │   ├── controllers
 │   │   ├── dtos
 │   │   ├── services
+│   │   ├── interfaces
+│   │   ├── strategies
 │   │   └── auth.module.ts
 │   ├── event
 │   │   ├── controllers
@@ -165,25 +166,18 @@ src
 │   └── mail
 │       ├── controllers
 │       ├── dtos
-│       ├── entities
-│       ├── repositories
+│       ├── enums
+│       ├── templates
 │       ├── services
 │       └── mail.module.ts
 tests
 ├── unit
-│   ├── modules
-│   │   ├── users
-│   │   ├── auth
-│   │   ├── events
-│   │   ├── subscriptions
-│   │   └── mail
 │   ├── decorators
-│   └── value-objects
-└── e2e
-    ├── users.e2e-spec.ts
-    ├── auth.e2e-spec.ts
-    ├── events.e2e-spec.ts
-    └── subscriptions.e2e-spec.ts
+│   ├── exceptions
+│   ├── guards
+│   ├── logger
+│   ├── value-objects
+│   └── ...
 scripts
 └── seed.ts
 infra
