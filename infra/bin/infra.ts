@@ -10,14 +10,16 @@ import { UsersStack } from '../lib/stacks/users-stack';
 
 const app = new cdk.App();
 
-new UsersStack(app, 'UsersStack', {
-  env: { account: process.env.AWS_ACCOUNT, region: process.env.AWS_REGION },
-});
+const env = {
+  account: process.env.AWS_ACCOUNT,
+  region: process.env.AWS_REGION,
+};
 
-new EventsStack(app, 'EventsStack', {
-  env: { account: process.env.AWS_ACCOUNT, region: process.env.AWS_REGION },
-});
+const usersStack = new UsersStack(app, 'UsersStack', { env });
+const eventsStack = new EventsStack(app, 'EventsStack', { env });
 
 new SubscriptionsStack(app, 'SubscriptionsStack', {
-  env: { account: process.env.AWS_ACCOUNT, region: process.env.AWS_REGION },
+  env,
+  usersTable: usersStack.usersTable,
+  eventsTable: eventsStack.eventsTable,
 });
