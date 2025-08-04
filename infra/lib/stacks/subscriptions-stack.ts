@@ -3,10 +3,15 @@ import { Tags } from 'aws-cdk-lib';
 import { AttributeType, BillingMode, ProjectionType, Table } from 'aws-cdk-lib/aws-dynamodb';
 import type { Construct } from 'constructs';
 
+interface SubscriptionsStackProps extends cdk.StackProps {
+  usersTable?: Table;
+  eventsTable?: Table;
+}
+
 export class SubscriptionsStack extends cdk.Stack {
   public readonly subscriptionsTable: Table;
 
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, props?: SubscriptionsStackProps) {
     super(scope, id, props);
 
     this.subscriptionsTable = new Table(this, 'SubscriptionsTable', {

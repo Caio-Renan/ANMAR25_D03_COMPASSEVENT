@@ -1,0 +1,8 @@
+#!/bin/bash
+# Export AWS temporary credentials as environment variables in bash
+
+export AWS_ACCESS_KEY_ID="ASIAYOURACCESSKEYID"
+export AWS_SECRET_ACCESS_KEY="yourSecretAccessKeyHere"
+export AWS_SESSION_TOKEN="yourSessionTokenHere"
+
+echo "AWS temporary credentials loaded successfully."
