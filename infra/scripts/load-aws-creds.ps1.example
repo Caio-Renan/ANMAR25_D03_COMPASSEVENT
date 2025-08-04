@@ -1,0 +1,7 @@
+# Set AWS temporary credentials as environment variables in PowerShell
+
+$env:AWS_ACCESS_KEY_ID = "ASIAYOURACCESSKEYID"
+$env:AWS_SECRET_ACCESS_KEY = "yourSecretAccessKeyHere"
+$env:AWS_SESSION_TOKEN = "yourSessionTokenHere"
+
+Write-Host "AWS temporary credentials loaded successfully."
