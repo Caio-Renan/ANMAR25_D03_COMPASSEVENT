@@ -40,11 +40,16 @@ export class DynamoService {
   }
 
   async query(params: QueryCommand['input']) {
-    const result = await this.dynamoClient.send(new QueryCommand(params));
-    return {
-      Items: result.Items || [],
-      LastEvaluatedKey: result.LastEvaluatedKey,
-    };
+    try {
+      const result = await this.dynamoClient.send(new QueryCommand(params));
+      return {
+        Items: result.Items || [],
+        LastEvaluatedKey: result.LastEvaluatedKey,
+      };
+    } catch (error) {
+      this.logger.error(AwsErrorMessages.DYNAMO_DB.QUERY_ERROR, error);
+      throw error;
+    }
   }
 
   async delete(params: DeleteCommand['input']) {

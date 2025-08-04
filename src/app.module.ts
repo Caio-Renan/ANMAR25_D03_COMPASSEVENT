@@ -16,7 +16,7 @@ import { UserModule } from './modules/user/user.module';
     SubscriptionModule,
     LoggerModule,
     AuthModule,
-    ConfigModule.forRoot({ isGlobal: true, load: [configuration] }),
+    ConfigModule.forRoot({ isGlobal: true, load: [configuration], envFilePath: '.env' }),
   ],
   controllers: [],
   providers: [
