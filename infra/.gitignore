@@ -6,3 +6,6 @@ node_modules
 # CDK asset staging directory
 .cdk.staging
 cdk.out
+
+load-aws-creds.ps1
+load-aws-creds.sh
