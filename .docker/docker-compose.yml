@@ -1,12 +1,32 @@
-version: '3.8'
+version: '3.9'
 
 services:
-  dynamodb-local:
+  api:
+    container_name: nest-api
+    build:
+      context: ..
+      dockerfile: .docker/Dockerfile
+    ports:
+      - '3000:3000'
+    env_file:
+      - ../.env
+    depends_on:
+      - dynamodb
+    networks:
+      - app-network
+
+  dynamodb:
     image: amazon/dynamodb-local
-    container_name: dynamodb-local
+    container_name: local-dynamodb
     ports:
       - '8000:8000'
+    networks:
+      - app-network
     volumes:
-      - ./dynamodb:/home/dynamodblocal/data
+      - ../dynamodb:/home/dynamodblocal/data
     working_dir: /home/dynamodblocal
     command: '-jar DynamoDBLocal.jar -sharedDb -dbPath ./data'
+
+networks:
+  app-network:
+    driver: bridge
