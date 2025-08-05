@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AwsModule } from 'src/config/aws/aws.module';
+import { AwsModule } from 'config/aws/aws.module';
 
 import { DynamoService } from '../../common/aws/dynamo.service';
 import { UserController } from './controllers/user.controller';

@@ -33,7 +33,7 @@ export class EmailService {
     subject: string,
     htmlBody: string,
     textBody?: string,
-    attachments?: { filename: string; content: string }[],
+    _attachments?: { filename: string; content: string }[],
   ) {
     if (!this.enabled) {
       this.logger.warn(`Email to ${to.join(',')} not sent. SES is disabled.`);

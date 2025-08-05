@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { Roles } from 'src/common/enums/roles.enum';
-import { Status } from 'src/common/enums/status.enum';
-import { GenericDate, GenericString, Uuid } from 'src/common/value-objects';
-import { UserRepository } from 'src/modules/user/repositories/user.repository';
+import { Roles } from 'common/enums/roles.enum';
+import { Status } from 'common/enums/status.enum';
+import { GenericDate, GenericString, Uuid } from 'common/value-objects';
+import { UserRepository } from 'modules/user/repositories/user.repository';
 import { v4 as uuidv4 } from 'uuid';
 
 import { CreateEventDto } from '../dtos/create-event.dto';

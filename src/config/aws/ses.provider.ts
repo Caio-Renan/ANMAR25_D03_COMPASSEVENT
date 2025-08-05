@@ -1,7 +1,7 @@
 import { SESClient } from '@aws-sdk/client-ses';
 import type { Provider } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { AWS_CLIENTS } from 'src/common/constants/aws.constants';
+import { AWS_CLIENTS } from 'common/constants/aws.constants';
 
 export const SESProvider: Provider = {
   provide: AWS_CLIENTS.SES,

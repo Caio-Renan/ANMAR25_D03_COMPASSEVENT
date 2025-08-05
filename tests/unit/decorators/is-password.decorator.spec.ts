@@ -1,5 +1,5 @@
 import { validate } from 'class-validator';
-import { IsPassword } from 'src/common/decorators/is-password.decorator';
+import { IsPassword } from 'common/decorators/is-password.decorator';
 
 import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
 import * as passwordUtilss from '../../../src/common/decorators/utils/password.util';

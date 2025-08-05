@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBase64Image } from 'src/common/decorators';
+import { IsBase64Image } from 'common/decorators';
 export class UploadProfileImageDto {
   @ApiProperty({
     description: 'Base64 encoded image',

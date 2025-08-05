@@ -1,4 +1,4 @@
-import type { MessageWithParams } from 'src/common/types/message-with-params.type';
+import type { MessageWithParams } from 'common/types/message-with-params.type';
 
 type ValidationErrorMessagesType = {
   EMAIL: {

@@ -1,5 +1,5 @@
 import { ValidationArguments } from 'class-validator';
-import { ValidationErrorMessages } from 'src/common/constants/error-messages/validation-error-messages';
+import { ValidationErrorMessages } from 'common/constants/error-messages/validation-error-messages';
 
 export const genericDateUtils = {
   trimDateInput(value: unknown): string | number | Date {

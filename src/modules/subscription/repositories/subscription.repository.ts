@@ -1,8 +1,8 @@
 import { QueryCommandInput } from '@aws-sdk/lib-dynamodb';
 import { Injectable } from '@nestjs/common';
-import { DynamoService } from 'src/common/aws/dynamo.service';
-import { Status } from 'src/common/enums/status.enum';
-import { Uuid } from 'src/common/value-objects';
+import { DynamoService } from 'common/aws/dynamo.service';
+import { Status } from 'common/enums/status.enum';
+import { Uuid } from 'common/value-objects';
 
 import { Subscription } from '../entities/subscription.entity';
 import { SubscriptionItem } from '../interfaces/subscription.interface';

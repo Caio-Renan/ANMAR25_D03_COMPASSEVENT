@@ -1,5 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { isEmail } from 'validator';
+
 import { ValidationErrorMessages } from '../constants/error-messages/validation-error-messages';
 
 export class Email {

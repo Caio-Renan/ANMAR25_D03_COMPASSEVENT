@@ -1,8 +1,8 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsEnum, IsInt, IsOptional, Max, Min } from 'class-validator';
-import { IsValidUuid } from 'src/common/decorators';
-import { Status } from 'src/common/enums/status.enum';
+import { IsValidUuid } from 'common/decorators';
+import { Status } from 'common/enums/status.enum';
 export class QuerySubscriptionsDto {
   @ApiPropertyOptional({ example: 'uuid-user-id', type: String })
   @IsOptional()

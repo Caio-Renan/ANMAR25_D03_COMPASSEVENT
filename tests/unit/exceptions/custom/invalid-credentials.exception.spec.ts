@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { ExceptionErrorMessages } from 'src/common/constants/error-messages/exception-error-messages';
+import { ExceptionErrorMessages } from 'common/constants/error-messages/exception-error-messages';
 
 import { InvalidCredentialsException } from '../../../../src/common/exceptions';
 

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Status } from 'src/common/enums/status.enum';
+import { Status } from 'common/enums/status.enum';
 
 import { Subscription } from '../entities/subscription.entity';
 

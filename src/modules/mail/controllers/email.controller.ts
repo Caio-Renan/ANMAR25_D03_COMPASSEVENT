@@ -18,7 +18,7 @@ export class EmailController {
         message: 'Email verified successfully',
         email: payload.email,
       };
-    } catch (error) {
+    } catch {
       throw new BadRequestException('Invalid or expired token');
     }
   }

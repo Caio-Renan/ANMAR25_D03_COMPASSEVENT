@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { Email } from 'src/common/value-objects/email.vo';
-import { Password } from 'src/common/value-objects/password.vo';
+import { Email } from 'common/value-objects/email.vo';
+import { Password } from 'common/value-objects/password.vo';
 
 import { LoginRequestDto } from '../dtos/login-request.dto';
 import { AuthService } from '../services/auth.service';

@@ -1,5 +1,5 @@
 import { validate } from 'class-validator';
-import { IsGenericDate } from 'src/common/decorators/is-generic-date.decorator';
+import { IsGenericDate } from 'common/decorators/is-generic-date.decorator';
 
 import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
 import * as genericDateUtils from '../../../src/common/decorators/utils/generic-date.util';
@@ -112,7 +112,7 @@ describe('IsGenericDate Decorator - Integration Validation', () => {
       [new Date(), 'Date object'],
       ['2023-01-01T00:00:00.000Z', 'date string'],
       [1685260800000, 'timestamp number'],
-    ])('validates valid %s without errors', async (value, description) => {
+    ])('validates valid %s without errors', async (value, _description) => {
       const dto = new TestDto();
       dto.date = value;
       const errors = await validate(dto);

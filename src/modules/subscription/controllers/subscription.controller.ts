@@ -12,15 +12,15 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CurrentUser } from 'src/common/decorators/current-user.decorator';
-import { RolesDecorator } from 'src/common/decorators/roles.decorator';
-import { Roles } from 'src/common/enums/roles.enum';
-import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
-import { RolesGuard } from 'src/common/guards/roles.guard';
-import { PaginationTokenPipe } from 'src/common/pipes/pagination-token.pipe';
-import { ParseUuidToValueObjectPipe } from 'src/common/pipes/parse-uuid-to-vo.pipe';
-import { Uuid } from 'src/common/value-objects';
-import { JwtPayload } from 'src/modules/auth/interfaces/jwt-payload.interface';
+import { CurrentUser } from 'common/decorators/current-user.decorator';
+import { RolesDecorator } from 'common/decorators/roles.decorator';
+import { Roles } from 'common/enums/roles.enum';
+import { JwtAuthGuard } from 'common/guards/jwt-auth.guard';
+import { RolesGuard } from 'common/guards/roles.guard';
+import { PaginationTokenPipe } from 'common/pipes/pagination-token.pipe';
+import { ParseUuidToValueObjectPipe } from 'common/pipes/parse-uuid-to-vo.pipe';
+import { Uuid } from 'common/value-objects';
+import { JwtPayload } from 'modules/auth/interfaces/jwt-payload.interface';
 
 import { CreateSubscriptionDto } from '../dtos/create-subscription.dto';
 import { QuerySubscriptionsDto } from '../dtos/query-subscriptions.dto';

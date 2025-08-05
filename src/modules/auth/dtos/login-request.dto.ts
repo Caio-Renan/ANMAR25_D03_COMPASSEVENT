@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsPassword } from 'src/common/decorators';
+import { IsEmail, IsPassword } from 'common/decorators';
 
 export class LoginRequestDto {
   @ApiProperty({ example: 'user@example.com' })

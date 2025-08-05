@@ -1,8 +1,8 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { DynamoService } from 'src/common/aws/dynamo.service';
-import { S3Service } from 'src/common/aws/s3.service';
-import { SESService } from 'src/common/aws/ses.service';
+import { DynamoService } from 'common/aws/dynamo.service';
+import { S3Service } from 'common/aws/s3.service';
+import { SESService } from 'common/aws/ses.service';
 
 import { DynamoProvider } from './dynamo.provider';
 import { S3Provider } from './s3.provider';

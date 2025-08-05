@@ -1,5 +1,5 @@
 import { validate } from 'class-validator';
-import { Name } from 'src/common/value-objects/name.vo';
+import { Name } from 'common/value-objects/name.vo';
 
 import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
 import { IsName } from '../../../src/common/decorators/is-name.decorator';

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsGenericDate, IsGenericString, IsValidUuid } from 'src/common/decorators';
+import { IsGenericDate, IsGenericString, IsValidUuid } from 'common/decorators';
 
 export class CreateEventDto {
   @ApiProperty({ example: 'Tech Conference 2025', type: String })

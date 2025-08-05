@@ -1,7 +1,7 @@
 import { validate } from 'class-validator';
-import { ValidationErrorMessages } from 'src/common/constants/error-messages/validation-error-messages';
-import { IsEmail } from 'src/common/decorators/is-email.decorator';
-import { Email } from 'src/common/value-objects/email.vo';
+import { ValidationErrorMessages } from 'common/constants/error-messages/validation-error-messages';
+import { IsEmail } from 'common/decorators/is-email.decorator';
+import { Email } from 'common/value-objects/email.vo';
 
 import * as emailUtils from '../../../src/common/decorators/utils/email.util';
 

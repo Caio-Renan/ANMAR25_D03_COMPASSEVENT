@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { Status } from 'src/common/enums/status.enum';
-import { Uuid } from 'src/common/value-objects';
-import { EventRepository } from 'src/modules/event/repositories/event.repository';
-import { UserRepository } from 'src/modules/user/repositories/user.repository';
+import { Status } from 'common/enums/status.enum';
+import { Uuid } from 'common/value-objects';
+import { EventRepository } from 'modules/event/repositories/event.repository';
+import { UserRepository } from 'modules/user/repositories/user.repository';
 import { v4 as uuidv4 } from 'uuid';
 
 import { CreateSubscriptionDto } from '../dtos/create-subscription.dto';

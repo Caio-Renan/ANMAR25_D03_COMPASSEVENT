@@ -1,6 +1,6 @@
 import { ValidationArguments } from 'class-validator';
-import { ValidationErrorMessages } from 'src/common/constants/error-messages/validation-error-messages';
-import { GenericString } from 'src/common/value-objects/generic-string.vo';
+import { ValidationErrorMessages } from 'common/constants/error-messages/validation-error-messages';
+import { GenericString } from 'common/value-objects/generic-string.vo';
 
 export const genericStringUtils = {
   trimString(value: unknown): string {

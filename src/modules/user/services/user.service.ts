@@ -1,9 +1,9 @@
 import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { S3Service } from 'src/common/aws/s3.service';
-import { Status } from 'src/common/enums/status.enum';
-import { Email, Name, Password, PhoneNumber, Uuid } from 'src/common/value-objects';
-import { Base64Image } from 'src/common/value-objects';
+import { S3Service } from 'common/aws/s3.service';
+import { Status } from 'common/enums/status.enum';
+import { Email, Name, Password, PhoneNumber, Uuid } from 'common/value-objects';
+import { Base64Image } from 'common/value-objects';
 import { v4 as uuidv4 } from 'uuid';
 
 import { CreateUserDto } from '../dtos/create-user.dto';
