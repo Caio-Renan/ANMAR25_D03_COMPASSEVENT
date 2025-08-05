@@ -10,7 +10,10 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "baseUrl": "./src",
+    "paths": {
+      "*": ["*"]
+    },
     "incremental": true,
     "strict": true,
     "skipLibCheck": true,
@@ -19,6 +22,6 @@
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src/**/*", "infra/**/*", "tests/**/*"],
+  "include": ["src/**/*", "scripts/**/*", "infra/**/*", "tests/**/*"],
   "exclude": ["node_modules", "dist"]
 }
