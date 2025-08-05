@@ -1,0 +1,14 @@
+version: '3.9'
+
+services:
+  api:
+    build:
+      target: dev
+    volumes:
+      - ../src:/usr/src/app/src
+      - ../package.json:/usr/src/app/package.json
+      - ../tsconfig.json:/usr/src/app/tsconfig.json
+      - ../tsconfig.build.json:/usr/src/app/tsconfig.build.json
+    command: npm run start:dev
+    environment:
+      - NODE_ENV=development
