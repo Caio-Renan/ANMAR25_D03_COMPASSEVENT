@@ -1,11 +1,10 @@
+import { EmailController } from '@mail/controllers/email.controller';
+import { EmailService } from '@mail/services/email.service';
+import { EmailTokenService } from '@mail/services/email-token.service';
+import { MailTemplateService } from '@mail/services/mail-template.service';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-
-import { EmailController } from './controllers/email.controller';
-import { EmailService } from './services/email.service';
-import { EmailTokenService } from './services/email-token.service';
-import { MailTemplateService } from './services/mail-template.service';
 
 @Module({
   imports: [

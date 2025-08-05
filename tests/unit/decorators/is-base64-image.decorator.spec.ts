@@ -1,8 +1,7 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
+import { IsBase64Image } from '@decorators/is-base64-image.decorator';
+import * as base64Utils from '@decorators/utils/base64-image.util';
 import { validate } from 'class-validator';
-
-import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
-import { IsBase64Image } from '../../../src/common/decorators/is-base64-image.decorator';
-import * as base64Utils from '../../../src/common/decorators/utils/base64-image.util';
 
 describe('IsBase64Image Decorator', () => {
   const validBase64 = 'YWJjZA==';

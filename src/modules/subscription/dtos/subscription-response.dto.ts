@@ -1,7 +1,6 @@
+import { Status } from '@enums/status.enum';
 import { ApiProperty } from '@nestjs/swagger';
-import { Status } from 'common/enums/status.enum';
-
-import { Subscription } from '../entities/subscription.entity';
+import { Subscription } from '@subscription/entities/subscription.entity';
 
 export class SubscriptionResponseDto {
   @ApiProperty({ example: 'uuid-v4-string' })

@@ -1,7 +1,6 @@
+import { ExceptionErrorMessages } from '@constants/error-messages/exception-error-messages';
+import { AccessDeniedException } from '@exceptions/index';
 import { HttpException, HttpStatus } from '@nestjs/common';
-
-import { ExceptionErrorMessages } from '../../../../src/common/constants/error-messages/exception-error-messages';
-import { AccessDeniedException } from '../../../../src/common/exceptions';
 
 describe('AccessDeniedException', () => {
   it('should create an HttpException with status 403 and proper message', () => {

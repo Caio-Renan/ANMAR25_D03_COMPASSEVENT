@@ -1,7 +1,6 @@
+import { ExceptionErrorMessages } from '@constants/error-messages/exception-error-messages';
+import { LoggerService } from '@logger/logger.service';
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
-
-import { ExceptionErrorMessages } from '../../constants/error-messages/exception-error-messages';
-import { LoggerService } from '../../logger/logger.service';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {

@@ -1,7 +1,6 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
 import { BadRequestException } from '@nestjs/common';
-
-import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
-import { Base64Image } from '../../../src/common/value-objects/base64-image.vo';
+import { Base64Image } from '@vo/base64-image.vo';
 
 describe('Base64Image', () => {
   const validBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAAUA';

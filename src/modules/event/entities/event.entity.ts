@@ -1,6 +1,6 @@
+import { Status } from '@enums/status.enum';
 import { ApiProperty } from '@nestjs/swagger';
-import { Status } from 'common/enums/status.enum';
-import { GenericDate, GenericString, Uuid } from 'common/value-objects';
+import { GenericDate, GenericString, Uuid } from '@vo/index';
 
 export class Event {
   @ApiProperty({ example: 'uuid-v4-string', type: String })

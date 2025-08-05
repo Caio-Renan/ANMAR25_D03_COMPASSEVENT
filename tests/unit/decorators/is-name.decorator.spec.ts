@@ -1,9 +1,8 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
+import { IsName } from '@decorators/is-name.decorator';
+import * as NameUtils from '@decorators/utils/name.util';
+import { Name } from '@vo/name.vo';
 import { validate } from 'class-validator';
-import { Name } from 'common/value-objects/name.vo';
-
-import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
-import { IsName } from '../../../src/common/decorators/is-name.decorator';
-import * as NameUtils from '../../../src/common/decorators/utils/name.util';
 
 class TestDto {
   @IsName()

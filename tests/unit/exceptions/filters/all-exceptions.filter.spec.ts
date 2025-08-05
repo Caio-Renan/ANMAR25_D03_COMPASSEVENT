@@ -1,8 +1,7 @@
+import { ExceptionErrorMessages } from '@constants/error-messages/exception-error-messages';
+import { AllExceptionsFilter } from '@exceptions/index';
+import { LoggerService } from '@logger/logger.service';
 import { ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
-import { ExceptionErrorMessages } from 'common/constants/error-messages/exception-error-messages';
-
-import { AllExceptionsFilter } from '../../../../src/common/exceptions';
-import { LoggerService } from '../../../../src/common/logger/logger.service';
 
 describe('AllExceptionsFilter', () => {
   let filter: AllExceptionsFilter;

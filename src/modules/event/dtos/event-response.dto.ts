@@ -1,7 +1,6 @@
+import { Status } from '@enums/status.enum';
+import { Event } from '@event/entities/event.entity';
 import { ApiProperty } from '@nestjs/swagger';
-import { Status } from 'common/enums/status.enum';
-
-import { Event } from '../entities/event.entity';
 
 export class EventResponseDto {
   @ApiProperty({ example: 'uuid-v4-string' })

@@ -1,7 +1,6 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
 import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
-
-import { ValidationErrorMessages } from '../constants/error-messages/validation-error-messages';
-import { Uuid } from '../value-objects';
+import { Uuid } from '@vo/index';
 
 @Injectable()
 export class ParseUuidToValueObjectPipe implements PipeTransform<string, Uuid> {

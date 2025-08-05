@@ -1,9 +1,8 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
+import { IsEmail } from '@decorators/is-email.decorator';
+import * as emailUtils from '@decorators/utils/email.util';
+import { Email } from '@vo/email.vo';
 import { validate } from 'class-validator';
-import { ValidationErrorMessages } from 'common/constants/error-messages/validation-error-messages';
-import { IsEmail } from 'common/decorators/is-email.decorator';
-import { Email } from 'common/value-objects/email.vo';
-
-import * as emailUtils from '../../../src/common/decorators/utils/email.util';
 
 describe('IsEmail Decorator', () => {
   const validEmail = 'test@example.com';

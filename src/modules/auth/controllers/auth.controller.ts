@@ -1,9 +1,8 @@
+import { LoginRequestDto } from '@auth/dtos/login-request.dto';
+import { AuthService } from '@auth/services/auth.service';
 import { Body, Controller, Post } from '@nestjs/common';
-import { Email } from 'common/value-objects/email.vo';
-import { Password } from 'common/value-objects/password.vo';
-
-import { LoginRequestDto } from '../dtos/login-request.dto';
-import { AuthService } from '../services/auth.service';
+import { Email } from '@vo/email.vo';
+import { Password } from '@vo/password.vo';
 
 @Controller('auth')
 export class AuthController {

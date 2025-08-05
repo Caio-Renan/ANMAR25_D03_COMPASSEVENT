@@ -1,7 +1,6 @@
+import { ExceptionErrorMessages } from '@constants/error-messages/exception-error-messages';
+import { InvalidCredentialsException } from '@exceptions/index';
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { ExceptionErrorMessages } from 'common/constants/error-messages/exception-error-messages';
-
-import { InvalidCredentialsException } from '../../../../src/common/exceptions';
 
 describe('InvalidCredentialsException', () => {
   it('should create an HttpException with status 401 and proper message', () => {

@@ -1,9 +1,9 @@
+import { Roles } from '@enums/roles.enum';
+import { Status } from '@enums/status.enum';
 import { ApiPropertyOptional } from '@nestjs/swagger';
+import { GenericString } from '@vo/index';
 import { Type } from 'class-transformer';
 import { IsEnum, IsInt, IsOptional, IsString, Max, MaxLength, Min } from 'class-validator';
-import { Roles } from 'common/enums/roles.enum';
-import { Status } from 'common/enums/status.enum';
-import { GenericString } from 'common/value-objects';
 export class QueryUsersDto {
   @ApiPropertyOptional({ example: 'James Michael', type: String })
   @IsOptional()

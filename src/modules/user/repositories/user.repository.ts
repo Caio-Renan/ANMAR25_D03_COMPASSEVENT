@@ -1,9 +1,9 @@
+import { DynamoService } from '@aws/dynamo.service';
 import { QueryCommandInput } from '@aws-sdk/lib-dynamodb';
+import { Roles } from '@enums/roles.enum';
+import { Status } from '@enums/status.enum';
 import { Injectable } from '@nestjs/common';
-import { DynamoService } from 'common/aws/dynamo.service';
-import { Roles } from 'common/enums/roles.enum';
-import { Status } from 'common/enums/status.enum';
-import { Email, Name, Password, PhoneNumber, Uuid } from 'common/value-objects';
+import { Email, Name, Password, PhoneNumber, Uuid } from '@vo/index';
 
 import { User } from '../entities/user.entity';
 import { UserItem } from '../interfaces/user.interface';

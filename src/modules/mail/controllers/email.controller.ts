@@ -1,6 +1,5 @@
+import { EmailTokenService } from '@mail/services/email-token.service';
 import { BadRequestException, Controller, Get, Query } from '@nestjs/common';
-
-import { EmailTokenService } from '../services/email-token.service';
 
 @Controller('email')
 export class EmailController {

@@ -1,8 +1,7 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
+import { IsGenericDate } from '@decorators/is-generic-date.decorator';
+import * as genericDateUtils from '@decorators/utils/generic-date.util';
 import { validate } from 'class-validator';
-import { IsGenericDate } from 'common/decorators/is-generic-date.decorator';
-
-import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
-import * as genericDateUtils from '../../../src/common/decorators/utils/generic-date.util';
 
 describe('IsGenericDate Decorator - Utils Functions', () => {
   const { trimDateInput, isValidDate, getDateValidationError } = genericDateUtils.genericDateUtils;

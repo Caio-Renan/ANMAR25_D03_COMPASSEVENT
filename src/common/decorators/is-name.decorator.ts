@@ -1,6 +1,5 @@
+import { nameValidator } from '@utils/name.util';
 import { registerDecorator, type ValidationOptions } from 'class-validator';
-
-import { nameValidator } from './utils/name.util';
 
 export function IsName(validationOptions?: ValidationOptions) {
   return function (object: object, propertyName: string) {

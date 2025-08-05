@@ -1,4 +1,4 @@
-import type { MessageWithParams } from 'common/types/message-with-params.type';
+import type { MessageWithParams } from '@shared-types/message-with-params.type';
 
 type AwsErrorMessagesType = {
   DYNAMO_DB: {

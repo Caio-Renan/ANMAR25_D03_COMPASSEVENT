@@ -1,9 +1,8 @@
 import { SendEmailCommand, SESClient } from '@aws-sdk/client-ses';
+import { AWS_CLIENTS } from '@constants/aws.constants';
+import { AwsErrorMessages } from '@constants/error-messages/aws-error-messages';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-
-import { AWS_CLIENTS } from '../constants/aws.constants';
-import { AwsErrorMessages } from '../constants/error-messages/aws-error-messages';
 
 export interface SendEmailPayload {
   to: string[];

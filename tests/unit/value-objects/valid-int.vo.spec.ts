@@ -1,7 +1,6 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
 import { BadRequestException } from '@nestjs/common';
-
-import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
-import { ValidInt } from '../../../src/common/value-objects/valid-int.vo';
+import { ValidInt } from '@vo/valid-int.vo';
 
 describe('ValidInt', () => {
   it('should throw if value is not a number', () => {

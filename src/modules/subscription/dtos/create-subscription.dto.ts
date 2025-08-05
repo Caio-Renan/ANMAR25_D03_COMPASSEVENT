@@ -1,5 +1,5 @@
+import { IsValidUuid } from '@decorators/index';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsValidUuid } from 'common/decorators';
 
 export class CreateSubscriptionDto {
   @ApiProperty({ example: 'uuid-user-id', type: String })

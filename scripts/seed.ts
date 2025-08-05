@@ -1,12 +1,11 @@
 import 'reflect-metadata';
 
+import { AppModule } from '@app/app.module';
+import { DynamoService } from '@aws/dynamo.service';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import * as bcrypt from 'bcrypt';
 import { config as loadEnv } from 'dotenv';
-
-import { AppModule } from '../src/app.module';
-import { DynamoService } from '../src/common/aws/dynamo.service';
 
 loadEnv();
 

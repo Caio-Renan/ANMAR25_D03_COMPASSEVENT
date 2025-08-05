@@ -1,10 +1,9 @@
 import { DeleteObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { AWS_CLIENTS } from '@constants/aws.constants';
+import { AwsErrorMessages } from '@constants/error-messages/aws-error-messages';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-
-import { AWS_CLIENTS } from '../constants/aws.constants';
-import { AwsErrorMessages } from '../constants/error-messages/aws-error-messages';
-import { Base64Image } from '../value-objects/base64-image.vo';
+import { Base64Image } from '@vo/base64-image.vo';
 
 @Injectable()
 export class S3Service {

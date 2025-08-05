@@ -1,6 +1,6 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
+import { ValidInt } from '@vo/valid-int.vo';
 import { ValidationArguments } from 'class-validator';
-import { ValidationErrorMessages } from 'common/constants/error-messages/validation-error-messages';
-import { ValidInt } from 'common/value-objects/valid-int.vo';
 
 export const validIntUtils = {
   isValidInt(value: unknown): boolean {

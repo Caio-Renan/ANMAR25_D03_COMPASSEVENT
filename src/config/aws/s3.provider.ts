@@ -1,7 +1,7 @@
 import { S3Client } from '@aws-sdk/client-s3';
+import { AWS_CLIENTS } from '@constants/aws.constants';
 import type { Provider } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { AWS_CLIENTS } from 'common/constants/aws.constants';
 
 export const S3Provider: Provider = {
   provide: AWS_CLIENTS.S3,

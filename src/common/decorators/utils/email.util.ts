@@ -1,6 +1,6 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
+import { Email } from '@vo/email.vo';
 import { ValidationArguments } from 'class-validator';
-import { ValidationErrorMessages } from 'common/constants/error-messages/validation-error-messages';
-import { Email } from 'common/value-objects/email.vo';
 import isEmail from 'validator/lib/isEmail';
 
 export const emailUtils = {

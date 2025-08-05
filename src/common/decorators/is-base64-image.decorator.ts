@@ -1,6 +1,5 @@
+import { base64ImageValidator } from '@utils/base64-image.util';
 import { registerDecorator, ValidationOptions } from 'class-validator';
-
-import { base64ImageValidator } from './utils/base64-image.util';
 
 export function IsBase64Image(validationOptions?: ValidationOptions) {
   return function (object: object, propertyName: string) {

@@ -1,7 +1,6 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
 import { BadRequestException } from '@nestjs/common';
-
-import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
-import { Email } from '../../../src/common/value-objects/email.vo';
+import { Email } from '@vo/email.vo';
 
 describe('Email', () => {
   it('should throw if email is empty or only whitespace', () => {

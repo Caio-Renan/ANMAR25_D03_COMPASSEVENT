@@ -1,6 +1,6 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
+import { Password } from '@vo/password.vo';
 import { ValidationArguments } from 'class-validator';
-import { ValidationErrorMessages } from 'common/constants/error-messages/validation-error-messages';
-import { Password } from 'common/value-objects/password.vo';
 
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/;
 

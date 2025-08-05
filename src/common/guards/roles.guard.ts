@@ -1,10 +1,9 @@
+import { ROLES_KEY } from '@decorators/roles.decorator';
+import { Roles } from '@enums/roles.enum';
+import { AccessDeniedException } from '@exceptions/custom/access-denied.exception';
+import { UserNotFoundException } from '@exceptions/custom/user-not-found.exception';
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-
-import { ROLES_KEY } from '../decorators/roles.decorator';
-import { Roles } from '../enums/roles.enum';
-import { AccessDeniedException } from '../exceptions/custom/access-denied.exception';
-import { UserNotFoundException } from '../exceptions/custom/user-not-found.exception';
 
 @Injectable()
 export class RolesGuard implements CanActivate {

@@ -1,5 +1,5 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
 import { ValidationArguments } from 'class-validator';
-import { ValidationErrorMessages } from 'common/constants/error-messages/validation-error-messages';
 
 const BASE64_REGEX = /^[A-Za-z0-9+/]+={0,2}$/;
 

@@ -1,7 +1,6 @@
+import { ExceptionErrorMessages } from '@constants/error-messages/exception-error-messages';
+import { UserNotFoundException } from '@exceptions/index';
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { ExceptionErrorMessages } from 'common/constants/error-messages/exception-error-messages';
-
-import { UserNotFoundException } from '../../../../src/common/exceptions';
 
 describe('UserNotFoundException', () => {
   it('should create an HttpException with status 404 and proper message', () => {

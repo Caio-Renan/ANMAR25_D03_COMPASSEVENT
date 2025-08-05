@@ -1,9 +1,8 @@
 import { DynamoDBClient, DynamoDBClientConfig } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
+import { AWS_CLIENTS } from '@constants/aws.constants';
 import type { Provider } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-
-import { AWS_CLIENTS } from '../../common/constants/aws.constants';
 
 export const DynamoProvider: Provider = {
   provide: AWS_CLIENTS.DYNAMO_DOCUMENT,

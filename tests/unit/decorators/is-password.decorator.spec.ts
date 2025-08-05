@@ -1,9 +1,8 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
+import { IsPassword } from '@decorators/is-password.decorator';
+import * as passwordUtilss from '@decorators/utils/password.util';
+import { Password } from '@vo/password.vo';
 import { validate } from 'class-validator';
-import { IsPassword } from 'common/decorators/is-password.decorator';
-
-import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
-import * as passwordUtilss from '../../../src/common/decorators/utils/password.util';
-import { Password } from '../../../src/common/value-objects/password.vo';
 
 class TestDto {
   @IsPassword()

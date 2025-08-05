@@ -1,14 +1,13 @@
+import { AuthModule } from '@auth/auth.module';
+import configuration from '@config/configuration';
+import { EventModule } from '@event/event.module';
+import { AllExceptionsFilter } from '@exceptions/index';
+import { LoggerModule } from '@logger/logger.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
-
-import { AllExceptionsFilter } from './common/exceptions';
-import { LoggerModule } from './common/logger/logger.module';
-import configuration from './config/configuration';
-import { AuthModule } from './modules/auth/auth.module';
-import { EventModule } from './modules/event/event.module';
-import { SubscriptionModule } from './modules/subscription/subscription.module';
-import { UserModule } from './modules/user/user.module';
+import { SubscriptionModule } from '@subscription/subscription.module';
+import { UserModule } from '@user/user.module';
 @Module({
   imports: [
     UserModule,

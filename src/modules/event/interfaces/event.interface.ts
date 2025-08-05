@@ -1,4 +1,4 @@
-import { Status } from 'common/enums/status.enum';
+import { Status } from '@enums/status.enum';
 
 export interface EventItem {
   id: string;

@@ -1,7 +1,6 @@
+import { ROLES_KEY, RolesDecorator } from '@decorators/roles.decorator';
+import { Roles } from '@enums/roles.enum';
 import { Reflector } from '@nestjs/core';
-
-import { ROLES_KEY, RolesDecorator } from '../../../src/common/decorators/roles.decorator';
-import { Roles } from '../../../src/common/enums/roles.enum';
 
 describe('RolesDecorator', () => {
   it('should set metadata with the correct roles', () => {

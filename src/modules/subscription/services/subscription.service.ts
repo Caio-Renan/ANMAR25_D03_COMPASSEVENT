@@ -1,14 +1,13 @@
+import { Status } from '@enums/status.enum';
+import { EventRepository } from '@event/repositories/event.repository';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { Status } from 'common/enums/status.enum';
-import { Uuid } from 'common/value-objects';
-import { EventRepository } from 'modules/event/repositories/event.repository';
-import { UserRepository } from 'modules/user/repositories/user.repository';
+import { CreateSubscriptionDto } from '@subscription/dtos/create-subscription.dto';
+import { QuerySubscriptionsDto } from '@subscription/dtos/query-subscriptions.dto';
+import { Subscription } from '@subscription/entities/subscription.entity';
+import { SubscriptionRepository } from '@subscription/repositories/subscription.repository';
+import { UserRepository } from '@user/repositories/user.repository';
+import { Uuid } from '@vo/index';
 import { v4 as uuidv4 } from 'uuid';
-
-import { CreateSubscriptionDto } from '../dtos/create-subscription.dto';
-import { QuerySubscriptionsDto } from '../dtos/query-subscriptions.dto';
-import { Subscription } from '../entities/subscription.entity';
-import { SubscriptionRepository } from '../repositories/subscription.repository';
 
 @Injectable()
 export class SubscriptionService {

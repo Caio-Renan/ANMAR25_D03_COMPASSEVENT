@@ -1,6 +1,5 @@
+import { LoggerService } from '@logger/logger.service';
 import pino from 'pino';
-
-import { LoggerService } from '../../../src/common/logger/logger.service';
 
 jest.mock('pino');
 

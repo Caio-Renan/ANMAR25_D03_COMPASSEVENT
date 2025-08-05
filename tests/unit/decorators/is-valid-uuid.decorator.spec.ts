@@ -1,8 +1,7 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
+import { IsValidUuid } from '@decorators/is-valid-uuid.decorator';
+import * as uuidUtils from '@decorators/utils/valid-uuid.util';
 import { validate, ValidationArguments } from 'class-validator';
-
-import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
-import { IsValidUuid } from '../../../src/common/decorators/is-valid-uuid.decorator';
-import * as uuidUtils from '../../../src/common/decorators/utils/valid-uuid.util';
 
 class TestDto {
   @IsValidUuid()

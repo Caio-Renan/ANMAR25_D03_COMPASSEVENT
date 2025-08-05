@@ -1,7 +1,6 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
 import { BadRequestException } from '@nestjs/common';
-
-import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
-import { Name } from '../../../src/common/value-objects/name.vo';
+import { Name } from '@vo/name.vo';
 
 describe('Name', () => {
   it('should throw if name is not a string', () => {
