@@ -1,27 +1,8 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "ES2023",
-    "lib": ["ES2023"],
-    "declaration": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./src",
-    "paths": {
-      "*": ["*"]
-    },
-    "incremental": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true,
-    "moduleResolution": "node",
-    "noFallthroughCasesInSwitch": true
+    "outDir": "dist"
   },
-  "include": ["src/**/*", "scripts/**/*", "infra/**/*", "tests/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "tests", "infra", "scripts"]
 }
