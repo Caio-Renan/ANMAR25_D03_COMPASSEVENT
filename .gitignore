@@ -139,3 +139,4 @@ dist
 # Docker
 .docker/package.json
 .docker/package-lock.json
+dynamodb/
