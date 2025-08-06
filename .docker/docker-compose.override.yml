@@ -9,6 +9,18 @@ services:
       - ../package.json:/usr/src/app/package.json
       - ../tsconfig.json:/usr/src/app/tsconfig.json
       - ../tsconfig.build.json:/usr/src/app/tsconfig.build.json
-    command: npm run start:dev
+    command: sh -c "npm run bootstrap-db && npm run start:dev"
     environment:
       - NODE_ENV=development
+      - DYNAMO_ENDPOINT=http://local-dynamodb:8000
+  dynamodb-admin:
+    image: aaronshaf/dynamodb-admin
+    container_name: dynamodb-admin
+    ports:
+      - '8001:8001'
+    environment:
+      - DYNAMO_ENDPOINT=http://local-dynamodb:8000
+    depends_on:
+      - dynamodb
+    networks:
+      - app-network
