@@ -14,7 +14,7 @@ export default () => ({
   },
 
   dynamodb: {
-    endpoint: process.env.AWS_DYNAMODB_ENDPOINT,
+    endpoint: process.env.DYNAMO_ENDPOINT,
     usersTable: process.env.AWS_DYNAMODB_USERS_TABLE,
     eventsTable: process.env.AWS_DYNAMODB_EVENTS_TABLE,
     subscriptionsTable: process.env.AWS_DYNAMODB_SUBSCRIPTIONS_TABLE,
