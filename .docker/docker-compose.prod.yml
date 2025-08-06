@@ -2,7 +2,7 @@ services:
   api:
     build:
       target: prod
-    volumes: [] # sem volumes
+    volumes: []
     command: node dist/main.js
     environment:
       - NODE_ENV=production
