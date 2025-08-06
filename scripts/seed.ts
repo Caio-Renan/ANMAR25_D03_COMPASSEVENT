@@ -11,21 +11,26 @@ loadEnv();
 
 const logger = new Logger('Seed');
 
-const USERS_TABLE = process.env.DYNAMODB_TABLE_USERS!;
+const USERS_TABLE = process.env.AWS_DYNAMODB_USERS_TABLE!;
 const EMAIL_INDEX = 'email-index';
 
 async function userExists(dynamoService: DynamoService, email: string): Promise<boolean> {
-  const result = await dynamoService.query({
-    TableName: USERS_TABLE,
-    IndexName: EMAIL_INDEX,
-    KeyConditionExpression: 'email = :email',
-    ExpressionAttributeValues: {
-      ':email': email,
-    },
-    Limit: 1,
-  });
+  try {
+    const result = await dynamoService.query({
+      TableName: USERS_TABLE,
+      IndexName: EMAIL_INDEX,
+      KeyConditionExpression: 'email = :email',
+      ExpressionAttributeValues: {
+        ':email': email,
+      },
+      Limit: 1,
+    });
 
-  return result.Items.length > 0;
+    return result.Items?.length > 0;
+  } catch (err) {
+    logger.error(`Failed to check user existence: ${err}`);
+    return false;
+  }
 }
 
 async function createUser(
@@ -42,8 +47,7 @@ async function createUser(
   const now = new Date().toISOString();
 
   const item = {
-    pk: `USER#${user.email}`,
-    sk: 'PROFILE',
+    id: `USER#${user.email}`,
     name: user.name,
     email: user.email,
     password: hashedPassword,
@@ -70,12 +74,16 @@ async function main() {
     const dynamoService = appContext.get(DynamoService);
 
     const defaultUser = {
-      name: process.env.DEFAULT_USER_NAME!,
-      email: process.env.DEFAULT_USER_EMAIL!,
-      password: process.env.DEFAULT_USER_PASSWORD!,
-      phone: process.env.DEFAULT_USER_PHONE!,
-      role: process.env.DEFAULT_USER_ROLE || 'ADMIN',
+      name: process.env.DEFAULT_ADMIN_NAME!,
+      email: process.env.DEFAULT_ADMIN_EMAIL!,
+      password: process.env.DEFAULT_ADMIN_PASSWORD!,
+      phone: process.env.DEFAULT_ADMIN_PHONE!,
+      role: 'ADMIN',
     };
+
+    if (!defaultUser.email || !defaultUser.password || !defaultUser.name || !defaultUser.phone) {
+      throw new Error('Missing required DEFAULT_USER_* env variables');
+    }
 
     const exists = await userExists(dynamoService, defaultUser.email);
 
