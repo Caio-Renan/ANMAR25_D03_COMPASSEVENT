@@ -1,13 +1,13 @@
-# Stage de desenvolvimento
-FROM node:20 AS dev
+# Development stage
+FROM node:20.19.2-alpine3.22 AS dev
 WORKDIR /usr/src/app
 COPY ../package*.json ./
 RUN npm install
 COPY ../ ./
 CMD ["npm", "run", "start:dev"]
 
-# Stage de produção
-FROM node:20 AS prod
+# Production stage
+FROM node:20.19.2-alpine3.22 AS prod
 WORKDIR /usr/src/app
 COPY ../package*.json ./
 RUN npm ci --omit=dev
