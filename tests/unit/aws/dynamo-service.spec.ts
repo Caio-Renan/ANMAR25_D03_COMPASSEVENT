@@ -1,15 +1,15 @@
-import type { TestingModule } from '@nestjs/testing';
-import { Test } from '@nestjs/testing';
-import { DynamoService } from '../../../src/common/aws/dynamo.service';
+import { DynamoService } from '@aws/dynamo.service';
 import {
+  DeleteCommand,
   GetCommand,
   PutCommand,
   QueryCommand,
-  DeleteCommand,
   UpdateCommand,
 } from '@aws-sdk/lib-dynamodb';
-import { AWS_CLIENTS } from '../../../src/common/constants/aws.constants';
-import { AwsErrorMessages } from 'src/common/constants/error-messages/aws-error-messages';
+import { AWS_CLIENTS } from '@constants/aws.constants';
+import { AwsErrorMessages } from '@constants/error-messages/aws-error-messages';
+import type { TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 
 describe('DynamoService', () => {
   let service: DynamoService;

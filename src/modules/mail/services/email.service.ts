@@ -1,9 +1,8 @@
 import { SendEmailCommand, SESClient } from '@aws-sdk/client-ses';
+import { AWS_CLIENTS } from '@constants/aws.constants';
+import { MailTemplateService } from '@mail/services/mail-template.service';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-
-import { AWS_CLIENTS } from '../../../common/constants/aws.constants';
-import { MailTemplateService } from './mail-template.service';
 
 @Injectable()
 export class EmailService {
@@ -33,7 +32,7 @@ export class EmailService {
     subject: string,
     htmlBody: string,
     textBody?: string,
-    attachments?: { filename: string; content: string }[],
+    _attachments?: { filename: string; content: string }[],
   ) {
     if (!this.enabled) {
       this.logger.warn(`Email to ${to.join(',')} not sent. SES is disabled.`);

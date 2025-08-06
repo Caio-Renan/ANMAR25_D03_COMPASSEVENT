@@ -1,0 +1,8 @@
+services:
+  api:
+    build:
+      target: prod
+    volumes: []
+    command: node dist/main.js
+    environment:
+      - NODE_ENV=production

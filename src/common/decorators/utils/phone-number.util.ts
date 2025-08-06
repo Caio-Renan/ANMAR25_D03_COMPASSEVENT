@@ -1,6 +1,6 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
 import { ValidationArguments } from 'class-validator';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
-import { ValidationErrorMessages } from 'src/common/constants/error-messages/validation-error-messages';
 
 export const phoneNumberUtils = {
   isValidPhoneNumber(value: unknown): boolean {

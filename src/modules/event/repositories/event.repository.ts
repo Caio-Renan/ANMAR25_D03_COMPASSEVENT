@@ -1,8 +1,8 @@
+import { DynamoService } from '@aws/dynamo.service';
 import { QueryCommandInput } from '@aws-sdk/lib-dynamodb';
+import { Status } from '@enums/status.enum';
 import { Injectable } from '@nestjs/common';
-import { DynamoService } from 'src/common/aws/dynamo.service';
-import { Status } from 'src/common/enums/status.enum';
-import { GenericDate, GenericString, Uuid } from 'src/common/value-objects';
+import { GenericDate, GenericString, Uuid } from '@vo/index';
 
 import { Event } from '../entities/event.entity';
 import { EventItem } from '../interfaces/event.interface';

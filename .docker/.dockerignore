@@ -1,0 +1,8 @@
+node_modules
+dist
+*.log
+*.tsbuildinfo
+.git
+.vscode
+.env
+docker-compose*.yml

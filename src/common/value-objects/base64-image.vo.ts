@@ -1,6 +1,5 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
 import { BadRequestException } from '@nestjs/common';
-
-import { ValidationErrorMessages } from '../constants/error-messages/validation-error-messages';
 
 export class Base64Image {
   public readonly value: string;

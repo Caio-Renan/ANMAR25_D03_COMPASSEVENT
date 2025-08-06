@@ -1,7 +1,6 @@
+import { EmailTemplate } from '@mail/enums/email-templates.enum';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
-
-import { EmailTemplate } from '../enums/email-templates.enum';
 
 export class SendEmailDto {
   @ApiProperty({ example: ['user@example.com'], description: 'Destination email addresses' })

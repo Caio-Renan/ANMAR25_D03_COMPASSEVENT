@@ -1,9 +1,8 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
+import { IsGenericString } from '@decorators/is-generic-string.decorator';
+import * as genericStringUtilss from '@decorators/utils/generic-string.util';
+import { GenericString } from '@vo/generic-string.vo';
 import { validate } from 'class-validator';
-import { IsGenericString } from 'src/common/decorators/is-generic-string.decorator';
-import { GenericString } from 'src/common/value-objects/generic-string.vo';
-
-import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
-import * as genericStringUtilss from '../../../src/common/decorators/utils/generic-string.util';
 
 class TestDto {
   @IsGenericString()

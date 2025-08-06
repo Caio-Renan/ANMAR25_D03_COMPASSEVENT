@@ -1,6 +1,6 @@
+import { Status } from '@enums/status.enum';
 import { ApiProperty } from '@nestjs/swagger';
-import { Status } from 'src/common/enums/status.enum';
-import { Uuid } from 'src/common/value-objects';
+import { Uuid } from '@vo/index';
 
 export class Subscription {
   @ApiProperty({ example: 'uuid-v4-string', type: String })

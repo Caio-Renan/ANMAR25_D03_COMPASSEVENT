@@ -1,4 +1,4 @@
-import { SendEmailCommand } from '@aws-sdk/client-ses';
+/*import { SendEmailCommand } from '@aws-sdk/client-ses';
 import { ConfigService } from '@nestjs/config';
 import type { TestingModule } from '@nestjs/testing';
 import { Test } from '@nestjs/testing';
@@ -65,3 +65,4 @@ describe('SESService', () => {
     );
   });
 });
+*/

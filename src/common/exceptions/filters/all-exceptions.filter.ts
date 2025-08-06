@@ -1,7 +1,6 @@
+import { ExceptionErrorMessages } from '@constants/error-messages/exception-error-messages';
+import { LoggerService } from '@logger/logger.service';
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
-
-import { ExceptionErrorMessages } from '../../constants/error-messages/exception-error-messages';
-import { LoggerService } from '../../logger/logger.service';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -19,12 +18,19 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     const responseMessage = exception instanceof HttpException ? exception.getResponse() : null;
 
-    const message =
-      typeof responseMessage === 'string'
-        ? responseMessage
-        : responseMessage && typeof responseMessage === 'object' && 'message' in responseMessage
-          ? (responseMessage as any).message
-          : ExceptionErrorMessages.FILTER_EXCEPTION.INTERNAL_SERVER_ERROR;
+    function hasMessageProperty(obj: unknown): obj is { message: string | string[] } {
+      return typeof obj === 'object' && obj !== null && 'message' in obj;
+    }
+
+    let message: string | string[];
+
+    if (typeof responseMessage === 'string') {
+      message = responseMessage;
+    } else if (hasMessageProperty(responseMessage)) {
+      message = responseMessage.message;
+    } else {
+      message = ExceptionErrorMessages.FILTER_EXCEPTION.INTERNAL_SERVER_ERROR;
+    }
 
     response.status(status).json({
       statusCode: status,

@@ -1,12 +1,11 @@
+import { DynamoService } from '@aws/dynamo.service';
+import { AwsModule } from '@config/aws/aws.module';
+import { EventController } from '@event/controllers/event.controller';
+import { EventRepository } from '@event/repositories/event.repository';
+import { EventService } from '@event/services/event.service';
 import { Module } from '@nestjs/common';
-import { AwsModule } from 'src/config/aws/aws.module';
-
-import { DynamoService } from '../../common/aws/dynamo.service';
-import { UserRepository } from '../user/repositories/user.repository';
-import { UserModule } from '../user/user.module';
-import { EventController } from './controllers/event.controller';
-import { EventRepository } from './repositories/event.repository';
-import { EventService } from './services/event.service';
+import { UserRepository } from '@user/repositories/user.repository';
+import { UserModule } from '@user/user.module';
 @Module({
   imports: [AwsModule, UserModule],
   controllers: [EventController],

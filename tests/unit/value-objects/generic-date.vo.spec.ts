@@ -1,7 +1,6 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
 import { BadRequestException } from '@nestjs/common';
-
-import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
-import { GenericDate } from '../../../src/common/value-objects/generic-date.vo';
+import { GenericDate } from '@vo/generic-date.vo';
 
 describe('GenericDate', () => {
   describe('Invalid types', () => {

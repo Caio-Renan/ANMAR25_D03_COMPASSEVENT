@@ -1,15 +1,26 @@
+import tseslint from 'typescript-eslint';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import unusedImports from 'eslint-plugin-unused-imports';
 import jestPlugin from 'eslint-plugin-jest';
-import tseslint from 'typescript-eslint';
 
+/** @type {import("eslint").Linter.FlatConfig[]} */
 export default [
-  ...tseslint.configs.recommended,
+  {
+    ignores: ['dist/**/*', 'coverage/**/*', 'node_modules/**/*'],
+  },
 
   {
     files: ['**/*.ts', '**/*.tsx'],
-    ignores: ['dist', 'node_modules', '.husky'],
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        project: './tsconfig.eslint.json',
+        sourceType: 'module',
+        ecmaVersion: 'latest',
+      },
+    },
     plugins: {
+      '@typescript-eslint': tseslint.plugin,
       'simple-import-sort': simpleImportSort,
       'unused-imports': unusedImports,
     },
@@ -29,7 +40,6 @@ export default [
           argsIgnorePattern: '^_',
         },
       ],
-
       'no-console': 'warn',
       'no-debugger': 'error',
     },
@@ -43,7 +53,6 @@ export default [
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       'no-console': 'off',
-
       'jest/no-disabled-tests': 'warn',
       'jest/no-focused-tests': 'error',
       'jest/no-identical-title': 'error',

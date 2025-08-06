@@ -1,7 +1,6 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
 import { BadRequestException } from '@nestjs/common';
 import { validate as isUuidValid } from 'uuid';
-
-import { ValidationErrorMessages } from '../constants/error-messages/validation-error-messages';
 
 export class Uuid {
   private readonly _value: string;

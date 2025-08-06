@@ -1,7 +1,6 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
 import { BadRequestException } from '@nestjs/common';
-
-import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
-import { Password } from '../../../src/common/value-objects/password.vo';
+import { Password } from '@vo/password.vo';
 
 describe('Password VO', () => {
   it('should throw if password is not a string', () => {

@@ -1,10 +1,10 @@
+import { IsGenericDate } from '@decorators/index';
+import { Status } from '@enums/status.enum';
 import { ApiPropertyOptional } from '@nestjs/swagger';
+import { GenericString } from '@vo/index';
 import { Type } from 'class-transformer';
 import { IsEnum, IsOptional } from 'class-validator';
 import { IsInt, IsString, Max, MaxLength, Min } from 'class-validator';
-import { IsGenericDate } from 'src/common/decorators';
-import { Status } from 'src/common/enums/status.enum';
-import { GenericString } from 'src/common/value-objects';
 
 export class QueryEventsDto {
   @ApiPropertyOptional({ example: 'Tech Conference 2025', type: String })

@@ -6,10 +6,9 @@ import {
   QueryCommand,
   UpdateCommand,
 } from '@aws-sdk/lib-dynamodb';
+import { AWS_CLIENTS } from '@constants/aws.constants';
+import { AwsErrorMessages } from '@constants/error-messages/aws-error-messages';
 import { Inject, Injectable, Logger } from '@nestjs/common';
-
-import { AWS_CLIENTS } from '../constants/aws.constants';
-import { AwsErrorMessages } from '../constants/error-messages/aws-error-messages';
 
 @Injectable()
 export class DynamoService {

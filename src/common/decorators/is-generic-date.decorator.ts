@@ -1,6 +1,5 @@
+import { genericDateValidator } from '@utils/generic-date.util';
 import { registerDecorator, ValidationOptions } from 'class-validator';
-
-import { genericDateValidator } from './utils/generic-date.util';
 
 export function IsGenericDate(validationOptions?: ValidationOptions) {
   return function (object: object, propertyName: string) {

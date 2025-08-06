@@ -1,11 +1,10 @@
+import { AppModule } from '@app/app.module';
+import { LoggerService } from '@logger/logger.service';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
-
-import { AppModule } from './app.module';
-import { LoggerService } from './common/logger/logger.service';
 
 async function bootstrap() {
   const logger = new LoggerService();

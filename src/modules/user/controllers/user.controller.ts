@@ -1,3 +1,9 @@
+import { JwtPayload } from '@auth/interfaces/jwt-payload.interface';
+import { CurrentUser } from '@decorators/current-user.decorator';
+import { RolesDecorator } from '@decorators/roles.decorator';
+import { Roles } from '@enums/roles.enum';
+import { JwtAuthGuard } from '@guards/jwt-auth.guard';
+import { RolesGuard } from '@guards/roles.guard';
 import {
   Body,
   Controller,
@@ -13,21 +19,14 @@ import {
 } from '@nestjs/common';
 import { ForbiddenException } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CurrentUser } from 'src/common/decorators/current-user.decorator';
-import { RolesDecorator } from 'src/common/decorators/roles.decorator';
-import { Roles } from 'src/common/enums/roles.enum';
-import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
-import { RolesGuard } from 'src/common/guards/roles.guard';
-import { PaginationTokenPipe } from 'src/common/pipes/pagination-token.pipe';
-import { ParseUuidToValueObjectPipe } from 'src/common/pipes/parse-uuid-to-vo.pipe';
-import { Uuid } from 'src/common/value-objects';
-import { JwtPayload } from 'src/modules/auth/interfaces/jwt-payload.interface';
-
-import { CreateUserDto } from '../dtos/create-user.dto';
-import { QueryUsersDto } from '../dtos/query-users.dto';
-import { UpdateUserDto } from '../dtos/update-user.dto';
-import { UserResponseDto } from '../dtos/user-response.dto';
-import { UserService } from '../services/user.service';
+import { PaginationTokenPipe } from '@pipes/pagination-token.pipe';
+import { ParseUuidToValueObjectPipe } from '@pipes/parse-uuid-to-vo.pipe';
+import { CreateUserDto } from '@user/dtos/create-user.dto';
+import { QueryUsersDto } from '@user/dtos/query-users.dto';
+import { UpdateUserDto } from '@user/dtos/update-user.dto';
+import { UserResponseDto } from '@user/dtos/user-response.dto';
+import { UserService } from '@user/services/user.service';
+import { Uuid } from '@vo/index';
 @ApiTags('Users')
 @ApiBearerAuth()
 @Controller('users')

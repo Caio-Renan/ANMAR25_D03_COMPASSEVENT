@@ -1,8 +1,7 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
+import { IsValidInt } from '@decorators/is-valid-int.decorator';
+import * as intUtil from '@decorators/utils/valid-int.util';
 import { validate } from 'class-validator';
-
-import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
-import { IsValidInt } from '../../../src/common/decorators/is-valid-int.decorator';
-import * as intUtil from '../../../src/common/decorators/utils/valid-int.util';
 
 class TestDto {
   @IsValidInt()

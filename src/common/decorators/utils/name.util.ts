@@ -1,6 +1,6 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
+import { Name } from '@vo/name.vo';
 import { ValidationArguments } from 'class-validator';
-import { ValidationErrorMessages } from 'src/common/constants/error-messages/validation-error-messages';
-import { Name } from 'src/common/value-objects/name.vo';
 
 const NAME_REGEX = /^[A-Za-zÀ-ÿ\s.'-]+$/;
 

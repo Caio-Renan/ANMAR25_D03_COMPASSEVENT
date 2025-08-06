@@ -1,7 +1,6 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
 import { BadRequestException } from '@nestjs/common';
-
-import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
-import { Uuid } from '../../../src/common/value-objects/uuid.vo';
+import { Uuid } from '@vo/uuid.vo';
 
 describe('Uuid', () => {
   const validUuid = '123e4567-e89b-12d3-a456-426614174000';

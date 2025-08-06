@@ -1,10 +1,9 @@
+import { DynamoService } from '@aws/dynamo.service';
+import { AwsModule } from '@config/aws/aws.module';
 import { Module } from '@nestjs/common';
-import { AwsModule } from 'src/config/aws/aws.module';
-
-import { DynamoService } from '../../common/aws/dynamo.service';
-import { UserController } from './controllers/user.controller';
-import { UserRepository } from './repositories/user.repository';
-import { UserService } from './services/user.service';
+import { UserController } from '@user/controllers/user.controller';
+import { UserRepository } from '@user/repositories/user.repository';
+import { UserService } from '@user/services/user.service';
 @Module({
   imports: [AwsModule],
   controllers: [UserController],

@@ -1,3 +1,14 @@
+import { JwtPayload } from '@auth/interfaces/jwt-payload.interface';
+import { CurrentUser } from '@decorators/current-user.decorator';
+import { RolesDecorator } from '@decorators/roles.decorator';
+import { Roles } from '@enums/roles.enum';
+import { CreateEventDto } from '@event/dtos/create-event.dto';
+import { EventResponseDto } from '@event/dtos/event-response.dto';
+import { QueryEventsDto } from '@event/dtos/query-events.dto';
+import { UpdateEventDto } from '@event/dtos/update-event.dto';
+import { EventService } from '@event/services/event.service';
+import { JwtAuthGuard } from '@guards/jwt-auth.guard';
+import { RolesGuard } from '@guards/roles.guard';
 import {
   Body,
   Controller,
@@ -13,21 +24,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CurrentUser } from 'src/common/decorators/current-user.decorator';
-import { RolesDecorator } from 'src/common/decorators/roles.decorator';
-import { Roles } from 'src/common/enums/roles.enum';
-import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
-import { RolesGuard } from 'src/common/guards/roles.guard';
-import { PaginationTokenPipe } from 'src/common/pipes/pagination-token.pipe';
-import { ParseUuidToValueObjectPipe } from 'src/common/pipes/parse-uuid-to-vo.pipe';
-import { Uuid } from 'src/common/value-objects';
-import { JwtPayload } from 'src/modules/auth/interfaces/jwt-payload.interface';
-
-import { CreateEventDto } from '../dtos/create-event.dto';
-import { EventResponseDto } from '../dtos/event-response.dto';
-import { QueryEventsDto } from '../dtos/query-events.dto';
-import { UpdateEventDto } from '../dtos/update-event.dto';
-import { EventService } from '../services/event.service';
+import { PaginationTokenPipe } from '@pipes/pagination-token.pipe';
+import { ParseUuidToValueObjectPipe } from '@pipes/parse-uuid-to-vo.pipe';
+import { Uuid } from '@vo/index';
 
 @ApiTags('Events')
 @ApiBearerAuth()

@@ -1,7 +1,6 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
 import { BadRequestException } from '@nestjs/common';
-
-import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
-import { ParseUuidToValueObjectPipe } from '../../../src/common/pipes/parse-uuid-to-vo.pipe';
+import { ParseUuidToValueObjectPipe } from '@pipes/parse-uuid-to-vo.pipe';
 
 describe('ParseUuidToValueObjectPipe', () => {
   let pipe: ParseUuidToValueObjectPipe;

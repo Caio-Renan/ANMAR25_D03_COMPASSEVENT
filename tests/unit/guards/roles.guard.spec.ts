@@ -1,10 +1,8 @@
+import { Roles } from '@enums/roles.enum';
+import { AccessDeniedException, UserNotFoundException } from '@exceptions/index';
+import { RolesGuard } from '@guards/roles.guard';
 import { ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { UserNotFoundException } from 'src/common/exceptions';
-import { AccessDeniedException } from 'src/common/exceptions/custom/access-denied.exception';
-
-import { Roles } from '../../../src/common/enums/roles.enum';
-import { RolesGuard } from '../../../src/common/guards/roles.guard';
 
 describe('RolesGuard', () => {
   let reflector: Reflector;

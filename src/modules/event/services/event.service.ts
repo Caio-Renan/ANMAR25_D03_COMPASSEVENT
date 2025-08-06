@@ -1,15 +1,14 @@
+import { Roles } from '@enums/roles.enum';
+import { Status } from '@enums/status.enum';
+import { CreateEventDto } from '@event/dtos/create-event.dto';
+import { QueryEventsDto } from '@event/dtos/query-events.dto';
+import { UpdateEventDto } from '@event/dtos/update-event.dto';
+import { Event } from '@event/entities/event.entity';
+import { EventRepository } from '@event/repositories/event.repository';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { Roles } from 'src/common/enums/roles.enum';
-import { Status } from 'src/common/enums/status.enum';
-import { GenericDate, GenericString, Uuid } from 'src/common/value-objects';
-import { UserRepository } from 'src/modules/user/repositories/user.repository';
+import { UserRepository } from '@user/repositories/user.repository';
+import { GenericDate, GenericString, Uuid } from '@vo/index';
 import { v4 as uuidv4 } from 'uuid';
-
-import { CreateEventDto } from '../dtos/create-event.dto';
-import { QueryEventsDto } from '../dtos/query-events.dto';
-import { UpdateEventDto } from '../dtos/update-event.dto';
-import { Event } from '../entities/event.entity';
-import { EventRepository } from '../repositories/event.repository';
 
 @Injectable()
 export class EventService {

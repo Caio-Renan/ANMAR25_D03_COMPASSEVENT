@@ -1,7 +1,6 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
 import { BadRequestException } from '@nestjs/common';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
-
-import { ValidationErrorMessages } from '../constants/error-messages/validation-error-messages';
 
 export class PhoneNumber {
   private readonly phone: string;

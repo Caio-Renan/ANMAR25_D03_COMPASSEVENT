@@ -1,8 +1,7 @@
+import { ValidationErrorMessages } from '@constants/error-messages/validation-error-messages';
+import { IsPhoneNumber } from '@decorators/is-phone-number.decorator';
+import * as phoneUtil from '@decorators/utils/phone-number.util';
 import { validate } from 'class-validator';
-
-import { ValidationErrorMessages } from '../../../src/common/constants/error-messages/validation-error-messages';
-import { IsPhoneNumber } from '../../../src/common/decorators/is-phone-number.decorator';
-import * as phoneUtil from '../../../src/common/decorators/utils/phone-number.util';
 
 class TestDto {
   @IsPhoneNumber()

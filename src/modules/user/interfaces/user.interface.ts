@@ -1,5 +1,5 @@
-import { Roles } from 'src/common/enums/roles.enum';
-import { Status } from 'src/common/enums/status.enum';
+import { Roles } from '@enums/roles.enum';
+import { Status } from '@enums/status.enum';
 
 export interface UserItem {
   id: string;

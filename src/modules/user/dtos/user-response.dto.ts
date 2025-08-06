@@ -1,8 +1,7 @@
+import { Roles } from '@enums/roles.enum';
+import { Status } from '@enums/status.enum';
 import { ApiProperty } from '@nestjs/swagger';
-import { Roles } from 'src/common/enums/roles.enum';
-import { Status } from 'src/common/enums/status.enum';
-
-import { User } from '../entities/user.entity';
+import { User } from '@user/entities/user.entity';
 
 export class UserResponseDto {
   @ApiProperty({ example: 'uuid-v4-string' })

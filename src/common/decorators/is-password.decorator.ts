@@ -1,7 +1,6 @@
+import { passwordValidator } from '@utils/password.util';
 import type { ValidationOptions } from 'class-validator';
 import { registerDecorator } from 'class-validator';
-
-import { passwordValidator } from './utils/password.util';
 
 export function IsPassword(validationOptions?: ValidationOptions) {
   return function (object: object, propertyName: string) {

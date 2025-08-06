@@ -1,7 +1,7 @@
+import { Roles } from '@enums/roles.enum';
+import { Status } from '@enums/status.enum';
 import { ApiProperty } from '@nestjs/swagger';
-import { Roles } from 'src/common/enums/roles.enum';
-import { Status } from 'src/common/enums/status.enum';
-import { Email, Name, Password, PhoneNumber, Uuid } from 'src/common/value-objects';
+import { Email, Name, Password, PhoneNumber, Uuid } from '@vo/index';
 
 export class User {
   @ApiProperty({ example: 'uuid-v4-string', type: String })
