@@ -1,4 +1,3 @@
-# *README SENT AFTER DEADLINE*
 ## ANMAR25_D03_COMPASSEVENT
 
 ## 📄 Overview
@@ -236,6 +235,7 @@ When using a query with limit, if the number of items exceeds the limit, a LastE
 ![Screenshot_23](https://github.com/user-attachments/assets/ac99cac2-9bea-4cf0-883b-150b89ea39b5)
 
 ![Screenshot_24](https://github.com/user-attachments/assets/9b88e00f-e4c1-43ac-b245-a8aae1c248b5)
+
 
 
 
