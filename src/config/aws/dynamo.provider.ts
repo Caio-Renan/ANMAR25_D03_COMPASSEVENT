@@ -19,6 +19,7 @@ export const DynamoProvider: Provider = {
         : {
             accessKeyId: configService.getOrThrow<string>('aws.accessKeyId'),
             secretAccessKey: configService.getOrThrow<string>('aws.secretAccessKey'),
+            sessionToken: configService.get<string>('aws.sessionToken'),
           },
       ...(isDev && {
         endpoint: configService.getOrThrow<string>('dynamodb.endpoint'),
