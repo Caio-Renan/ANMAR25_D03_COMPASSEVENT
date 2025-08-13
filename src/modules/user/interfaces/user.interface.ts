@@ -11,4 +11,5 @@ export interface UserItem {
   status: Status;
   createdAt?: string;
   updatedAt?: string;
+  profileImageUrl?: string;
 }
