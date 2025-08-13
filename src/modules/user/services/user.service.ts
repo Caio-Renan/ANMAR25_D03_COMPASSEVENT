@@ -6,7 +6,7 @@ import { QueryUsersDto } from '@user/dtos/query-users.dto';
 import { UpdateUserDto } from '@user/dtos/update-user.dto';
 import { User } from '@user/entities/user.entity';
 import { UserRepository } from '@user/repositories/user.repository';
-import { Base64Image, Email, Name, Password, PhoneNumber, Uuid } from '@vo/index';
+import { Base64Image, Email, Name, Password, PhoneNumber, ProfileImageUrl, Uuid } from '@vo/index';
 import * as bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 @Injectable()
@@ -63,6 +63,25 @@ export class UserService {
     });
 
     await this.userRepository.create(user);
+
+    if (createUserDto.profileImageBase64) {
+      const base64Image = new Base64Image(createUserDto.profileImageBase64);
+
+      const extension = base64Image.mimeType.split('/')[1];
+      const originalsFolder = this.s3Service.getUsersOriginalsFolder();
+      const key = `${originalsFolder}/${user.id.value}.${extension}`;
+
+      const { url } = await this.s3Service.uploadBase64Image(
+        key,
+        base64Image,
+        base64Image.mimeType,
+      );
+
+      user.profileImageUrl = new ProfileImageUrl(url);
+      user.updatedAt = new Date();
+      await this.userRepository.update(user);
+    }
+
     return user;
   }
 
