@@ -5,5 +5,6 @@ export * from './generic-string.vo';
 export * from './name.vo';
 export * from './password.vo';
 export * from './phone-number.vo';
+export * from './profile-image-url.vo';
 export * from './uuid.vo';
 export * from './valid-int.vo';

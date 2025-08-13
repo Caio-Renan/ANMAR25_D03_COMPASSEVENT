@@ -11,6 +11,7 @@ export const SESProvider: Provider = {
       credentials: {
         accessKeyId: configService.getOrThrow<string>('aws.accessKeyId'),
         secretAccessKey: configService.getOrThrow<string>('aws.secretAccessKey'),
+        sessionToken: configService.get<string>('aws.sessionToken'),
       },
     });
   },

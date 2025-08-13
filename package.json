@@ -27,10 +27,13 @@
     "seed": "ts-node -r tsconfig-paths/register scripts/seed.ts",
     "bootstrap-db": "ts-node -r tsconfig-paths/register scripts/create-local-tables.ts",
     "dev:up": "docker-compose -f .docker/docker-compose.yml -f .docker/docker-compose.override.yml up --build",
+    "dev:up:vault": "aws-vault exec compass-event-dev -- docker-compose -f .docker/docker-compose.yml -f .docker/docker-compose.override.yml up --build",
     "dev:down": "docker-compose -f .docker/docker-compose.yml -f .docker/docker-compose.override.yml down",
     "dev:restart": "npm run dev:down && npm run dev:up",
+    "dev:restart:vault": "npm run dev:down && npm run dev:up:vault",
     "dev:restart:light": "docker-compose -f .docker/docker-compose.yml -f .docker/docker-compose.override.yml restart",
     "dev:up:no-build": "docker-compose -f .docker/docker-compose.yml -f .docker/docker-compose.override.yml up -d",
+    "dev:up:no-build:vault": "aws-vault exec compass-event-dev -- docker-compose -f .docker/docker-compose.yml -f .docker/docker-compose.override.yml up -d",
     "dev:start": "docker-compose -f .docker/docker-compose.yml -f .docker/docker-compose.override.yml start",
     "dev:start:logs": "docker-compose -f .docker/docker-compose.yml -f .docker/docker-compose.override.yml start && docker-compose -f .docker/docker-compose.yml -f .docker/docker-compose.override.yml logs -f",
     "dev:reload": "docker-compose -f .docker/docker-compose.yml -f .docker/docker-compose.override.yml restart"

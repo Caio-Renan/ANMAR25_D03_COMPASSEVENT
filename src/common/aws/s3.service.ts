@@ -9,13 +9,21 @@ import { Base64Image } from '@vo/base64-image.vo';
 export class S3Service {
   private readonly bucket: string;
   private readonly logger = new Logger(S3Service.name);
+  private readonly usersOriginalsFolder: string;
+  private readonly usersResizedFolder: string;
+  private readonly eventsOriginalsFolder: string;
+  private readonly eventsResizedFolder: string;
 
   constructor(
     @Inject(AWS_CLIENTS.S3)
     private readonly s3Client: S3Client,
     private readonly configService: ConfigService,
   ) {
-    this.bucket = this.configService.getOrThrow<string>('aws.s3BucketName');
+    this.bucket = this.configService.getOrThrow<string>('s3.bucketName');
+    this.usersOriginalsFolder = this.configService.getOrThrow<string>('s3.usersFolderOriginals');
+    this.usersResizedFolder = this.configService.getOrThrow<string>('s3.usersFolderResized');
+    this.eventsOriginalsFolder = this.configService.getOrThrow<string>('s3.eventsFolderOriginals');
+    this.eventsResizedFolder = this.configService.getOrThrow<string>('s3.eventsFolderResized');
   }
 
   async uploadBase64Image(key: string, base64Image: Base64Image, contentType: string) {
@@ -55,5 +63,21 @@ export class S3Service {
   getPublicUrl(key: string) {
     const region = this.configService.get<string>('aws.region');
     return `https://${this.bucket}.s3.${region}.amazonaws.com/${key}`;
+  }
+
+  getUsersOriginalsFolder(): string {
+    return this.usersOriginalsFolder;
+  }
+
+  getUsersResizedFolder(): string {
+    return this.usersResizedFolder;
+  }
+
+  getEventsOriginalsFolder(): string {
+    return this.eventsOriginalsFolder;
+  }
+
+  getEventsResizedFolder(): string {
+    return this.eventsResizedFolder;
   }
 }
