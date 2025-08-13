@@ -175,6 +175,7 @@ export class UserRepository {
       status: user.status,
       createdAt: user.createdAt?.toISOString(),
       updatedAt: user.updatedAt?.toISOString(),
+      profileImageUrl: user.profileImageUrl?.value,
     };
   }
 
@@ -189,6 +190,7 @@ export class UserRepository {
       status: item.status as Status,
       createdAt: item.createdAt ? new Date(item.createdAt) : undefined,
       updatedAt: item.updatedAt ? new Date(item.updatedAt) : undefined,
+      profileImageUrl: item.profileImageUrl,
     });
   }
 
