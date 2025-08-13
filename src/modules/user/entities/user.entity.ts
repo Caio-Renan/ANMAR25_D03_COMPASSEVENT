@@ -2,6 +2,7 @@ import { Roles } from '@enums/roles.enum';
 import { Status } from '@enums/status.enum';
 import { ApiProperty } from '@nestjs/swagger';
 import { Email, Name, Password, PhoneNumber, Uuid } from '@vo/index';
+import { ProfileImageUrl } from '@vo/profile-image-url.vo';
 
 export class User {
   @ApiProperty({ example: 'uuid-v4-string', type: String })
@@ -31,6 +32,12 @@ export class User {
   @ApiProperty({ example: '2025-06-02T18:05:00.000Z' })
   updatedAt!: Date;
 
+  @ApiProperty({
+    example: 'https://bucket.s3.amazonaws.com/profile-images/uuid.jpg',
+    required: false,
+  })
+  profileImageUrl?: ProfileImageUrl;
+
   constructor(props: {
     id: string | Uuid;
     name: string | Name;
@@ -41,6 +48,7 @@ export class User {
     status: Status;
     createdAt?: string | Date;
     updatedAt?: string | Date;
+    profileImageUrl?: string | ProfileImageUrl;
   }) {
     this.id = props.id instanceof Uuid ? props.id : new Uuid(props.id);
     this.name = props.name instanceof Name ? props.name : new Name(props.name);
@@ -63,5 +71,12 @@ export class User {
         : props.updatedAt
           ? new Date(props.updatedAt)
           : new Date();
+
+    if (props.profileImageUrl) {
+      this.profileImageUrl =
+        props.profileImageUrl instanceof ProfileImageUrl
+          ? props.profileImageUrl
+          : new ProfileImageUrl(props.profileImageUrl);
+    }
   }
 }
