@@ -140,3 +140,6 @@ dist
 .docker/package.json
 .docker/package-lock.json
 dynamodb/
+
+# Infra
+*.zip
