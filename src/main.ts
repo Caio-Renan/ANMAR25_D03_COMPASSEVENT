@@ -4,6 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as bodyParser from 'body-parser';
 import helmet from 'helmet';
 
 async function bootstrap() {
@@ -25,6 +26,9 @@ async function bootstrap() {
         transform: true,
       }),
     );
+
+    app.use(bodyParser.json({ limit: '5mb' }));
+    app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 
     const config = new DocumentBuilder()
       .setTitle('Compass Event API')
