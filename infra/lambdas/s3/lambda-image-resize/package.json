@@ -1,0 +1,29 @@
+{
+  "name": "lambda-image-resize",
+  "version": "1.0.0",
+  "description": "Lambda to resize S3 images",
+  "type": "commonjs",
+  "main": "dist/handler.js",
+  "scripts": {
+    "clean": "rm -f lambda.zip",
+    "install-deps": "npm install",
+    "build": "tsc",
+    "prepare-deploy": "npm install --platform=linux --arch=arm64 sharp npm run install-deps && npm run build && npm run clean",
+    "deploy": "npm run prepare-deploy && aws-vault exec compass-event-dev -- node build-and-deploy.js"
+  },
+  "dependencies": {
+    "@aws-sdk/client-lambda": "^3.865.0",
+    "@aws-sdk/client-s3": "^3.500.0",
+    "dotenv": "^16.0.0",
+    "install-deps": "^1.1.0",
+    "npm": "^11.5.2",
+    "run": "^1.5.0",
+    "sharp": "^0.32.6"
+  },
+  "devDependencies": {
+    "@types/archiver": "^6.0.3",
+    "@types/node": "^20.4.0",
+    "archiver": "^5.3.2",
+    "typescript": "^5.2.2"
+  }
+}
