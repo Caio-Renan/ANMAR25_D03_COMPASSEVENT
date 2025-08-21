@@ -1,3 +1,4 @@
+import { EmailTemplate } from '@app/modules/mail/enums/email-templates.enum';
 import { EmailService } from '@app/modules/mail/services/email.service';
 import { EmailTokenService } from '@app/modules/mail/services/email-token.service';
 import { PasswordResetResponseDto } from '@auth/dtos/password-reset-response.dto';
@@ -118,6 +119,20 @@ export class UserService {
       user.updatedAt = new Date();
       await this.userRepository.update(user);
     }
+
+    const token = this.emailTokenService.generateEmailVerificationToken(user.email);
+
+    const globalPrefix = this.configService.get<string>('globalPrefix');
+
+    const appUrl = this.configService.get<string>('appUrl');
+
+    const verificationLink = `${appUrl}/${globalPrefix}/auth/verify-email?token=${token}`;
+
+    await this.emailService.sendEmail({
+      to: [user.email.toString()],
+      template: EmailTemplate.VERIFY_EMAIL,
+      variables: { url: verificationLink },
+    });
 
     return user;
   }
