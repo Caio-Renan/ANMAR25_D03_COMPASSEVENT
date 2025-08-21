@@ -1,6 +1,6 @@
 import { EmailTemplate } from '@mail/enums/email-templates.enum';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsEmail, IsEnum, IsObject, IsOptional } from 'class-validator';
 
 export class SendEmailDto {
   @ApiProperty({ example: ['user@example.com'], description: 'Destination email addresses' })
@@ -8,15 +8,15 @@ export class SendEmailDto {
   @IsEmail({}, { each: true })
   to!: string[];
 
-  @ApiProperty({ example: 'Welcome!', description: 'Email subject' })
-  @IsString()
-  subject!: string;
-
   @ApiProperty({ example: 'example', description: 'Template key' })
   @IsEnum(EmailTemplate)
   template!: EmailTemplate;
 
-  @ApiProperty({ example: { name: 'John' }, description: 'Template variables' })
+  @ApiProperty({
+    example: { url: 'https://app.com/verify?token=123' },
+    description: 'Template variables (depends on template)',
+  })
+  @IsObject()
   variables!: Record<string, unknown>;
 
   @ApiProperty({ example: ['cc@example.com'], required: false })
