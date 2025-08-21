@@ -1,6 +1,10 @@
+import { EmailService } from '@app/modules/mail/services/email.service';
+import { EmailTokenService } from '@app/modules/mail/services/email-token.service';
+import { PasswordResetResponseDto } from '@auth/dtos/password-reset-response.dto';
 import { S3Service } from '@aws/s3.service';
 import { Status } from '@enums/status.enum';
 import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { CreateUserDto } from '@user/dtos/create-user.dto';
 import { QueryUsersDto } from '@user/dtos/query-users.dto';
 import { UpdateUserDto } from '@user/dtos/update-user.dto';
@@ -17,9 +21,12 @@ export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly s3Service: S3Service,
+    private readonly emailTokenService: EmailTokenService,
+    private readonly emailService: EmailService,
+    private readonly configService: ConfigService,
   ) {}
 
-  private async hashPassword(plainPassword: string): Promise<string> {
+  async hashPassword(plainPassword: string): Promise<string> {
     return bcrypt.hash(plainPassword, UserService.saltRounds);
   }
 
@@ -37,6 +44,36 @@ export class UserService {
     await this.userRepository.update(user);
 
     return url;
+  }
+
+  async validateUserByEmail(email: Email): Promise<User> {
+    const user = await this.userRepository.findByEmail(email);
+    if (!user) throw new NotFoundException('User not found');
+    return user;
+  }
+
+  async validateUserByUuid(payload: Uuid): Promise<User> {
+    const user = await this.userRepository.findById(payload);
+    if (!user) throw new NotFoundException('User not found');
+    return user;
+  }
+
+  async generateNewPassword(user: User, newPassword: string): Promise<PasswordResetResponseDto> {
+    user.password = new Password(await this.hashPassword(newPassword));
+    user.updatedAt = new Date();
+    await this.userRepository.update(user);
+
+    return { message: 'Password reset successfully' };
+  }
+
+  async activateUserByEmail(email: Email): Promise<void> {
+    const user = await this.validateUserByEmail(email);
+
+    if (user.status === Status.ACTIVE) return;
+
+    user.status = Status.ACTIVE;
+    user.updatedAt = new Date();
+    await this.userRepository.update(user);
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -57,7 +94,7 @@ export class UserService {
       password: passwordVo,
       phone: new PhoneNumber(createUserDto.phone),
       role: createUserDto.role,
-      status: Status.ACTIVE,
+      status: Status.INACTIVE,
       createdAt: now,
       updatedAt: now,
     });
