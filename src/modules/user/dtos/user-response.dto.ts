@@ -19,7 +19,7 @@ export class UserResponseDto {
   @ApiProperty({ enum: [Roles.ORGANIZER, Roles.PARTICIPANT], example: Roles.PARTICIPANT })
   role!: Roles;
 
-  @ApiProperty({ enum: Status, example: Status.ACTIVE })
+  @ApiProperty({ enum: Status, example: Status.INACTIVE })
   status!: Status;
 
   @ApiProperty({ example: '2025-06-02T18:00:00.000Z' })

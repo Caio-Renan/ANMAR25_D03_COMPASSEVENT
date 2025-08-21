@@ -8,8 +8,10 @@ import { SubscriptionRepository } from '@subscription/repositories/subscription.
 import { SubscriptionService } from '@subscription/services/subscription.service';
 import { UserRepository } from '@user/repositories/user.repository';
 import { UserModule } from '@user/user.module';
+
+import { CalendarModule } from '../calendar/calendar.module';
 @Module({
-  imports: [AwsModule, UserModule, EventModule],
+  imports: [AwsModule, UserModule, EventModule, CalendarModule],
   controllers: [SubscriptionController],
   providers: [
     SubscriptionService,

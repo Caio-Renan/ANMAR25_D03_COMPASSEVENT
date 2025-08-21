@@ -7,7 +7,7 @@ export const SESProvider: Provider = {
   provide: AWS_CLIENTS.SES,
   useFactory: (configService: ConfigService) => {
     return new SESClient({
-      region: configService.getOrThrow<string>('aws.ses.region'),
+      region: configService.getOrThrow<string>('aws.region'),
       credentials: {
         accessKeyId: configService.getOrThrow<string>('aws.accessKeyId'),
         secretAccessKey: configService.getOrThrow<string>('aws.secretAccessKey'),

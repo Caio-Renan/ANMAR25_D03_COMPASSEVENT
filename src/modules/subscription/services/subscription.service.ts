@@ -1,28 +1,31 @@
+import { CalendarEmailService } from '@app/modules/calendar/services/calendar-email.service';
 import { Status } from '@enums/status.enum';
+import { Event } from '@event/entities/event.entity';
 import { EventRepository } from '@event/repositories/event.repository';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSubscriptionDto } from '@subscription/dtos/create-subscription.dto';
 import { QuerySubscriptionsDto } from '@subscription/dtos/query-subscriptions.dto';
 import { Subscription } from '@subscription/entities/subscription.entity';
 import { SubscriptionRepository } from '@subscription/repositories/subscription.repository';
+import { User } from '@user/entities/user.entity';
 import { UserRepository } from '@user/repositories/user.repository';
 import { Uuid } from '@vo/index';
 import { v4 as uuidv4 } from 'uuid';
-
 @Injectable()
 export class SubscriptionService {
   constructor(
     private readonly subscriptionRepository: SubscriptionRepository,
     private readonly userRepository: UserRepository,
     private readonly eventRepository: EventRepository,
+    private readonly calendarEmailService: CalendarEmailService,
   ) {}
 
   async create(createSubscriptionDto: CreateSubscriptionDto): Promise<Subscription> {
     const now = new Date();
 
-    await this.getValidUserById(new Uuid(createSubscriptionDto.userId));
+    const user = await this.getValidUserById(new Uuid(createSubscriptionDto.userId));
 
-    await this.getValidEventById(new Uuid(createSubscriptionDto.eventId));
+    const event = await this.getValidEventById(new Uuid(createSubscriptionDto.eventId));
 
     const existingSubscription = await this.subscriptionRepository.findByUserAndEvent(
       new Uuid(createSubscriptionDto.userId),
@@ -42,6 +45,12 @@ export class SubscriptionService {
     });
 
     await this.subscriptionRepository.create(subscription);
+
+    await this.calendarEmailService.sendSubscriptionConfirmation(
+      { id: user.id.value, email: user.email.value, name: user.name.value },
+      { id: event.id.value, title: event.name.value },
+    );
+
     return subscription;
   }
 
@@ -75,7 +84,7 @@ export class SubscriptionService {
     return this.subscriptionRepository.findAll(query);
   }
 
-  async getValidUserById(id: Uuid): Promise<void> {
+  async getValidUserById(id: Uuid): Promise<User> {
     const user = await this.userRepository.findById(id);
 
     if (!user) {
@@ -85,9 +94,11 @@ export class SubscriptionService {
     if (user.status !== Status.ACTIVE) {
       throw new BadRequestException('User must be active');
     }
+
+    return user;
   }
 
-  async getValidEventById(id: Uuid): Promise<void> {
+  async getValidEventById(id: Uuid): Promise<Event> {
     const event = await this.eventRepository.findById(id);
     const now = new Date();
     if (!event) {
@@ -101,5 +112,7 @@ export class SubscriptionService {
     if (event.date.value < now) {
       throw new BadRequestException('Event date has already passed');
     }
+
+    return event;
   }
 }

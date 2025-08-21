@@ -1,6 +1,8 @@
 export default () => ({
   nodeEnv: process.env.NODE_ENV,
   port: process.env.PORT,
+  globalPrefix: process.env.GLOBAL_PREFIX,
+  appUrl: process.env.APP_URL,
 
   aws: {
     region: process.env.AWS_REGION,

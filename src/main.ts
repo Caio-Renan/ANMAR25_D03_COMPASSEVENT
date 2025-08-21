@@ -16,7 +16,11 @@ async function bootstrap() {
     app.useLogger(app.get(LoggerService));
 
     app.enableCors();
-    app.setGlobalPrefix('api/v1');
+    const configService = app.get(ConfigService);
+
+    const globalPrefix = configService.get<string>('globalPrefix') ?? 'api/v1';
+
+    app.setGlobalPrefix(globalPrefix);
     app.use(helmet());
 
     app.useGlobalPipes(
@@ -49,9 +53,7 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api/docs', app, document);
 
-    const configService = app.get(ConfigService);
-
-    const port = configService.get<number>('PORT', { infer: true });
+    const port = configService.get<number>('port') ?? 3000;
 
     await app.listen(port);
   } catch (error: unknown) {

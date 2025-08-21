@@ -1,7 +1,9 @@
 import 'reflect-metadata';
 
 import { AppModule } from '@app/app.module';
+import { Roles } from '@app/common/enums/roles.enum';
 import { DynamoService } from '@aws/dynamo.service';
+import { Status } from '@enums/status.enum';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import * as bcrypt from 'bcrypt';
@@ -53,7 +55,7 @@ async function createUser(
     password: hashedPassword,
     phone: user.phone,
     role: user.role,
-    status: 'ACTIVE',
+    status: Status.ACTIVE,
     createdAt: now,
     updatedAt: now,
   };
@@ -78,7 +80,7 @@ async function main() {
       email: process.env.DEFAULT_ADMIN_EMAIL!,
       password: process.env.DEFAULT_ADMIN_PASSWORD!,
       phone: process.env.DEFAULT_ADMIN_PHONE!,
-      role: 'ADMIN',
+      role: Roles.ADMIN,
     };
 
     if (!defaultUser.email || !defaultUser.password || !defaultUser.name || !defaultUser.phone) {

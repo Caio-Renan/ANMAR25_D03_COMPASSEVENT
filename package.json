@@ -35,13 +35,14 @@
     "dev:up:no-build": "docker-compose -f .docker/docker-compose.yml -f .docker/docker-compose.override.yml up -d",
     "dev:up:no-build:vault": "aws-vault exec compass-event-dev -- docker-compose -f .docker/docker-compose.yml -f .docker/docker-compose.override.yml up -d",
     "dev:start": "docker-compose -f .docker/docker-compose.yml -f .docker/docker-compose.override.yml start",
+    "dev:start:vault": "aws-vault exec compass-event-dev -- docker-compose -f .docker/docker-compose.yml -f .docker/docker-compose.override.yml start",
     "dev:start:logs": "docker-compose -f .docker/docker-compose.yml -f .docker/docker-compose.override.yml start && docker-compose -f .docker/docker-compose.yml -f .docker/docker-compose.override.yml logs -f",
     "dev:reload": "docker-compose -f .docker/docker-compose.yml -f .docker/docker-compose.override.yml restart"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.817.0",
     "@aws-sdk/client-s3": "^3.817.0",
-    "@aws-sdk/client-ses": "^3.817.0",
+    "@aws-sdk/client-ses": "^3.864.0",
     "@aws-sdk/lib-dynamodb": "^3.817.0",
     "@nestjs/common": "^11.1.2",
     "@nestjs/config": "^4.0.2",
@@ -57,6 +58,7 @@
     "cors": "^2.8.5",
     "helmet": "^8.1.0",
     "ical-generator": "^9.0.0",
+    "ics": "^3.8.1",
     "libphonenumber-js": "^1.12.8",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
