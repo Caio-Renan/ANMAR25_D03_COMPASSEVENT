@@ -1,23 +1,34 @@
+import { EmailTemplate } from '@mail/enums/email-templates.enum';
+import { exampleTemplate } from '@mail/templates/example.template';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class MailTemplateService {
-  buildEmailVerificationTemplate(link: string) {
-    const html = `
-      <h1>Verify your email</h1>
-      <p>Please click the link below to verify your email address:</p>
-      <a href="${link}">${link}</a>
-    `;
-    const text = `Verify your email by visiting this link: ${link}`;
-    return { subject: 'Verify your email', html, text };
-  }
+  getTemplate(template: EmailTemplate, variables: Record<string, unknown>) {
+    switch (template) {
+      case EmailTemplate.EXAMPLE:
+        return exampleTemplate(variables as { name: string });
 
-  buildGenericTemplate(title: string, message: string) {
-    const html = `
-      <h1>${title}</h1>
-      <p>${message}</p>
-    `;
-    const text = `${title}\n\n${message}`;
-    return { subject: title, html, text };
+      case EmailTemplate.VERIFY_EMAIL: {
+        const { url } = variables as { url: string };
+        return {
+          subject: 'Verify your email',
+          html: `<p>Please verify your email by clicking <a href="${url}">here</a>.</p>`,
+          text: `Please verify your email: ${url}`,
+        };
+      }
+
+      case EmailTemplate.PASSWORD_RESET: {
+        const { url } = variables as { url: string };
+        return {
+          subject: 'Reset your password',
+          html: `<p>Reset your password by clicking <a href="${url}">here</a>.</p>`,
+          text: `Reset your password: ${url}`,
+        };
+      }
+
+      default:
+        throw new Error(`Unknown template: ${template}`);
+    }
   }
 }
