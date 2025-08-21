@@ -14,7 +14,11 @@ services:
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
       - AWS_SESSION_TOKEN
-      - AWS_REGION
+      - AWS_REGION=us-east-2
+      - AWS_SES_FROM_EMAIL=user@example.com
+      - JWT_SECRET=your_jwt_secret
+      - APP_URL=http://localhost:3000
+      - GLOBAL_PREFIX=api/v1
   dynamodb-admin:
     image: aaronshaf/dynamodb-admin
     container_name: dynamodb-admin
