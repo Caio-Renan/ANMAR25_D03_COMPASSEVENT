@@ -1,67 +1,27 @@
-import { SendEmailCommand, SESClient } from '@aws-sdk/client-ses';
-import { AWS_CLIENTS } from '@constants/aws.constants';
+import { SESService } from '@aws/ses.service';
+import { SendEmailDto } from '@mail/dtos/send-email.dto';
 import { MailTemplateService } from '@mail/services/mail-template.service';
-import { Inject, Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class EmailService {
-  private readonly logger = new Logger(EmailService.name);
-  private readonly fromEmail: string;
-  private readonly enabled: boolean;
-
   constructor(
-    @Inject(AWS_CLIENTS.SES)
-    private readonly sesClient: SESClient,
-    private readonly configService: ConfigService,
-    private readonly mailTemplateService: MailTemplateService,
-  ) {
-    this.fromEmail = this.configService.getOrThrow<string>('aws.ses.fromEmail');
+    private readonly templateService: MailTemplateService,
+    private readonly sesService: SESService,
+  ) {}
 
-    const accessKey = this.configService.get<string>('aws.accessKeyId');
-    const secretKey = this.configService.get<string>('aws.secretAccessKey');
-    this.enabled = !!(accessKey && secretKey && this.fromEmail);
+  async sendEmail(dto: SendEmailDto): Promise<string> {
+    const { to, cc, bcc, template, variables } = dto;
 
-    if (!this.enabled) {
-      this.logger.warn('SES is disabled. Emails will not be sent.');
-    }
-  }
+    const { subject, html, text } = this.templateService.getTemplate(template, variables);
 
-  async sendEmail(
-    to: string[],
-    subject: string,
-    htmlBody: string,
-    textBody?: string,
-    _attachments?: { filename: string; content: string }[],
-  ) {
-    if (!this.enabled) {
-      this.logger.warn(`Email to ${to.join(',')} not sent. SES is disabled.`);
-      return;
-    }
-
-    try {
-      const command = new SendEmailCommand({
-        Source: this.fromEmail,
-        Destination: {
-          ToAddresses: to,
-        },
-        Message: {
-          Subject: { Data: subject },
-          Body: {
-            Html: { Data: htmlBody },
-            ...(textBody && { Text: { Data: textBody } }),
-          },
-        },
-      });
-
-      await this.sesClient.send(command);
-      this.logger.log(`Email sent to ${to.join(', ')}`);
-    } catch (error) {
-      this.logger.error(
-        `Failed to send email to ${to.join(', ')} with subject "${subject}"`,
-        error as Error,
-      );
-      throw error;
-    }
+    return this.sesService.sendEmail({
+      to,
+      subject,
+      htmlBody: html,
+      textBody: text,
+      cc,
+      bcc,
+    });
   }
 }
