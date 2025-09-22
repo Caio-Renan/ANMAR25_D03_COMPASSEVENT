@@ -113,8 +113,10 @@ choco install aws-vault
 2. Rename `aws-vault-windows-amd64.exe` to `aws-vault.exe`  
 3. Place it in a folder included in your PATH (e.g., `C:\Program Files\aws-vault\`)  
 4. Add the folder to the system PATH (Control Panel → System → Advanced Settings → Environment Variables → Path)  
-5. Verify installation:  
+5. Verify installation:
+```bash 
 aws-vault --version
+```
 
 #### Initial Setup
 - Add an AWS profile:
@@ -153,9 +155,9 @@ output = json
 Add the following variables to your `.env` file instead:
 
 ```env
-AWS_ACCESS_KEY_ID=YOUR_AWS_ACCESS_KEY
-AWS_SECRET_ACCESS_KEY=YOUR_AWS_SECRET_KEY
-AWS_SESSION_TOKEN=YOUR_AWS_SESSION_TOKEN
+AWS_ACCESS_KEY_ID=your_access_key
+AWS_SECRET_ACCESS_KEY=your_secret_key
+AWS_SESSION_TOKEN=your_session_token # optional, only for temporary credentials
 ```
 
 
@@ -283,3 +285,4 @@ Use this key in the next request to continue fetching results.
 ## 📜 License
 
 This project is licensed under the [MIT License](https://github.com/Caio-Renan/ANMAR25_D03_COMPASSEVENT?tab=MIT-1-ov-file).
+
