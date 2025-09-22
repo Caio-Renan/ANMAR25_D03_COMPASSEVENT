@@ -216,7 +216,7 @@ npm run start:dev
 
 ### 6. Seed the database
 If running via Docker, the seed runs automatically.  
-If running locally (without Docker):
+For a non-Docker setup, run:
 
 ```bash
 npm run seed
@@ -267,7 +267,7 @@ http://localhost:3000/api/docs
 #### **Auth**
 | Method | Endpoint                              | Description                       |
 | ------ | ------------------------------------- | --------------------------------- |
-| POST   | /api/v1/auth/verify-email           | Verify user email with token      |
+| GET   | /api/v1/auth/verify-email           | Verify user email with token      |
 | POST   | /api/v1/auth/login                  | User login and token retrieval    |
 | POST   | /api/v1/auth/request-password-reset | Send password reset email         |
 | POST   | /api/v1/auth/reset-password         | Reset password with token         |
@@ -293,5 +293,6 @@ Use this key in the next request to continue fetching results.
 ## 📜 License
 
 This project is licensed under the [MIT License](https://github.com/Caio-Renan/ANMAR25_D03_COMPASSEVENT?tab=MIT-1-ov-file).
+
 
 
