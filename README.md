@@ -15,6 +15,14 @@ The goal of this project is to provide an efficient platform for organizing even
 
 ---
 
+## ⚠️ Disclaimer
+
+This project is under active development and may undergo structural changes.  
+Some areas, including code organization, testing, and DynamoDB query handling, may be revised or improved in future updates.
+Users should consider this repository as a work-in-progress and may encounter incomplete features or refactoring changes.
+
+---
+
 ## ✨ Features
 This project leverages the following core technologies:
 
@@ -285,4 +293,5 @@ Use this key in the next request to continue fetching results.
 ## 📜 License
 
 This project is licensed under the [MIT License](https://github.com/Caio-Renan/ANMAR25_D03_COMPASSEVENT?tab=MIT-1-ov-file).
+
 
