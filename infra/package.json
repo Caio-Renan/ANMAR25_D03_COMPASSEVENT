@@ -8,7 +8,11 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "bootstrap": "cdk bootstrap",
+    "deploy": "cdk deploy --all",
+    "bootstrap:vault": "aws-vault exec compass-event-dev -- cdk bootstrap",
+    "deploy:all:vault": "aws-vault exec compass-event-dev -- npx cdk deploy --all"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
